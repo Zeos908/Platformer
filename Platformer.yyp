@@ -35,15 +35,20 @@
   },
   "name":"Platformer",
   "resources":[
+    {"id":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},},
+    {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"DefauRom","path":"rooms/DefauRom/DefauRom.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
-    {"id":{"name":"unnamed","path":"sprites/unnamed/unnamed.yy",},},
+    {"id":{"name":"Room3","path":"rooms/Room3/Room3.yy",},},
+    {"id":{"name":"sIsland","path":"sprites/sIsland/sIsland.yy",},},
+    {"id":{"name":"sPlayer","path":"sprites/sPlayer/sPlayer.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"roomId":{"name":"DefauRom","path":"rooms/DefauRom/DefauRom.yy",},},
+    {"roomId":{"name":"Room3","path":"rooms/Room3/Room3.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[
