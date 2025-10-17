@@ -55,42 +55,52 @@ if (ysp > max_fall) ysp = max_fall;
 // --- Jumping ---
 on_ground = place_meeting(x, y + 1, oIsland);
 if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) {
+	//reg jump
     ysp = jump_spd;
 	jumping = true;
 } else if (wallGrab && keyboard_check_pressed(ord("O"))){
+	//wall jump
 	ysp = jump_spd - 2;
 	wallJumpTimer = wallJumpDuration;
 	wallJumpDir = -facing;
 	wallGrab = false;
 } else if (on_ground && keyboard_check(ord("K")) && canSuperJump){
+	//super jump
 	holdO += 1;
 	xsp = 0;
 	if (sprite_index != sJumpCharge && sprite_index != sJumpCharge2){
 		sprite_index = sJumpCharge;
 		image_speed = 0.75;
+		charging = true;
 	} else if (sprite_index = sJumpCharge) {
 		if(image_index >= 3) {
 			sprite_index = sJumpCharge2;
 		}
 	}
-	if (holdO >= secs(3) && keyboard_check_pressed(ord("O"))){
-		holdO = 0;
-		ysp = superJumpSpd;
+	if (holdO >= secs(3)){
+		sprite_index = sCharged;
+		if (keyboard_check_pressed(ord("O"))){
+			holdO = 0;
+			ysp = superJumpSpd;
+			charging = false;
+			sprite_index = sPlayer;
+		}
 	}
 } else {
 	holdO = 0;	
 }	
 
 // --- Horizontal movement ---
-if (!place_meeting(x + xsp, y + 1, oIsland) && !cools[0]) {
-    x += xsp; // move left/right if no collision
-	wallGrab = false;
-} else {
-    // hit wall, stop horizontal movement
-	xsp = 0;
-	if(!cools[0]){
-		wallGrab = true;
-		kill();
+if(xsp != 0){
+	if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
+	    x += xsp; // move left/right if no collision
+		wallGrab = false
+	} else {
+	    // hit wall, stop horizontal movement
+		xsp = 0;
+		if(!cools[0]){
+			wallGrab = true;
+		}
 	}
 }
 // --- Vertical movement ---
@@ -184,7 +194,7 @@ else if (moving) {
     //}
 } 
 else {
-    if (sprite_index != sPlayer) {
+    if (sprite_index != sPlayer && !charging) {
         sprite_index = sPlayer;
         image_speed = 0; // idle is static
     }
