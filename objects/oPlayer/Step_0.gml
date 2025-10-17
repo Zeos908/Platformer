@@ -9,14 +9,22 @@ for(var i = 0; i < array_length(timers); i++){
 
 // --- Horizontal movement ---
 xsp = 0;
-if (keyboard_check(ord("A"))){
-	xsp = -4;
-	facing = -1;
-}
 
-if (keyboard_check(ord("D"))){
-	xsp =  4;
-	facing = 1;
+moveDir = 0;
+if (keyboard_check(ord("A"))) moveDir = -1 facing = -1;
+if (keyboard_check(ord("D"))) moveDir = 1 facing = 1;
+
+// Wall jump active?
+if (wallJumpTimer > 0) {
+    // Gradual push away from wall
+    xsp = wallJumpDir * wallJumpSpeed;
+
+    // Player input modifies horizontal motion
+    xsp += moveDir * 2; // tweak 2 for influence strength
+    wallJumpTimer -= 1;
+} else {
+    // Normal movement
+    xsp = moveDir * 4;
 }
 
 if (keyboard_check(vk_space) && !cools[1] && canDash){
@@ -26,22 +34,42 @@ if (keyboard_check(vk_space) && !cools[1] && canDash){
 }	
 // --- Apply gravity ---
 ysp += grav;
+max_fall = wallGrab ? 3:12;
 if (ysp > max_fall) ysp = max_fall;
 
 // --- Jumping ---
-var on_ground = place_meeting(x, y + 1, oIsland);
+on_ground = place_meeting(x, y + 1, oIsland);
 if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check_pressed(ord("K"))) {
     ysp = jump_spd;
-} else if (on_ground && keyboard_check(ord("K")) && keyboard_check(ord("O")) && canSuperJump){
+	sprite_index = sJump;
+    image_speed = 1.28; // play vertical jump/fall animation
+} else if (wallGrab && keyboard_check_pressed(ord("O"))){
+	ysp = jump_spd - 2;
+	wallJumpTimer = wallJumpDuration;
+	wallJumpDir = -facing;
+	wallGrab = false;
+} else if (on_ground && keyboard_check(ord("K")) && canSuperJump){
 	holdO += 1;
 	xsp = 0;
-	if (holdO >= secs(3)){
+	if (holdO >= secs(3) && keyboard_check_pressed(ord("O"))){
 		holdO = 0;
 		ysp = superJumpSpd;
 	}
 } else {
 	holdO = 0;	
 }	
+
+// --- Horizontal movement ---
+if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
+    x += xsp; // move left/right if no collision
+	wallGrab = false;
+} else {
+    // hit wall, stop horizontal movement
+	xsp = 0;
+	if(!cools[0]){
+		wallGrab = true;
+	}
+}
 // --- Vertical movement ---
 if (!place_meeting(x, y + ysp, oIsland)) {
     y += ysp; // move down/up if no collision
@@ -53,13 +81,7 @@ if (!place_meeting(x, y + ysp, oIsland)) {
     ysp = 0;
 }
 
-// --- Horizontal movement ---
-if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
-    x += xsp; // move left/right if no collision
-} else {
-    // hit wall, stop horizontal movement
-    xsp = 0;
-}
+
 if (y > 750){
 	kill();
 }
@@ -75,3 +97,33 @@ if(place_meeting(x, y, oIdol)){
 		canDash = true;
 	}
 }	
+
+// Sprite animations
+
+
+on_ground = place_meeting(x, y + 1, oIsland); // check if standing
+var wallSlide = wallGrab && !on_ground;           // check if sliding on wall
+var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
+
+// --- Determine which sprite to use ---
+if (wallSlide) {
+    //if (sprite_index != spr_WallSlide) {
+    //    sprite_index = spr_WallSlide;
+    //    image_speed = 0.2; // adjust speed for wall slide animation
+    //}
+} 
+else if (moving) {
+    //if (sprite_index != sRun) {
+    //    sprite_index = sRun;
+    //    image_speed = 0.2; // running animation
+    //}
+} 
+else {
+    if (sprite_index != sPlayer) {
+        sprite_index = sPlayer;
+        image_speed = 0; // idle is static
+    }
+}
+
+// --- Flip sprite left/right ---
+image_xscale = facing; // facing = 1 for right, -1 for left

@@ -2,18 +2,29 @@ window_set_size(2560, 1500);
 xsp = 0;
 ysp = 0;
 grav = 0.5;
-jump_spd = -7;
+jump_spd = -9;
 superJumpSpd = -12
 max_fall = 12;
 facing = 1;
 resetCool = false;
 dashCool = false;
-cools = [false, false];
-timers = [0, 0]; // reset, dash
+cools = [false, false, false];
+timers = [0, 0, 0]; // reset, dash, wall jump
 holdO = 0;
 canDash = false;
 canSuperJump = false;
+wallGrab = false;
+moveDir = 0;
+on_ground = true;
+jumpTimer = 0;
+fallTimer = 0;
+falling = false;
 
+
+wallJumpTimer = 0;   // frames remaining for horizontal push
+wallJumpDir = 0;     // direction of push: -1 or 1
+wallJumpSpeed = 4;   // horizontal speed of push-off
+wallJumpDuration = 8; // how many frames the push lasts
 
 
 function secs(input) {
