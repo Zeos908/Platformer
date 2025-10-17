@@ -29,8 +29,8 @@
   "solid":false,
   "spriteId":null,
   "spriteMaskId":{
-    "name":"sIsland",
-    "path":"sprites/sIsland/sIsland.yy",
+    "name":"Sprite7",
+    "path":"sprites/Sprite7/Sprite7.yy",
   },
   "visible":true,
 }

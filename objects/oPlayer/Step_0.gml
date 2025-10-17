@@ -54,7 +54,7 @@ if (ysp > max_fall) ysp = max_fall;
 
 // --- Jumping ---
 on_ground = place_meeting(x, y + 1, oIsland);
-if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check_pressed(ord("K"))) {
+if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) {
     ysp = jump_spd;
 	jumping = true;
 } else if (wallGrab && keyboard_check_pressed(ord("O"))){
@@ -65,6 +65,14 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check_pressed(ord
 } else if (on_ground && keyboard_check(ord("K")) && canSuperJump){
 	holdO += 1;
 	xsp = 0;
+	if (sprite_index != sJumpCharge && sprite_index != sJumpCharge2){
+		sprite_index = sJumpCharge;
+		image_speed = 0.75;
+	} else if (sprite_index = sJumpCharge) {
+		if(image_index >= 3) {
+			sprite_index = sJumpCharge2;
+		}
+	}
 	if (holdO >= secs(3) && keyboard_check_pressed(ord("O"))){
 		holdO = 0;
 		ysp = superJumpSpd;
@@ -74,7 +82,7 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check_pressed(ord
 }	
 
 // --- Horizontal movement ---
-if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
+if (!place_meeting(x + xsp, y + 1, oIsland) && !cools[0]) {
     x += xsp; // move left/right if no collision
 	wallGrab = false;
 } else {
@@ -82,6 +90,7 @@ if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
 	xsp = 0;
 	if(!cools[0]){
 		wallGrab = true;
+		kill();
 	}
 }
 // --- Vertical movement ---
