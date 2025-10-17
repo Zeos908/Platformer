@@ -17,9 +17,14 @@ for(var i = 0; i < array_length(timers); i++){
 }
 
 // --- Horizontal movement ---
-if (charging){
-	
-}	
+//if (charging && keyboard_check_released(ord("K"))){
+///	sprite_index = sPlayer;
+//	charging = false;
+//}
+if (charging && keyboard_check_released(ord("K"))){
+	sprite_index = sPlayer;
+}
+
 
 xsp = 0;
 
