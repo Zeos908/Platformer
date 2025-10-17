@@ -27,10 +27,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"Sprite7",
-    "path":"sprites/Sprite7/Sprite7.yy",
+  "spriteId":null,
+  "spriteMaskId":{
+    "name":"sIsland",
+    "path":"sprites/sIsland/sIsland.yy",
   },
-  "spriteMaskId":null,
   "visible":true,
 }

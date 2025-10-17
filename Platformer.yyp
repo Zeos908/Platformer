@@ -46,6 +46,8 @@
     {"id":{"name":"sIdol","path":"sprites/sIdol/sIdol.yy",},},
     {"id":{"name":"sIsland","path":"sprites/sIsland/sIsland.yy",},},
     {"id":{"name":"sJump","path":"sprites/sJump/sJump.yy",},},
+    {"id":{"name":"sJumpCharge","path":"sprites/sJumpCharge/sJumpCharge.yy",},},
+    {"id":{"name":"sJumpCharge2","path":"sprites/sJumpCharge2/sJumpCharge2.yy",},},
     {"id":{"name":"sPlayer","path":"sprites/sPlayer/sPlayer.yy",},},
     {"id":{"name":"Sprite7","path":"sprites/Sprite7/Sprite7.yy",},},
     {"id":{"name":"sSpike","path":"sprites/sSpike/sSpike.yy",},},
