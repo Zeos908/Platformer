@@ -1,3 +1,6 @@
+animation(){ //animation code in here later
+}
+
 distanceToGround = 0;
 for(var i = 1; i <= 50; i++){
 	if !place_meeting(x, y+i, oIsland){
@@ -182,3 +185,5 @@ else {
 
 // --- Flip sprite left/right ---
 image_xscale = facing; // facing = 1 for right, -1 for left
+
+
