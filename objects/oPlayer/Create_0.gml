@@ -41,4 +41,5 @@ function kill(){
 	timers[0] = secs(1);
 	cools[0] = true;
 	timers[1] = 0;
+	sprite_index = sPlayer;
 }
