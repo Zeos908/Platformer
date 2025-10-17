@@ -20,8 +20,14 @@ for(var i = 0; i < array_length(timers); i++){
 xsp = 0;
 
 moveDir = 0;
-if (keyboard_check(ord("A"))) moveDir = -1 facing = -1;
-if (keyboard_check(ord("D"))) moveDir = 1 facing = 1;
+if (keyboard_check(ord("A"))){
+	moveDir = -1
+	facing = -1;
+}
+if (keyboard_check(ord("D"))){
+	moveDir = 1
+	facing = 1;
+}
 
 // Wall jump active?
 if (wallJumpTimer > 0) {
@@ -125,6 +131,7 @@ if (wallSlide) {
     //    image_speed = 0.2; // adjust speed for wall slide animation
     //}
 } 
+/*
 else if (jumping) {
 	if (sprite_index!= sJump){
 		sprite_index = sJump;
@@ -159,6 +166,7 @@ else if (!on_ground && airTime > 1 * game_get_speed(gamespeed_fps)/2 && distance
 		}
 	}	
 }
+*/
 else if (moving) {
     //if (sprite_index != sRun) {
     //    sprite_index = sRun;
