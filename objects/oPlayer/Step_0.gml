@@ -17,6 +17,10 @@ for(var i = 0; i < array_length(timers); i++){
 }
 
 // --- Horizontal movement ---
+if (charging && ){
+	
+}	
+
 xsp = 0;
 
 moveDir = 0;
