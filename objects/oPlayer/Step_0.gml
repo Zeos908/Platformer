@@ -110,7 +110,8 @@ if(place_meeting(x, y, oIdol)){
 	if(keyboard_check_pressed(ord("W"))){
 		canDash = true;
 	}
-}	
+}
+if(place_meeting(x, y, oInvisSpike)) kill();
 
 // Sprite animations
 
