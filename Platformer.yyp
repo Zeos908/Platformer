@@ -37,6 +37,7 @@
   "resources":[
     {"id":{"name":"oBackgroundText","path":"objects/oBackgroundText/oBackgroundText.yy",},},
     {"id":{"name":"oIdol","path":"objects/oIdol/oIdol.yy",},},
+    {"id":{"name":"oInvisSpike","path":"objects/oInvisSpike/oInvisSpike.yy",},},
     {"id":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},},
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"oSpike","path":"objects/oSpike/oSpike.yy",},},
