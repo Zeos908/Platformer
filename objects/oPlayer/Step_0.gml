@@ -1,5 +1,5 @@
 // Timers
-for(var i = 0; i < 2; i++){
+for(var i = 0; i < array_length(timers); i++){
 	if (timers[i] == 0){
 		cools[i] = false;
 	} else {
@@ -32,12 +32,13 @@ if (ysp > max_fall) ysp = max_fall;
 var on_ground = place_meeting(x, y + 1, oIsland);
 if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check_pressed(ord("K"))) {
     ysp = jump_spd;
-} else if (on_ground && keyboard_check_pressed(ord("K")) && keyboard_check_pressed(ord("O"))){
+} else if (on_ground && keyboard_check(ord("K")) && keyboard_check(ord("O")) && canSuperJump){
 	holdO += 1;
+	xsp = 0;
 	if (holdO >= secs(3)){
 		holdO = 0;
 		ysp = superJumpSpd;
-	}	
+	}
 } else {
 	holdO = 0;	
 }	
@@ -59,10 +60,18 @@ if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
     // hit wall, stop horizontal movement
     xsp = 0;
 }
-if (y > 190){
-	x = 64;
-	y = 0;
-	timers[0] = secs(1);
-	cools[0] = true;
-	timers[1] = 0;
+if (y > 750){
+	kill();
 }
+
+// Collisions
+
+if(place_meeting(x, y, oSpike)){
+	kill();
+}
+
+if(place_meeting(x, y, oIdol)){
+	if(keyboard_check_pressed(ord("W"))){
+		canDash = true;
+	}
+}	
