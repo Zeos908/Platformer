@@ -197,10 +197,10 @@ else if (!on_ground && airTime > 1 * game_get_speed(gamespeed_fps)/2 && distance
 }
 */
 else if (moving) {
-    //if (sprite_index != sRun) {
-    //    sprite_index = sRun;
-    //    image_speed = 0.2; // running animation
-    //}
+    if (sprite_index != sRun) {
+        sprite_index = sRun;
+        image_speed = 0.2; // running animation
+    }
 } 
 else {
     if (sprite_index != sPlayer && !charging) {
