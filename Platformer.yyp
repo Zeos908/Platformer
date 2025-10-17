@@ -50,6 +50,7 @@
     {"id":{"name":"sJumpCharge2","path":"sprites/sJumpCharge2/sJumpCharge2.yy",},},
     {"id":{"name":"sPlayer","path":"sprites/sPlayer/sPlayer.yy",},},
     {"id":{"name":"sPlayerAir","path":"sprites/sPlayerAir/sPlayerAir.yy",},},
+    {"id":{"name":"Sprite7","path":"sprites/Sprite7/Sprite7.yy",},},
     {"id":{"name":"sSpike","path":"sprites/sSpike/sSpike.yy",},},
   ],
   "resourceType":"GMProject",

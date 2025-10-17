@@ -22,6 +22,7 @@ fallTimer = 0;
 falling = false;
 distanceToGround = 0;
 airTime = 0;
+charging = false;
 
 
 wallJumpTimer = 0;   // frames remaining for horizontal push
