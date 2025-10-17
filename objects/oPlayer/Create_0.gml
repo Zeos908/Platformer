@@ -2,7 +2,7 @@ window_set_size(2560, 1500);
 xsp = 0;
 ysp = 0;
 grav = 0.5;
-jump_spd = -9;
+jump_spd = -7;
 superJumpSpd = -12
 max_fall = 12;
 facing = 1;
@@ -17,8 +17,11 @@ wallGrab = false;
 moveDir = 0;
 on_ground = true;
 jumpTimer = 0;
+jumping = false;
 fallTimer = 0;
 falling = false;
+distanceToGround = 0;
+airTime = 0;
 
 
 wallJumpTimer = 0;   // frames remaining for horizontal push
