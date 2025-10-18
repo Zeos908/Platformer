@@ -98,6 +98,14 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) 
 } else {
 	holdO = 0;	
 }	
+on_ground = place_meeting(x, y + 1, oIsland);
+if (keyboard_check(ord("S")) && on_ground){
+	sprite_index = sCharged;
+	xsp *= 0.25;
+} else if(keyboard_check_released(ord("S")) && sprite_index == sCharged) {
+	xsp*=500;
+	sprite_index = sPlayer;
+}
 
 // --- Horizontal movement ---
 if(xsp != 0){
