@@ -1,6 +1,7 @@
 
 
 distanceToGround = 0;
+// find distance
 for(var i = 1; i <= 50; i++){
 	if !place_meeting(x, y+i, oIsland){
 		distanceToGround++;
@@ -54,6 +55,8 @@ if (wallJumpTimer > 0) {
 }
 
 if (keyboard_check(vk_space) && !cools[1] && canDash){
+	oBlinkDouble.blink(x, y);
+	blinking = true;
 	xsp += 50 * facing;
 	cools[1] = true;
 	timers[1] = secs(1.5);
@@ -107,7 +110,7 @@ if (keyboard_check(ord("S")) && on_ground){
 
 } 
 if(keyboard_check_released(ord("S")) && (sprite_index == sCrouch || sprite_index == sCrouchRun)) {
-	// shibai im stupid xsp *= 1;
+	// shibai im stupid // xsp *= 1;
 	crouching = false;
 }
 
@@ -174,6 +177,17 @@ if (wallSlide)
         image_speed = 0.2; // adjust speed for wall slide animation
     }
 } 
+else if blinking == true
+{
+	if blinked == false
+	{
+		blinked = true;
+		sprite_index = sBlinkPlayer;
+		image_speed = 1;
+		
+	}
+	
+}
 /*
 animation
 */

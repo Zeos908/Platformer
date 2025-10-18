@@ -28,6 +28,9 @@ charging = false;
 crouching = false;
 
 //blink animation
+blinked = false;
+blinking = false;
+blink_spawn = false;
 
 
 
