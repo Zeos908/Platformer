@@ -106,7 +106,7 @@ if (keyboard_check(ord("S")) && on_ground){
 	xsp *= 0.25;
 } else if(keyboard_check_released(ord("S")) && sprite_index == sCharged) {
 	xsp*=500;
-	sprite_index = sPlayer;
+	sprite_index = sCharged;
 }
 
 // --- Horizontal movement ---

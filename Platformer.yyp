@@ -42,6 +42,8 @@
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"oSpike","path":"objects/oSpike/oSpike.yy",},},
     {"id":{"name":"Room3","path":"rooms/Room3/Room3.yy",},},
+    {"id":{"name":"sBlinkDouble","path":"sprites/sBlinkDouble/sBlinkDouble.yy",},},
+    {"id":{"name":"sBlinkPlayer","path":"sprites/sBlinkPlayer/sBlinkPlayer.yy",},},
     {"id":{"name":"sCharged","path":"sprites/sCharged/sCharged.yy",},},
     {"id":{"name":"sCrouch","path":"sprites/sCrouch/sCrouch.yy",},},
     {"id":{"name":"sFall","path":"sprites/sFall/sFall.yy",},},
