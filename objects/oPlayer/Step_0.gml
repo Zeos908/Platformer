@@ -56,7 +56,7 @@ if (wallJumpTimer > 0) {
 if (keyboard_check(vk_space) && !cools[1] && canDash){
 	xsp += 50 * facing;
 	cools[1] = true;
-	timers[1] = secs(1);
+	timers[1] = secs(1.5);
 }	
 // --- Apply gravity ---
 ysp += grav;
@@ -102,11 +102,13 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) 
 }	
 on_ground = place_meeting(x, y + 1, oIsland);
 if (keyboard_check(ord("S")) && on_ground){
-	sprite_index = sCharged;
+	crouching = true;
 	xsp *= 0.25;
-} else if(keyboard_check_released(ord("S")) && sprite_index == sCharged) {
-	xsp*=500;
-	sprite_index = sCharged;
+
+} 
+if(keyboard_check_released(ord("S")) && sprite_index == sCrouch) {
+	// shibai im stupid xsp *= 1;
+	crouching = false;
 }
 
 // --- Horizontal movement ---
@@ -164,8 +166,10 @@ var wallSlide = wallGrab && !on_ground;           // check if sliding on wall
 var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
 
 // --- Determine which sprite to use ---
-if (wallSlide) {
-    if (sprite_index != sWallSlide) {
+if (wallSlide) 
+{
+    if (sprite_index != sWallSlide) 
+	{
 		sprite_index = sWallSlide;
         image_speed = 0.2; // adjust speed for wall slide animation
     }
@@ -173,12 +177,18 @@ if (wallSlide) {
 /*
 animation
 */
+else if (crouching)
+{
+	sprite_index = sCrouch;
+}
 else if (moving && on_ground) {
     if (sprite_index != sRun) {
         sprite_index = sRun;
         image_speed = 0.2; // running animation
     }
 } 
+
+
 else {
     if (sprite_index != sPlayer && !charging) {
         sprite_index = sPlayer;
