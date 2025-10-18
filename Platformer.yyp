@@ -47,6 +47,7 @@
     {"id":{"name":"sBlinkPlayer","path":"sprites/sBlinkPlayer/sBlinkPlayer.yy",},},
     {"id":{"name":"sCharged","path":"sprites/sCharged/sCharged.yy",},},
     {"id":{"name":"sCrouch","path":"sprites/sCrouch/sCrouch.yy",},},
+    {"id":{"name":"sCrouchRun","path":"sprites/sCrouchRun/sCrouchRun.yy",},},
     {"id":{"name":"sFall","path":"sprites/sFall/sFall.yy",},},
     {"id":{"name":"sIdol","path":"sprites/sIdol/sIdol.yy",},},
     {"id":{"name":"sIsland","path":"sprites/sIsland/sIsland.yy",},},

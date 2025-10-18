@@ -106,7 +106,7 @@ if (keyboard_check(ord("S")) && on_ground){
 	xsp *= 0.25;
 
 } 
-if(keyboard_check_released(ord("S")) && sprite_index == sCrouch) {
+if(keyboard_check_released(ord("S")) && (sprite_index == sCrouch || sprite_index == sCrouchRun)) {
 	// shibai im stupid xsp *= 1;
 	crouching = false;
 }
@@ -177,6 +177,11 @@ if (wallSlide)
 /*
 animation
 */
+else if (crouching && moving){
+	if (sprite_index != sCrouchRun){
+		sprite_index = sCrouchRun;
+	}
+}
 else if (crouching)
 {
 	sprite_index = sCrouch;
