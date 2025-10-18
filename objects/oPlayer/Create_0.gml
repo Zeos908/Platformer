@@ -31,6 +31,7 @@ crouching = false;
 
 
 
+
 wallJumpTimer = 0;   // frames remaining for horizontal push
 wallJumpDir = 0;     // direction of push: -1 or 1
 wallJumpSpeed = 4;   // horizontal speed of push-off
