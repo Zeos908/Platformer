@@ -24,6 +24,12 @@ distanceToGround = 0;
 airTime = 0;
 charging = false;
 
+//crouch animation
+crouching = false;
+
+//blink animation
+
+
 
 wallJumpTimer = 0;   // frames remaining for horizontal push
 wallJumpDir = 0;     // direction of push: -1 or 1
@@ -43,3 +49,46 @@ function kill(){
 	timers[1] = 0;
 	sprite_index = sPlayer;
 }
+
+
+/*
+
+
+function animation()
+{
+		 if (jumping) {
+	if (sprite_index!= sJump){
+		sprite_index = sJump;
+	    image_speed = 1.28;
+		jumpTimer = 15;
+	} else {
+		if (jumpTimer <= 0){
+			jumping = false;
+		} else {
+			jumpTimer--;
+		}
+	}
+}
+else if (!on_ground && airTime > 1 * game_get_speed(gamespeed_fps)/2 && distanceToGround < 30){
+	// dive animation
+	if (sprite_index!= sFall){
+		sprite_index = sFall;
+	    image_speed = 1.28;
+	} else {
+		if(distanceToGround > 20){
+			if(image_index >= 3){
+				image_index = 3;
+				image_speed = 0;
+			}
+		} else {
+			if(image_index >= 6){
+				image_index = 6;
+				image_speed = 0;
+			} else {
+				image_speed = 1.3;
+			}
+		}
+	}	
+}
+}
+*/

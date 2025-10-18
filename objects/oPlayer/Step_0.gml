@@ -1,3 +1,5 @@
+
+
 distanceToGround = 0;
 for(var i = 1; i <= 50; i++){
 	if !place_meeting(x, y+i, oIsland){
@@ -54,7 +56,7 @@ if (wallJumpTimer > 0) {
 if (keyboard_check(vk_space) && !cools[1] && canDash){
 	xsp += 50 * facing;
 	cools[1] = true;
-	timers[1] = secs(1);
+	timers[1] = secs(1.5);
 }	
 // --- Apply gravity ---
 ysp += grav;
@@ -100,10 +102,13 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) 
 }	
 on_ground = place_meeting(x, y + 1, oIsland);
 if (keyboard_check(ord("S")) && on_ground){
-	sprite_index = sCrouch;
+	crouching = true;
 	xsp *= 0.25;
-} else if(keyboard_check_released(ord("S")) && sprite_index == sCharged) {
-	sprite_index = sCrouch;
+
+} 
+if(keyboard_check_released(ord("S")) && sprite_index == sCrouch) {
+	// shibai im stupid xsp *= 1;
+	crouching = false;
 }
 
 // --- Horizontal movement ---
@@ -161,54 +166,29 @@ var wallSlide = wallGrab && !on_ground;           // check if sliding on wall
 var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
 
 // --- Determine which sprite to use ---
-if (wallSlide) {
-    if (sprite_index != sWallSlide) {
+if (wallSlide) 
+{
+    if (sprite_index != sWallSlide) 
+	{
 		sprite_index = sWallSlide;
         image_speed = 0.2; // adjust speed for wall slide animation
     }
 } 
 /*
-else if (jumping) {
-	if (sprite_index!= sJump){
-		sprite_index = sJump;
-	    image_speed = 1.28;
-		jumpTimer = 15;
-	} else {
-		if (jumpTimer <= 0){
-			jumping = false;
-		} else {
-			jumpTimer--;
-		}
-	}
-}
-else if (!on_ground && airTime > 1 * game_get_speed(gamespeed_fps)/2 && distanceToGround < 30){
-	// dive animation
-	if (sprite_index!= sFall){
-		sprite_index = sFall;
-	    image_speed = 1.28;
-	} else {
-		if(distanceToGround > 20){
-			if(image_index >= 3){
-				image_index = 3;
-				image_speed = 0;
-			}
-		} else {
-			if(image_index >= 6){
-				image_index = 6;
-				image_speed = 0;
-			} else {
-				image_speed = 1.3;
-			}
-		}
-	}	
-}
+animation
 */
+else if (crouching)
+{
+	sprite_index = sCrouch;
+}
 else if (moving && on_ground) {
     if (sprite_index != sRun) {
         sprite_index = sRun;
         image_speed = 0.2; // running animation
     }
 } 
+
+
 else {
     if (sprite_index != sPlayer && !charging) {
         sprite_index = sPlayer;
