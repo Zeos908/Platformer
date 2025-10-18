@@ -1,3 +1,5 @@
+
+
 distanceToGround = 0;
 for(var i = 1; i <= 50; i++){
 	if !place_meeting(x, y+i, oIsland){
@@ -156,40 +158,7 @@ if (wallSlide) {
     //}
 } 
 /*
-else if (jumping) {
-	if (sprite_index!= sJump){
-		sprite_index = sJump;
-	    image_speed = 1.28;
-		jumpTimer = 15;
-	} else {
-		if (jumpTimer <= 0){
-			jumping = false;
-		} else {
-			jumpTimer--;
-		}
-	}
-}
-else if (!on_ground && airTime > 1 * game_get_speed(gamespeed_fps)/2 && distanceToGround < 30){
-	// dive animation
-	if (sprite_index!= sFall){
-		sprite_index = sFall;
-	    image_speed = 1.28;
-	} else {
-		if(distanceToGround > 20){
-			if(image_index >= 3){
-				image_index = 3;
-				image_speed = 0;
-			}
-		} else {
-			if(image_index >= 6){
-				image_index = 6;
-				image_speed = 0;
-			} else {
-				image_speed = 1.3;
-			}
-		}
-	}	
-}
+animation
 */
 else if (moving) {
     //if (sprite_index != sRun) {
