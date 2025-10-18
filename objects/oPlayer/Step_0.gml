@@ -19,9 +19,14 @@ for(var i = 0; i < array_length(timers); i++){
 }
 
 // --- Horizontal movement ---
-if (charging){
-	
-}	
+//if (charging && keyboard_check_released(ord("K"))){
+///	sprite_index = sPlayer;
+//	charging = false;
+//}
+if (charging && keyboard_check_released(ord("K"))){
+	sprite_index = sPlayer;
+}
+
 
 xsp = 0;
 
@@ -95,6 +100,14 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) 
 } else {
 	holdO = 0;	
 }	
+on_ground = place_meeting(x, y + 1, oIsland);
+if (keyboard_check(ord("S")) && on_ground){
+	sprite_index = sCharged;
+	xsp *= 0.25;
+} else if(keyboard_check_released(ord("S")) && sprite_index == sCharged) {
+	xsp*=500;
+	sprite_index = sPlayer;
+}
 
 // --- Horizontal movement ---
 if(xsp != 0){
@@ -152,19 +165,19 @@ var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right
 
 // --- Determine which sprite to use ---
 if (wallSlide) {
-    //if (sprite_index != spr_WallSlide) {
-    //    sprite_index = spr_WallSlide;
-    //    image_speed = 0.2; // adjust speed for wall slide animation
-    //}
+    if (sprite_index != sWallSlide) {
+		sprite_index = sWallSlide;
+        image_speed = 0.2; // adjust speed for wall slide animation
+    }
 } 
 /*
 animation
 */
-else if (moving) {
-    //if (sprite_index != sRun) {
-    //    sprite_index = sRun;
-    //    image_speed = 0.2; // running animation
-    //}
+else if (moving && on_ground) {
+    if (sprite_index != sRun) {
+        sprite_index = sRun;
+        image_speed = 0.2; // running animation
+    }
 } 
 else {
     if (sprite_index != sPlayer && !charging) {
