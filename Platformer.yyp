@@ -53,6 +53,7 @@
     {"id":{"name":"Sprite8","path":"sprites/Sprite8/Sprite8.yy",},},
     {"id":{"name":"sRun","path":"sprites/sRun/sRun.yy",},},
     {"id":{"name":"sSpike","path":"sprites/sSpike/sSpike.yy",},},
+    {"id":{"name":"sWallSlide","path":"sprites/sWallSlide/sWallSlide.yy",},},
     {"id":{"name":"temp","path":"sprites/temp/temp.yy",},},
   ],
   "resourceType":"GMProject",

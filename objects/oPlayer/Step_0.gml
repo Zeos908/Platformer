@@ -155,10 +155,10 @@ var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right
 
 // --- Determine which sprite to use ---
 if (wallSlide) {
-    //if (sprite_index != spr_WallSlide) {
-    //    sprite_index = spr_WallSlide;
-    //    image_speed = 0.2; // adjust speed for wall slide animation
-    //}
+    if (sprite_index != sWallSlide) {
+		sprite_index = sWallSlide;
+        image_speed = 0.2; // adjust speed for wall slide animation
+    }
 } 
 /*
 else if (jumping) {
@@ -196,7 +196,7 @@ else if (!on_ground && airTime > 1 * game_get_speed(gamespeed_fps)/2 && distance
 	}	
 }
 */
-else if (moving) {
+else if (moving && on_ground) {
     if (sprite_index != sRun) {
         sprite_index = sRun;
         image_speed = 0.2; // running animation
