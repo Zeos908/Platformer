@@ -33,8 +33,8 @@
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"PlayerSprites",
-    "path":"folders/Sprites/PlayerSprites.yy",
+    "name":"Blink",
+    "path":"folders/Sprites/PlayerSprites/Blink.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
