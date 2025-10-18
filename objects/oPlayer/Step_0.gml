@@ -25,7 +25,6 @@ for(var i = 0; i < array_length(timers); i++){
 //}
 if (charging && keyboard_check_released(ord("K"))){
 	sprite_index = sPlayer;
-	charging = false;
 }
 
 
@@ -76,7 +75,7 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) 
 	wallJumpTimer = wallJumpDuration;
 	wallJumpDir = -facing;
 	wallGrab = false;
-} else if (on_ground && keyboard_check(ord("K")) && canSuperJump && !crouching){
+} else if (on_ground && keyboard_check(ord("K")) && canSuperJump){
 	//super jump
 	holdO += 1;
 	xsp = 0;
@@ -178,26 +177,21 @@ if (wallSlide)
 /*
 animation
 */
-
-
-	
-else if (crouching && moving && on_ground){
+else if (crouching && moving){
 	if (sprite_index != sCrouchRun){
 		sprite_index = sCrouchRun;
 	}
 }
-else if (crouching && on_ground)
+else if (crouching)
 {
 	sprite_index = sCrouch;
 }
 else if (moving && on_ground) {
-	if (sprite_index != sRun) {
-	    sprite_index = sRun;
-	    image_speed = 0.2; // running animation
-	}
+    if (sprite_index != sRun) {
+        sprite_index = sRun;
+        image_speed = 0.2; // running animation
+    }
 } 
-
-
 
 
 else {
