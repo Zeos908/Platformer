@@ -30,7 +30,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sMushMage",
+    "path":"sprites/sMushMage/sMushMage.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

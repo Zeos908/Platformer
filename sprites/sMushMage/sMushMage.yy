@@ -1,10 +1,10 @@
 {
   "$GMSprite":"",
   "%Name":"sMushMage",
-  "bboxMode":0,
+  "bboxMode":2,
   "bbox_bottom":41,
-  "bbox_left":14,
-  "bbox_right":38,
+  "bbox_left":18,
+  "bbox_right":36,
   "bbox_top":18,
   "collisionKind":1,
   "collisionTolerance":0,
