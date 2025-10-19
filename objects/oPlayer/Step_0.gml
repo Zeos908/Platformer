@@ -25,6 +25,7 @@ for(var i = 0; i < array_length(timers); i++){
 //	charging = false;
 //}
 if (charging && keyboard_check_released(ord("K"))){
+	charging = false;
 	sprite_index = sPlayer;
 }
 
@@ -174,7 +175,7 @@ if(!on_ground){
 } else {
 	airTime = 0;	
 }
-var wallSlide = wallGrab && !on_ground;           // check if sliding on wall
+var wallSlide = wallGrab && !on_ground;           // check if sliding on wall (maybe disable for testing)
 var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
 
 if blinking == true // holds the animation tree so that no other animations can be played
@@ -201,6 +202,7 @@ else if (wallSlide)
 		sprite_index = sWallSlide;
         image_speed = 0.2; // adjust speed for wall slide animation
     }
+	on_ground = false;
 } 
  
 /*
@@ -226,9 +228,11 @@ else if (moving && on_ground) {
 else {
     if (sprite_index != sPlayer && !charging) {
         sprite_index = sPlayer;
-        image_speed = 0; // idle is static
+        image_speed = 1; // idle is no longer static
     }
 }
 
 // --- Flip sprite left/right ---
 image_xscale = facing; // facing = 1 for right, -1 for left
+
+show_debug_message(charging)
