@@ -57,7 +57,7 @@ if (wallJumpTimer > 0) {
 if (keyboard_check(vk_space) && !cools[1] && canDash){
 	oBlinkDouble.blink(x, y);
 	blinking = true;
-	xsp += 50 * facing;
+	xsp += 60 * facing;
 	cools[1] = true;
 	timers[1] = secs(1.5);
 }	
@@ -115,6 +115,7 @@ if(keyboard_check_released(ord("S")) && (sprite_index == sCrouch || sprite_index
 }
 
 // --- Horizontal movement ---
+
 if(xsp != 0){
 	if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
 	    x += xsp; // move left/right if no collision
@@ -127,12 +128,20 @@ if(xsp != 0){
 		}
 	}
 }
+else
+{
+	if (!place_meeting(x + facing, y, oIsland) && !cools[0])
+	{
+		wallGrab = false;
+	}
+	
+}
 // --- Vertical movement ---
-if (!place_meeting(x, y + ysp, oIsland)) {
+if (!place_meeting(x, y + ysp, oIsland) && !blinking) {
     y += ysp; // move down/up if no collision
 } else {
     // landed on the ground or hit ceiling
-    while (!place_meeting(x, y + sign(ysp), oIsland)) {
+    while ((!place_meeting(x, y + sign(ysp), oIsland)) && !blinking) {
         y += sign(ysp);
     }
     ysp = 0;
@@ -168,8 +177,24 @@ if(!on_ground){
 var wallSlide = wallGrab && !on_ground;           // check if sliding on wall
 var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
 
+if blinking == true // holds the animation tree so that no other animations can be played
+{
+	if blinked == false //blinked = initiated blink
+	{
+		blinked = true;
+		sprite_index = sBlinkPlayer;
+		image_speed = 1;
+	}
+	if(image_index >= image_number - 1) //blink is done - other animations can be played
+	{
+		sprite_index = sPlayer;
+		blinking = false;
+		blinked = false;
+	}
+}
+
 // --- Determine which sprite to use ---
-if (wallSlide) 
+else if (wallSlide) 
 {
     if (sprite_index != sWallSlide) 
 	{
@@ -177,23 +202,7 @@ if (wallSlide)
         image_speed = 0.2; // adjust speed for wall slide animation
     }
 } 
-else if blinking == true
-{
-	if blinked == false
-	{
-		blinked = true;
-		sprite_index = sBlinkPlayer;
-		image_speed = 1;
-		if(image_index >= image_number - 1){
-			image_index = image_number - 1;
-			image_speed = 0;
-			sprite_index = sPlayer;
-			blinking = false;
-			blinked = false;
-		}
-	}
-	
-}
+ 
 /*
 animation
 */

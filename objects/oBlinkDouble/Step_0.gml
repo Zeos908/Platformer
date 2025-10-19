@@ -1,8 +1,10 @@
 /// @description follow player when called
-if !(sprite_index >= image_number -1 && doStep)
+if ((image_index >= image_number -1) && !(sprite_index == -1))
 	{
+		
 		sprite_index = -1;
-		doStep = false;
+		show_debug_message("STOPPING")
 	}
 	
+
 
