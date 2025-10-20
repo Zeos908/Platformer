@@ -1,5 +1,10 @@
 var inst = instance_nearest(x, y, oNextRoom);
-
+if(global.debug){
+	global.debug = true;;
+	x = inst.x;
+	y = inst.y;
+	show_debug_message("erm");
+}
 distanceToGround = 0;
 // find distance
 for(var i = 1; i <= 50; i++){
@@ -35,11 +40,11 @@ xsp = 0;
 moveDir = 0;
 if (keyboard_check(ord("A"))){
 	moveDir = -1
-	facing = -1;
+	global.facing = -1;
 }
 if (keyboard_check(ord("D"))){
 	moveDir = 1
-	facing = 1;
+	global.facing = 1;
 }
 
 // Wall jump active?
@@ -55,10 +60,10 @@ if (wallJumpTimer > 0) {
     xsp = moveDir * 4;
 }
 
-if (keyboard_check(vk_space) && !cools[1] && canDash){
+if (keyboard_check(vk_space) && !cools[1] && global.canDash){
 	oBlinkDouble.blink(x, y);
 	blinking = true;
-	xsp += 60 * facing;
+	xsp += 60 * global.facing;
 	cools[1] = true;
 	timers[1] = secs(1.5);
 }	
@@ -77,7 +82,7 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) 
 	//wall jump
 	ysp = jump_spd - 2;
 	wallJumpTimer = wallJumpDuration;
-	wallJumpDir = -facing;
+	wallJumpDir = -global.facing;
 	wallGrab = false;
 } else if (on_ground && keyboard_check(ord("K")) && canSuperJump){
 	//super jump
@@ -131,7 +136,7 @@ if(xsp != 0){
 }
 else
 {
-	if (!place_meeting(x + facing, y, oIsland) && !cools[0])
+	if (!place_meeting(x + global.facing, y, oIsland) && !cools[0])
 	{
 		wallGrab = false;
 	}
@@ -161,7 +166,7 @@ if(place_meeting(x, y, oSpike)){
 
 if(place_meeting(x, y, oIdol)){
 	if(keyboard_check_pressed(ord("W"))){
-		canDash = true;
+		global.canDash = true;
 	}
 }
 if(place_meeting(x, y, oInvisSpike)) kill();
@@ -169,14 +174,18 @@ if(place_meeting(x, y, oInvisSpike)) kill();
 if(x > 850 && y < 150){
 	//change rooms
 	room_goto(room_next(room));
-} else if (place_meeting(x, y, oPrevRoom) && room != 0 && facing = -1){
+} else if (place_meeting(x, y, oPrevRoom) && room != 0 && global.facing == -1){
+	global.debug = true;
+	//show_debug_message(debug);
 	room_goto(room_previous(room));
-	if(inst != noone){
+	
+	/*if(inst != noone){
 		x = inst.x - 10;
 		y = inst.y;
 	} else {
 		show_debug_message(instance_exists(oNextRoom));
 	}
+	*/
 }
 // Sprite animations
 
@@ -245,5 +254,5 @@ else {
 }
 
 // --- Flip sprite left/right ---
-image_xscale = facing; // facing = 1 for right, -1 for left
+image_xscale = global.facing; // facing = 1 for right, -1 for left
 prevGrab = wallGrab;
