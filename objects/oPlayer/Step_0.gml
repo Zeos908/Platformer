@@ -124,7 +124,7 @@ if(xsp != 0){
 	} else {
 	    // hit wall, stop horizontal movement
 		xsp = 0;
-		if(!cools[0]){
+		if(!cools[0] && !on_ground){
 			wallGrab = true;
 		}
 	}
@@ -235,4 +235,4 @@ else {
 // --- Flip sprite left/right ---
 image_xscale = facing; // facing = 1 for right, -1 for left
 
-show_debug_message(charging)
+show_debug_message(on_ground);
