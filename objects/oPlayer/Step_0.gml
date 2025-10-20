@@ -1,4 +1,4 @@
-
+var inst = instance_nearest(x, y, oNextRoom);
 
 distanceToGround = 0;
 // find distance
@@ -68,7 +68,7 @@ max_fall = wallGrab ? 3:12;
 if (ysp > max_fall) ysp = max_fall;
 
 // --- Jumping ---
-on_ground = place_meeting(x, y + 1, oIsland);
+on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
 if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) {
 	//reg jump
     ysp = jump_spd;
@@ -104,7 +104,7 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) 
 } else {
 	holdO = 0;	
 }	
-on_ground = place_meeting(x, y + 1, oIsland);
+on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
 if (keyboard_check(ord("S")) && on_ground){
 	crouching = true;
 	xsp *= 0.25;
@@ -138,7 +138,7 @@ else
 	
 }
 // --- Vertical movement ---
-if (!place_meeting(x, y + ysp, oIsland) && !blinking) {
+if ((!place_meeting(x, y + ysp, oIsland) && !blinking) || wallGrab) {
     y += ysp; // move down/up if no collision
 } else {
     // landed on the ground or hit ceiling
@@ -165,14 +165,23 @@ if(place_meeting(x, y, oIdol)){
 	}
 }
 if(place_meeting(x, y, oInvisSpike)) kill();
-if(x > 850 && y < 150 && room = 0){
+
+if(x > 850 && y < 150){
 	//change rooms
-	room_goto(Room2);
+	room_goto(room_next(room));
+} else if (place_meeting(x, y, oPrevRoom) && room != 0 && facing = -1){
+	room_goto(room_previous(room));
+	if(inst != noone){
+		x = inst.x - 10;
+		y = inst.y;
+	} else {
+		show_debug_message(instance_exists(oNextRoom));
+	}
 }
 // Sprite animations
 
 
-on_ground = place_meeting(x, y + 1, oIsland); // check if standing
+on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab); // check if standing
 if(!on_ground){
 	airTime++;	
 } else {
@@ -237,5 +246,4 @@ else {
 
 // --- Flip sprite left/right ---
 image_xscale = facing; // facing = 1 for right, -1 for left
-
-show_debug_message(on_ground);
+prevGrab = wallGrab;

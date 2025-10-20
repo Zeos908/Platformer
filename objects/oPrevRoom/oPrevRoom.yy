@@ -27,7 +27,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sRoomChangeHitbox",
+    "path":"sprites/sRoomChangeHitbox/sRoomChangeHitbox.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

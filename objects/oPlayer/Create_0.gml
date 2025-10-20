@@ -11,7 +11,7 @@ dashCool = false;
 cools = [false, false, false];
 timers = [0, 0, 0]; // reset, dash, wall jump
 holdO = 0;
-canDash = false;
+canDash = true;
 canSuperJump = true;
 wallGrab = false;
 moveDir = 0;
@@ -23,7 +23,8 @@ falling = false;
 distanceToGround = 0;
 airTime = 0;
 charging = false;
-
+prevGrab = false;
+global.debug = false;
 //crouch animation
 crouching = false;
 
