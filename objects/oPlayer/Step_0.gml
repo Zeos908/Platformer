@@ -165,7 +165,9 @@ if(place_meeting(x, y, oIdol)){
 	}
 }
 if(place_meeting(x, y, oInvisSpike)) kill();
-
+if(x > 850 && y < 150){
+	
+}
 // Sprite animations
 
 
