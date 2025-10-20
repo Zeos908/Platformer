@@ -165,8 +165,9 @@ if(place_meeting(x, y, oIdol)){
 	}
 }
 if(place_meeting(x, y, oInvisSpike)) kill();
-if(x > 850 && y < 150){
-	
+if(x > 850 && y < 150 && room = 0){
+	//change rooms
+	room_goto(Room2);
 }
 // Sprite animations
 

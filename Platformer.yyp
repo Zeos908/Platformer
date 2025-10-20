@@ -47,6 +47,7 @@
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"oSpike","path":"objects/oSpike/oSpike.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"Room2","path":"rooms/Room2/Room2.yy",},},
     {"id":{"name":"sBlinkDouble","path":"sprites/sBlinkDouble/sBlinkDouble.yy",},},
     {"id":{"name":"sBlinkPlayer","path":"sprites/sBlinkPlayer/sBlinkPlayer.yy",},},
     {"id":{"name":"sCharged","path":"sprites/sCharged/sCharged.yy",},},
@@ -72,6 +73,7 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"roomId":{"name":"Room2","path":"rooms/Room2/Room2.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

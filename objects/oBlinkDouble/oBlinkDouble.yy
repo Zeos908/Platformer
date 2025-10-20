@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sMushMage",
-    "path":"sprites/sMushMage/sMushMage.yy",
+    "name":"sBlinkDouble",
+    "path":"sprites/sBlinkDouble/sBlinkDouble.yy",
   },
   "spriteMaskId":null,
   "visible":true,
