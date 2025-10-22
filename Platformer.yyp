@@ -42,6 +42,7 @@
   "resources":[
     {"id":{"name":"oBackgroundText","path":"objects/oBackgroundText/oBackgroundText.yy",},},
     {"id":{"name":"oBlinkDouble","path":"objects/oBlinkDouble/oBlinkDouble.yy",},},
+    {"id":{"name":"oFireball","path":"objects/oFireball/oFireball.yy",},},
     {"id":{"name":"oIdol","path":"objects/oIdol/oIdol.yy",},},
     {"id":{"name":"oInvisSpike","path":"objects/oInvisSpike/oInvisSpike.yy",},},
     {"id":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},},

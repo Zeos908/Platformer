@@ -6,7 +6,7 @@ if(global.debug){
 	show_debug_message("erm");
 }
 if(room = Room2){
-	
+	oMushMage.attack(x, y);
 }
 distanceToGround = 0;
 // find distance
@@ -87,7 +87,7 @@ if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) 
 	wallJumpTimer = wallJumpDuration;
 	wallJumpDir = -global.facing;
 	wallGrab = false;
-} else if (on_ground && keyboard_check(ord("K")) && canSuperJump){
+} else if (on_ground && keyboard_check(ord("K")) && global.canSuperJump){
 	//super jump
 	holdO += 1;
 	xsp = 0;
