@@ -1,6 +1,5 @@
 if(step && timer <= 0){
 	facing = (px > x) ? 1 : -1;
-	show_debug_message("erm");
 	inst = instance_create_layer(x, y, "Instances_2", oFireball,
 	{
 	    spd : 5,
@@ -9,5 +8,8 @@ if(step && timer <= 0){
 	timer = oPlayer.secs(2);
 }
 timer--;
-show_debug_message(timer);
 image_xscale = facing;
+var _hit_enemy = collision_line(oBlinkDouble.x, oBlinkDouble.y, oPlayer.x, oPlayer.y, oMushMage, false, true);
+if(_hit_enemy){
+	show_debug_message("WWWWW");
+}
