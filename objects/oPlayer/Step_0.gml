@@ -5,6 +5,9 @@ if(global.debug){
 	y = inst.y;
 	show_debug_message("erm");
 }
+if(room = Room2){
+	
+}
 distanceToGround = 0;
 // find distance
 for(var i = 1; i <= 50; i++){
