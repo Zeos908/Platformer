@@ -3,7 +3,7 @@
   "%Name":"sCrouchRun",
   "bboxMode":2,
   "bbox_bottom":39,
-  "bbox_left":18,
+  "bbox_left":22,
   "bbox_right":47,
   "bbox_top":35,
   "collisionKind":1,
