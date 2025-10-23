@@ -40,6 +40,7 @@
   },
   "name":"Platformer",
   "resources":[
+    {"id":{"name":"CameraFollow","path":"objects/CameraFollow/CameraFollow.yy",},},
     {"id":{"name":"oBackgroundText","path":"objects/oBackgroundText/oBackgroundText.yy",},},
     {"id":{"name":"oBlinkDouble","path":"objects/oBlinkDouble/oBlinkDouble.yy",},},
     {"id":{"name":"oFireball","path":"objects/oFireball/oFireball.yy",},},
@@ -53,6 +54,7 @@
     {"id":{"name":"oSpike","path":"objects/oSpike/oSpike.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"id":{"name":"Room2","path":"rooms/Room2/Room2.yy",},},
+    {"id":{"name":"cameraControl","path":"scripts/cameraControl/cameraControl.yy",},},
     {"id":{"name":"sBlinkDouble","path":"sprites/sBlinkDouble/sBlinkDouble.yy",},},
     {"id":{"name":"sBlinkPlayer","path":"sprites/sBlinkPlayer/sBlinkPlayer.yy",},},
     {"id":{"name":"sCharged","path":"sprites/sCharged/sCharged.yy",},},

@@ -224,7 +224,7 @@ else if (wallSlide)
     if (sprite_index != sWallSlide) 
 	{
 		sprite_index = sWallSlide;
-        image_speed = 0.2; // adjust speed for wall slide animation
+        image_speed = 1; // adjust speed for wall slide animation
     }
 	on_ground = false;
 } 
@@ -244,7 +244,7 @@ else if (crouching)
 else if (moving && on_ground) {
     if (sprite_index != sRun) {
         sprite_index = sRun;
-        image_speed = 0.2; // running animation
+        image_speed = 1; // running animation
     }
 } 
 

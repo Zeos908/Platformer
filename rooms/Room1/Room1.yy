@@ -7,7 +7,7 @@
   "inheritLayers":false,
   "instanceCreationOrder":[
     {"name":"inst_7832BE11","path":"rooms/Room1/Room1.yy",},
-    {"name":"inst_677F6B34","path":"rooms/Room1/Room1.yy",},
+    {"name":"iPlayer","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_587DE24C","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_C8B3995","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_12B313D6","path":"rooms/Room1/Room1.yy",},
@@ -21,6 +21,7 @@
     {"name":"inst_4F335A99","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_A81943","path":"rooms/Room1/Room1.yy",},
     {"name":"inst_7B0B3DBD","path":"rooms/Room1/Room1.yy",},
+    {"name":"inst_1D9134CC","path":"rooms/Room1/Room1.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -29,7 +30,7 @@
       ],"layers":[],"name":"Vfx","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Instances_1","depth":100,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v2","%Name":"inst_7832BE11","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_7832BE11","objectId":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":0.18,"scaleY":0.1,"x":384.0,"y":352.0,},
-        {"$GMRInstance":"v2","%Name":"inst_677F6B34","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_677F6B34","objectId":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":32.0,"y":336.0,},
+        {"$GMRInstance":"v2","%Name":"iPlayer","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"iPlayer","objectId":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":32.0,"y":336.0,},
         {"$GMRInstance":"v2","%Name":"inst_587DE24C","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_587DE24C","objectId":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":90.0,"scaleX":0.28625,"scaleY":0.1,"x":608.0,"y":320.0,},
         {"$GMRInstance":"v2","%Name":"inst_C8B3995","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_C8B3995","objectId":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":0.23125,"scaleY":0.1,"x":80.0,"y":352.0,},
         {"$GMRInstance":"v2","%Name":"inst_12B313D6","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_12B313D6","objectId":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":0.15,"scaleY":0.1,"x":480.0,"y":352.0,},
@@ -40,6 +41,7 @@
         {"$GMRInstance":"v2","%Name":"inst_508FBC96","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_508FBC96","objectId":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":0.23125,"scaleY":0.1,"x":224.0,"y":384.0,},
         {"$GMRInstance":"v2","%Name":"inst_2EF816EC","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_2EF816EC","objectId":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":90.0,"scaleX":-0.28625,"scaleY":-0.1,"x":544.0,"y":192.0,},
         {"$GMRInstance":"v2","%Name":"inst_A81943","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_A81943","objectId":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":0.2,"scaleY":0.1,"x":800.0,"y":108.0,},
+        {"$GMRInstance":"v2","%Name":"inst_1D9134CC","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_1D9134CC","objectId":{"name":"CameraFollow","path":"objects/CameraFollow/CameraFollow.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":32.0,"y":320.0,},
       ],"layers":[],"name":"Instances_1","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Instances_2","depth":200,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v2","%Name":"inst_455C1501","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_455C1501","objectId":{"name":"oIdol","path":"objects/oIdol/oIdol.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.7,"scaleY":2.2,"x":440.0,"y":24.0,},
@@ -70,7 +72,7 @@
   },
   "sequenceId":null,
   "views":[
-    {"hborder":200,"hport":200,"hspeed":-1,"hview":200,"inherit":false,"objectId":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},"vborder":125,"visible":true,"vspeed":-1,"wport":400,"wview":400,"xport":0,"xview":0,"yport":0,"yview":0,},
+    {"hborder":200,"hport":200,"hspeed":-1,"hview":200,"inherit":false,"objectId":{"name":"CameraFollow","path":"objects/CameraFollow/CameraFollow.yy",},"vborder":125,"visible":true,"vspeed":-1,"wport":400,"wview":400,"xport":0,"xview":0,"yport":0,"yview":0,},
     {"hborder":32,"hport":768,"hspeed":-1,"hview":768,"inherit":false,"objectId":null,"vborder":32,"visible":false,"vspeed":-1,"wport":1366,"wview":1366,"xport":0,"xview":0,"yport":0,"yview":0,},
     {"hborder":32,"hport":768,"hspeed":-1,"hview":768,"inherit":false,"objectId":null,"vborder":32,"visible":false,"vspeed":-1,"wport":1366,"wview":1366,"xport":0,"xview":0,"yport":0,"yview":0,},
     {"hborder":32,"hport":768,"hspeed":-1,"hview":768,"inherit":false,"objectId":null,"vborder":32,"visible":false,"vspeed":-1,"wport":1366,"wview":1366,"xport":0,"xview":0,"yport":0,"yview":0,},

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"cameraControl",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"cameraControl",
+  "parent":{
+    "name":"Platformer",
+    "path":"Platformer.yyp",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
