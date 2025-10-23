@@ -13,7 +13,7 @@ function camera(player)
     var distance = point_distance(x, y, x_player, y_player);
 
 
-	if distance < 500{ //snap
+	if distance < 5000{ //snap
     speeds = 0.2; //ADJUST SMOOTHING HERE
 	}
 	else 
