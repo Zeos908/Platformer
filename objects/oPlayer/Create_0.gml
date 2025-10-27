@@ -31,6 +31,9 @@ crouching = false;
 //blink animation
 blinked = false;
 blinking = false;
+roomChangeState = 0;
+
+
 
 
 
@@ -49,7 +52,7 @@ function secs(input) {
 function kill(){
 	x = 32;
 	y = 320;
-	timers[0] = secs(1);
+	timers[0] = secs(0.5);
 	cools[0] = true;
 	timers[1] = 0;
 	sprite_index = sPlayer;

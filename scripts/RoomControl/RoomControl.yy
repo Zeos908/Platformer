@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"cameraControl",
+  "%Name":"RoomControl",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"cameraControl",
+  "name":"RoomControl",
   "parent":{
-    "name":"Platformer",
-    "path":"Platformer.yyp",
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

@@ -1,9 +1,10 @@
 var inst = instance_nearest(x, y, oNextRoom);
+
 if(global.debug){
 	global.debug = true;;
 	x = inst.x;
 	y = inst.y;
-	show_debug_message("erm");
+	//show_debug_message("erm");
 }
 if(room = Room2){
 	oMushMage.attack(x, y);
@@ -174,22 +175,37 @@ if(place_meeting(x, y, oIdol)){
 }
 if(place_meeting(x, y, oInvisSpike)) kill();
 
-if(x > 850 && y < 150){
+
+//room change
+
+if(global.nxRoom)
+{
+	roomChangeState = nextRoom(room);
+	global.nxRoom = false;
+}
+else if global.prRoom 
+{
+	roomChangeState = prevRoom(room);
+	global.prRoom = false;
+}
+
+
+show_debug_message(global.prRoom)
+//room change
+if(place_meeting(x, y, oNextRoom)) {
 	//change rooms
 	room_goto(room_next(room));
-} else if (place_meeting(x, y, oPrevRoom) && room != 0 && global.facing == -1){
-	global.debug = true;
-	//show_debug_message(debug);
-	room_goto(room_previous(room));
+	global.nxRoom = true;
 	
-	/*if(inst != noone){
-		x = inst.x - 10;
-		y = inst.y;
-	} else {
-		show_debug_message(instance_exists(oNextRoom));
-	}
-	*/
+} else if (place_meeting(x, y, oPrevRoom) && room != 0 && global.facing == -1) {
+	global.debug = true;
+	room_goto(room_previous(room));
+	global.prRoom = true;
+	
+	
 }
+
+
 // Sprite animations
 
 
