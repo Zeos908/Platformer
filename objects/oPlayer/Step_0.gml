@@ -66,7 +66,7 @@ if (wallJumpTimer > 0) {
 
 if (keyboard_check(vk_space) && !cools[1] && global.canDash){
 	oBlinkDouble.blink(x, y);
-	blinking = true;
+	global.blinking = true;
 	xsp += 60 * global.facing;
 	cools[1] = true;
 	timers[1] = secs(1.5);
@@ -147,11 +147,11 @@ else
 	
 }
 // --- Vertical movement ---
-if ((!place_meeting(x, y + ysp, oIsland) && !blinking) || wallGrab) {
+if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
     y += ysp; // move down/up if no collision
 } else {
     // landed on the ground or hit ceiling
-    while ((!place_meeting(x, y + sign(ysp), oIsland)) && !blinking) {
+    while ((!place_meeting(x, y + sign(ysp), oIsland)) && !global.blinking) {
         y += sign(ysp);
     }
     ysp = 0;
@@ -190,7 +190,7 @@ else if global.prRoom
 }
 
 
-show_debug_message(global.prRoom)
+//show_debug_message(global.prRoom)
 //room change
 if(place_meeting(x, y, oNextRoom)) {
 	//change rooms
@@ -218,7 +218,7 @@ if(!on_ground){
 var wallSlide = wallGrab && !on_ground;           // check if sliding on wall (maybe disable for testing)
 var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
 
-if blinking == true // holds the animation tree so that no other animations can be played
+if global.blinking == true // holds the animation tree so that no other animations can be played
 {
 	if blinked == false //blinked = initiated blink
 	{
@@ -229,7 +229,7 @@ if blinking == true // holds the animation tree so that no other animations can 
 	if(image_index >= image_number - 1) //blink is done - other animations can be played
 	{
 		sprite_index = sPlayer;
-		blinking = false;
+		global.blinking = false;
 		blinked = false;
 	}
 }

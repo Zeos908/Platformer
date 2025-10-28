@@ -1,15 +1,21 @@
-if(step && timer <= 0 && abs(px-x) < 150){
+if(step && timer <= 0 && abs(px-x) < 200){
 	facing = (px > x) ? 1 : -1;
 	inst = instance_create_layer(x, y, "Instances_2", oFireball,
 	{
-	    spd : 5,
+	    spd : 8,
 	    dir : facing
 	});
-	timer = oPlayer.secs(2);
+	timer = oPlayer.secs(1.5);
 }
 timer--;
 image_xscale = -facing;
-var _hit_enemy = collision_line(oBlinkDouble.x, oBlinkDouble.y, oPlayer.x, oPlayer.y, oMushMage, false, true);
-if(_hit_enemy){
-	show_debug_message("WWWWW");
+if(global.blinking && iFrame = 0){
+	if(abs(oBlinkDouble.x - x) < abs(oBlinkDouble.x - oPlayer.x)){
+		hp--;
+		show_debug_message("TOOK DAMAGE");
+		iFrame = oPlayer.secs(0.5);
+	}
 }
+iFrame--;
+show_debug_message(abs(oBlinkDouble.x - x))
+show_debug_message(abs(oBlinkDouble.x - oPlayer.x));
