@@ -5,14 +5,11 @@ grav = 0.5;
 jump_spd = -7;
 superJumpSpd = -12
 max_fall = 12;
-global.facing = 1;
 resetCool = false;
 dashCool = false;
 cools = [false, false, false];
 timers = [0, 0, 0]; // reset, dash, wall jump
 holdO = 0;
-global.canDash = true;
-global.canSuperJump = true;
 wallGrab = false;
 moveDir = 0;
 on_ground = true;
@@ -24,14 +21,15 @@ distanceToGround = 0;
 airTime = 0;
 charging = false;
 prevGrab = false;
-global.debug = false;
 //crouch animation
 crouching = false;
 
 //blink animation
 blinked = false;
-global.blinking = false;
 roomChangeState = 0;
+
+
+
 
 
 
@@ -50,12 +48,9 @@ function secs(input) {
 }
 
 function kill(){
-	x = 32;
-	y = 320;
-	timers[0] = secs(0.5);
-	cools[0] = true;
-	timers[1] = 0;
-	sprite_index = sPlayer;
+	global.died = true;
+	room = global.checkpoint[2]
+	
 }
 
 

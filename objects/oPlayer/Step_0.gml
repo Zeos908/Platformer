@@ -1,5 +1,15 @@
 var inst = instance_nearest(x, y, oNextRoom);
-
+if(global.died){
+	show_debug_message("died");
+	x = global.checkpoint[0];
+	y = global.checkpoint[1];
+	//show_debug_message(global.checkpoint[1]);
+	timers[0] = secs(0.5);
+	cools[0] = true;
+	timers[1] = 0;
+	sprite_index = sPlayer;
+	global.died = false;
+}
 if(global.debug){
 	global.debug = true;;
 	x = inst.x;
@@ -160,6 +170,7 @@ if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
 
 if (y > 750){
 	kill();
+	y = 300;
 }
 
 // Collisions
