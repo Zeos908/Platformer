@@ -28,8 +28,8 @@
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"Enemies",
-    "path":"folders/Sprites/Enemies.yy",
+    "name":"mushMage",
+    "path":"folders/Sprites/Enemies/mushMage.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
