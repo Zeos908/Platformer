@@ -49,6 +49,7 @@ function secs(input) {
 
 function kill(){
 	global.died = true;
+	global.phighting = [false, 0, 0]
 	room = global.checkpoint[2]
 	
 }

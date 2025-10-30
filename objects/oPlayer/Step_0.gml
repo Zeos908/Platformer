@@ -45,7 +45,7 @@ xsp = 0;
 
 moveDir = 0;
 if (keyboard_check(ord("A"))){
-	moveDir = -1
+	moveDir = -1;
 	global.facing = -1;
 }
 if (keyboard_check(ord("D"))){
@@ -127,10 +127,11 @@ if(keyboard_check_released(ord("S")) && (sprite_index == sCrouch || sprite_index
 }
 
 // --- Horizontal movement ---
-
 if(xsp != 0){
 	if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
-	    x += xsp; // move left/right if no collision
+		if(!global.phighting[0] || (x + xsp > global.phighting[1] && x + xsp < global.phighting[2])){ // checks if you are within the range if you are fighting
+			x += xsp; // move left/right if no collision
+		}
 		wallGrab = false
 	} else {
 	    // hit wall, stop horizontal movement

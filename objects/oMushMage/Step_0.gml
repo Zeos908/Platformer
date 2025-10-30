@@ -2,6 +2,7 @@ px = oPlayer.x
 py = oPlayer.y
 if(doStep && timer <= 0 && abs(px-x) < 200 && hp > 0){
 	facing = (px > x) ? 1 : -1;
+	global.phighting = [true, x - 199, x + 199];
 	if(finished == true){
 		if(choose(1, phase) == 1){
 			grimm();
@@ -33,6 +34,7 @@ if(global.blinking && iFrame == 0){
 			pause = 0.35;
 		} 
 		if(hp <= 0){
+			global.phighting = [false, 0, 0];
 			instance_destroy(self);
 		} else {
 			iFrame = oPlayer.secs(0.5);

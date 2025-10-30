@@ -7,6 +7,6 @@ if (!variable_global_exists("died")) {
     global.blinking     = false;
     global.checkpoint   = [32, 330, 0];
     global.died         = false;
-
+	global.phighting    = [false, 0, 0]; // Fighting?, x min, x max
     show_debug_message("Globals initialized");
 }
