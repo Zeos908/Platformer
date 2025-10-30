@@ -4,7 +4,8 @@ doStep = true;
 facing = 0;
 timer = 0;
 inst = 0;
-hp = 5;
+hp = 10;
+phase = 1;
 iFrame = 0;
 fireballCount = 0;
 rainCount = 0;
@@ -12,6 +13,7 @@ cooldown = 0;
 fireballsShoot = choose(3, 5, 7);
 attackNum = 0;
 finished = true;
+pause = 0.75;
 function attack(player_x, player_y){
 	py = player_y;
 	px = player_x;
@@ -30,9 +32,9 @@ function fireball(curX, curY, pause, yDir){
 function grimm(){
 	if(cooldown <= 0){
 		if(fireballCount % 2 == 0){
-			fireball(x + (30 * facing), y, oPlayer.secs(0.5), 0);
+			fireball(x + (30 * facing), y, oPlayer.secs(pause), 0);
 		} else {
-			fireball(x + (30 * facing), y - 40, oPlayer.secs(0.5), 0)
+			fireball(x + (30 * facing), y - 40, oPlayer.secs(pause), 0)
 		}
 		if(fireballCount == fireballsShoot){
 			fireballCount = 0;
@@ -52,10 +54,10 @@ function rain(){
 		x2 = irandom_range(370, 460);
 		x3 = irandom_range(480, 580);
 		x4 = irandom_range(600, 690)
-		fireball(x1, 250, oPlayer.secs(0.5), 1);
-		fireball(x2, 250, oPlayer.secs(0.5), 1);
-		fireball(x3, 250, oPlayer.secs(0.5), 1);
-		fireball(x4, 250, oPlayer.secs(0.5), 1);
+		fireball(x1, 250, oPlayer.secs(pause), 1);
+		fireball(x2, 250, oPlayer.secs(pause), 1);
+		fireball(x3, 250, oPlayer.secs(pause), 1);
+		fireball(x4, 250, oPlayer.secs(pause), 1);
 		rainCount ++;
 		cooldown = 2;
 		if(rainCount == 3){
