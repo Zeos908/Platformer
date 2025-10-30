@@ -54,4 +54,4 @@ if(delay <= 0){
 		global.phighting = [true, x - 199, x + 199];
 	}
 }
-show_debug_message(delay);
+//show_debug_message(delay);
