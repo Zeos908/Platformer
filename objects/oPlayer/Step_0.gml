@@ -10,15 +10,7 @@ if(global.died){
 	sprite_index = sPlayer;
 	global.died = false;
 }
-if(global.debug){
-	global.debug = true;;
-	x = inst.x;
-	y = inst.y;
-	//show_debug_message("erm");
-}
-if(room = Room2){
-	oMushMage.attack(x, y);
-}
+
 distanceToGround = 0;
 // find distance
 for(var i = 1; i <= 50; i++){
@@ -182,6 +174,7 @@ if(place_meeting(x, y, oSpike)){
 if(place_meeting(x, y, oIdol)){
 	if(keyboard_check_pressed(ord("W"))){
 		global.canDash = true;
+		global.checkpoint = [490, 80, 0];
 	}
 }
 if(place_meeting(x, y, oInvisSpike)) kill();
