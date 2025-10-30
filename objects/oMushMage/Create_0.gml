@@ -14,6 +14,7 @@ fireballsShoot = choose(3, 5, 7);
 attackNum = 0;
 finished = true;
 pause = 0.75;
+delay = oPlayer.secs(2);
 function attack(player_x, player_y){
 	py = player_y;
 	px = player_x;
