@@ -1,1 +1,1 @@
-image_xscale = -dir;
+image_xscale = -dirx;

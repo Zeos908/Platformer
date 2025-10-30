@@ -1,7 +1,26 @@
 if(doStep && timer <= 0 && abs(px-x) < 200 && hp > 0){
 	facing = (px > x) ? 1 : -1;
-	grimm();
+	if(coolDown == 0){
+		if(finished){
+			if(choose(1, 1) == 1){
+				grimm();
+				finished = 1;
+			} else {
+				//rain();
+				finished = 2;
+			}
+		} else {
+			if(finished == 1){
+				grimm();
+			} else {
+				//rain();
+			}
+		}
+	} else {
+		coolDown--;
+	}
 	timer = oPlayer.secs(0.75);
+	
 }
 
 timer--;
