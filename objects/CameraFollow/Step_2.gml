@@ -12,14 +12,25 @@ if (!snapyRoom)
 if (!instance_exists(player)) {
     player = instance_find(oPlayer, 0);
 }
-if (instance_exists(player)) {
-    var x_player = player.x;
-    var y_player = player.y;
 
-    // Calculate distance safely
-    //distance = distance_to_point(x_player, y_player);
 
-    // Call camera function
-    camera(player);
+
+if (global.phighting[0])
+{
+	
+	
+	camera(oMushMage);
 }
+else
+{
+	if (instance_exists(player)) {
+	    var x_player = player.x;
+	    var y_player = player.y;
 
+	    // Calculate distance safely
+	    //distance = distance_to_point(x_player, y_player);
+
+	    // Call camera function
+	    camera(player);
+	}
+}

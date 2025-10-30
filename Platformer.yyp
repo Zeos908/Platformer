@@ -24,8 +24,8 @@
     {"$GMFolder":"","%Name":"Sounds","folderPath":"folders/Sounds.yy","name":"Sounds","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Sprites","folderPath":"folders/Sprites.yy","name":"Sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Enemies","folderPath":"folders/Sprites/Enemies.yy","name":"Enemies","resourceType":"GMFolder","resourceVersion":"2.0",},
-    {"$GMFolder":"","%Name":"wallBoss","folderPath":"folders/Sprites/Enemies/wallBoss.yy","name":"wallBoss","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"mushMage","folderPath":"folders/Sprites/Enemies/mushMage.yy","name":"mushMage","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"wallBoss","folderPath":"folders/Sprites/Enemies/wallBoss.yy","name":"wallBoss","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"PlayerSprites","folderPath":"folders/Sprites/PlayerSprites.yy","name":"PlayerSprites","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Blink","folderPath":"folders/Sprites/PlayerSprites/Blink.yy","name":"Blink","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Charge","folderPath":"folders/Sprites/PlayerSprites/Charge.yy","name":"Charge","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -90,9 +90,9 @@
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
-    {"roomId":{"name":"Menu","path":"rooms/Menu/Menu.yy",},},
     {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
     {"roomId":{"name":"Room2","path":"rooms/Room2/Room2.yy",},},
+    {"roomId":{"name":"Menu","path":"rooms/Menu/Menu.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

@@ -1,9 +1,12 @@
 /// @apply camera smoothing
 /// pray it works
 player = noone;
+
 speeds = 0.5;
 
 snapyRoom = false;
+
+phightingOffset = 30;
 
 
 
@@ -12,16 +15,25 @@ function camera(player)
 	//var player = iPlayer;
 	var x_player = player.x; 
 	var y_player = player.y;
+	if (global.phighting[0])
+	{
+		y_player -= phightingOffset;
+	}
 	
 	
 	 
     var distance = point_distance(x, y, x_player, y_player);
 
 
-	if distance < 1000 // snap limit
-	{ 
-    speeds = 0.2; //ADJUST SMOOTHING HERE
+	if (global.phighting[0])
+	{
+		speeds = 0.05;
 	}
+	else if distance < 1000 // snap limit
+	{ 
+		speeds = 0.2; //ADJUST SMOOTHING HERE
+	}
+	
 	else 
 	{
 		speeds = 1;
