@@ -38,14 +38,20 @@ function roomSnap(player)
 {
 	var x_player = player.x; 
 	var y_player = player.y;
+	   
 	
 	
-	 
-
-
-
 	
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	x = x_player;
 	y = y_player;
 
