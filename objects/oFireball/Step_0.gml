@@ -7,6 +7,11 @@ if(wait <= 0){
 	} else if(x < -50 || x > 875 || place_meeting(x, y - 10, oIsland)){
 		instance_destroy(self);
 	}
-} else {
+} else if(startWait - wait >= oPlayer.secs(0.5)) {
+	sprite_index = sFireball;
+	wait--;
+} 
+else {
 	wait--;	
 }
+show_debug_message(wait);

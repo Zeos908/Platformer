@@ -56,10 +56,10 @@ function rain(){
 		x2 = irandom_range(370, 460);
 		x3 = irandom_range(480, 580);
 		x4 = irandom_range(600, 690)
-		fireball(x1, 250, oPlayer.secs(pause), 1);
-		fireball(x2, 250, oPlayer.secs(pause), 1);
-		fireball(x3, 250, oPlayer.secs(pause), 1);
-		fireball(x4, 250, oPlayer.secs(pause), 1);
+		fireball(x1, 250, oPlayer.secs(pause + 0.5), 1);
+		fireball(x2, 250, oPlayer.secs(pause + 0.5), 1);
+		fireball(x3, 250, oPlayer.secs(pause + 0.5), 1);
+		fireball(x4, 250, oPlayer.secs(pause + 0.5), 1);
 		rainCount ++;
 		cooldown = 2;
 		if(rainCount == 3){
