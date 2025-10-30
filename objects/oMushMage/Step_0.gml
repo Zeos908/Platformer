@@ -52,6 +52,11 @@ if(delay <= 0){
 	if(abs(px-x) < 200){
 		delay--;
 		global.phighting = [true, x - 199, x + 199];
+		if(image_index = 0){
+			image_speed = 1
+		} else if(image_index >= 10){
+			image_speed = 0;
+		}
 	}
 }
-//show_debug_message(delay);
+show_debug_message(image_index);

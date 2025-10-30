@@ -29,8 +29,8 @@
   "solid":false,
   "spriteId":null,
   "spriteMaskId":{
-    "name":"Sprite7",
-    "path":"sprites/Sprite7/Sprite7.yy",
+    "name":"sInvis",
+    "path":"sprites/sInvis/sInvis.yy",
   },
   "visible":true,
 }
