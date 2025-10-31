@@ -28,6 +28,10 @@ crouching = false;
 blinked = false;
 roomChangeState = 0;
 
+//time since created
+creation = 0;
+onGroundPrev = true;
+onGroundPrevHold = [false, false, false, false, false];
 
 
 

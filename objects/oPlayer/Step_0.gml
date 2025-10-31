@@ -1,3 +1,4 @@
+creation++;
 var inst = instance_nearest(x, y, oNextRoom);
 if(global.died){
 	show_debug_message("died");
@@ -10,7 +11,6 @@ if(global.died){
 	sprite_index = sPlayer;
 	global.died = false;
 }
-
 distanceToGround = 0;
 // find distance
 for(var i = 1; i <= 50; i++){
@@ -80,7 +80,7 @@ if (ysp > max_fall) ysp = max_fall;
 
 // --- Jumping ---
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
-if (on_ground && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) {
+if ((on_ground || onGroundPrev) && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) {
 	//reg jump
     ysp = jump_spd;
 	jumping = true;
@@ -210,10 +210,18 @@ if(place_meeting(x, y, oNextRoom)) {
 	
 }
 
+// Coyote time
+
+on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
+
+onGroundPrev = onGroundPrevHold[0];
+for(var i = 0; i <= 3; i++){
+	onGroundPrevHold[i] = onGroundPrevHold[i + 1];
+}
+onGroundPrevHold[4] = on_ground;
+show_debug_message(string(on_ground) + ", " + string(onGroundPrev));
 
 // Sprite animations
-
-
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab); // check if standing
 if(!on_ground){
 	airTime++;	
