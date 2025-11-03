@@ -51,7 +51,7 @@ function secs(input) {
 }
 
 function damage(dmg){
-	global.hp--;
+	global.hp -= dmg;
 }
 
 function kill(){
