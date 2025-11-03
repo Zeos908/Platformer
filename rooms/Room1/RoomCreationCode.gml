@@ -8,6 +8,6 @@ if (!variable_global_exists("died")) {
     global.checkpoint   = [32, 330, 0];
     global.died         = false;
 	global.phighting    = [false, 0, 0]; // Fighting?, x min, x max
-	global.hp           = 10;
+	global.hp           = 5;
     show_debug_message("Globals initialized");
 }
