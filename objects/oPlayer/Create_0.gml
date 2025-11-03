@@ -40,7 +40,6 @@ onGroundPrevHold = [false, false, false, false, false];
 
 
 
-
 wallJumpTimer = 0;   // frames remaining for horizontal push
 wallJumpDir = 0;     // direction of push: -1 or 1
 wallJumpSpeed = 4;   // horizontal speed of push-off
@@ -49,6 +48,10 @@ wallJumpDuration = 8; // how many frames the push lasts
 
 function secs(input) {
     return (game_get_speed(gamespeed_fps)/2) * input;
+}
+
+function damage(dmg){
+	global.hp--;
 }
 
 function kill(){

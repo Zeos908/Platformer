@@ -1,5 +1,9 @@
 creation++;
 var inst = instance_nearest(x, y, oNextRoom);
+if(global.hp <= 0){
+	global.hp = 10;
+	kill();
+}
 if(global.died){
 	show_debug_message("died");
 	x = global.checkpoint[0];
