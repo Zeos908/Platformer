@@ -1,9 +1,6 @@
 creation++;
 var inst = instance_nearest(x, y, oNextRoom);
-if(global.hp <= 0){
-	global.hp = 5;
-	kill();
-}
+
 if(global.died){
 	show_debug_message("died");
 	x = global.checkpoint[0];
@@ -14,6 +11,11 @@ if(global.died){
 	timers[1] = 0;
 	sprite_index = sPlayer;
 	global.died = false;
+}
+
+if(global.hp <= 0){
+	global.hp = 5;
+	kill();
 }
 distanceToGround = 0;
 // find distance
