@@ -9,5 +9,6 @@ if (!variable_global_exists("died")) {
     global.died         = false;
 	global.phighting    = [false, 0, 0]; // Fighting?, x min, x max
 	global.hp           = 5;
+	global.maxHp        = 5;
     show_debug_message("Globals initialized");
 }

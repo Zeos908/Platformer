@@ -14,7 +14,7 @@ if(global.died){
 }
 
 if(global.hp <= 0){
-	global.hp = 5;
+	global.hp = global.maxHp;
 	kill();
 }
 distanceToGround = 0;
