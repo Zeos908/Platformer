@@ -50,6 +50,7 @@
     {"id":{"name":"oInvisSpike","path":"objects/oInvisSpike/oInvisSpike.yy",},},
     {"id":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},},
     {"id":{"name":"oMushMage","path":"objects/oMushMage/oMushMage.yy",},},
+    {"id":{"name":"oMushStriker","path":"objects/oMushStriker/oMushStriker.yy",},},
     {"id":{"name":"oNextRoom","path":"objects/oNextRoom/oNextRoom.yy",},},
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"oPrevRoom","path":"objects/oPrevRoom/oPrevRoom.yy",},},
