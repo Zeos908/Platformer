@@ -15,4 +15,4 @@ if(wait <= 0){
 else {
 	wait--;	
 }
-show_debug_message(wait);
+//show_debug_message(wait);

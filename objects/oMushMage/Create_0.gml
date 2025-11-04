@@ -10,10 +10,10 @@ iFrame = 0;
 fireballCount = 0;
 rainCount = 0;
 cooldown = 0;
-fireballsShoot = choose(3, 5, 7);
+fireballsShoot = 5;
 attackNum = 0;
 finished = true;
-pause = 0.75;
+pause = 0.5;
 delay = oPlayer.secs(4);
 image_speed = 0;
 function attack(player_x, player_y){
