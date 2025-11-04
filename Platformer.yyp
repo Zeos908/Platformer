@@ -74,6 +74,8 @@
     {"id":{"name":"sHealth","path":"sprites/sHealth/sHealth.yy",},},
     {"id":{"name":"sHealthGone","path":"sprites/sHealthGone/sHealthGone.yy",},},
     {"id":{"name":"sIdol","path":"sprites/sIdol/sIdol.yy",},},
+    {"id":{"name":"sIdolAnim","path":"sprites/sIdolAnim/sIdolAnim.yy",},},
+    {"id":{"name":"sIdolEnd","path":"sprites/sIdolEnd/sIdolEnd.yy",},},
     {"id":{"name":"sInvis","path":"sprites/sInvis/sInvis.yy",},},
     {"id":{"name":"sIsland","path":"sprites/sIsland/sIsland.yy",},},
     {"id":{"name":"sJumpCharge","path":"sprites/sJumpCharge/sJumpCharge.yy",},},

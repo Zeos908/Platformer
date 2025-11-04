@@ -178,13 +178,7 @@ if(place_meeting(x, y, oSpike)){
 	kill();
 }
 
-if(place_meeting(x, y, oIdol)){
-	if(keyboard_check_pressed(ord("W"))){
-		global.canDash = true;
-		global.checkpoint = [490, 80, 0];
-		global.hp = global.maxHp;
-	}
-}
+
 if(place_meeting(x, y, oInvisSpike)) kill();
 
 
