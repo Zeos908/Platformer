@@ -9,6 +9,12 @@ detectionDistance = 100;
 
 sleeping = false;
 
+attackDistance = 65; 
+
+attacked = false;
+
+//know that distances are all counted in gmk units. use the room view to see how far this is. 
+
 
 function detectPlayer()
 {
@@ -21,4 +27,37 @@ function detectPlayer()
 	{
 		return cooldown;
 	}
+}
+
+function checkAttackRange(obj)
+{
+	var distance = distance_to_object(obj)
+	if distance > attackDistance
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function move(target)
+{
+	var dir = random(360);
+	var endpointX = lengthdir_x(attackDistance, dir);
+	var endpointY = lengthdir_y(attackDistance, dir);
+	while place_meeting(endpointX, endpointY, oIsland)
+	{
+		 dir = random(360);
+		 endpointX = lengthdir_x(attackDistance, dir);
+		 endpointY = lengthdir_y(attackDistance, dir);
+	}
+	
+		
+}
+
+function attack(target)
+{
+	
 }
