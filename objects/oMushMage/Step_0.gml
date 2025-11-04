@@ -1,8 +1,10 @@
+
+
 if(!global.beatBoss[0]){
 	px = oPlayer.x
 	py = oPlayer.y
 	if(delay <= 0){
-	
+		if(global.paused) exit;
 		if(doStep && timer <= 0 && abs(px-x) < 200 && hp > 0){
 			facing = (px > x) ? 1 : -1;
 			global.phighting = [true, x - 199, x + 199];

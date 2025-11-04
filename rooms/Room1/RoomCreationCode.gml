@@ -12,5 +12,8 @@ if (!variable_global_exists("died")) {
 	global.maxHp        = 5;
 	global.idol         = [false, false];
 	global.beatBoss     = [false];
+	global.paused       = false;
+	global.prevSpeed    = 1;
+	global.pauseCount   = 0;
     show_debug_message("Globals initialized");
 }

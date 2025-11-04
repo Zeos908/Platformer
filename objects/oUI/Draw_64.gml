@@ -12,4 +12,16 @@ if (player_ref != noone) {
         var spr = (i < hp) ? sHealth : sHealthGone;
         draw_sprite_ext(spr, 0, start_x + i * spacing, start_y, scale, scale, 0, c_white, 1);
     }
+	
+	if (global.paused) {
+    var screen_w = display_get_gui_width();
+    var screen_h = display_get_gui_height();
+
+    // Dim the screen
+    draw_set_alpha(0.5);
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, screen_w, screen_h, false);
+    draw_set_alpha(1);
+
+}
 }

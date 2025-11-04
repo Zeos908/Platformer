@@ -1,3 +1,5 @@
+show_debug_message("paused: " + string(global.paused));
+if(global.paused) exit;
 creation++;
 var inst = instance_nearest(x, y, oNextRoom);
 
