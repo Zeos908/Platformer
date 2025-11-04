@@ -59,8 +59,9 @@ if(!global.beatBoss[0]){
 					pause = 0.35;
 				} 
 				if(hp <= 0){
-					global.phighting = [false, 0, 0];
-					instance_destroy(self);
+					
+					sprite_index = sMageDie;
+					image_speed = 1;
 					global.beatBoss[0] = true;
 				} else {
 					iFrame = oPlayer.secs(0.5);
@@ -86,5 +87,13 @@ if(!global.beatBoss[0]){
 	}
 	//show_debug_message(image_index);
 } else {
-	instance_destroy(self);
+	if(sprite_index == sMageDie){
+		if(image_index >= 18){
+			image_speed = 0;
+			instance_destroy(self);
+			global.phighting = [false, 0, 0];
+		}
+	} else {
+		instance_destroy(self);
+	}
 }
