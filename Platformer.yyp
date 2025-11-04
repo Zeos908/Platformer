@@ -81,6 +81,7 @@
     {"id":{"name":"sIsland","path":"sprites/sIsland/sIsland.yy",},},
     {"id":{"name":"sJumpCharge","path":"sprites/sJumpCharge/sJumpCharge.yy",},},
     {"id":{"name":"sJumpCharge2","path":"sprites/sJumpCharge2/sJumpCharge2.yy",},},
+    {"id":{"name":"sMageGrimm","path":"sprites/sMageGrimm/sMageGrimm.yy",},},
     {"id":{"name":"sMenuSelector","path":"sprites/sMenuSelector/sMenuSelector.yy",},},
     {"id":{"name":"sMushBoss","path":"sprites/sMushBoss/sMushBoss.yy",},},
     {"id":{"name":"sMushMage","path":"sprites/sMushMage/sMushMage.yy",},},

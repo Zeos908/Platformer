@@ -1,4 +1,4 @@
-show_debug_message("paused: " + string(global.paused));
+//show_debug_message("paused: " + string(global.paused));
 if(global.paused) exit;
 creation++;
 var inst = instance_nearest(x, y, oNextRoom);
@@ -222,7 +222,7 @@ for(var i = 0; i <= 3; i++){
 	onGroundPrevHold[i] = onGroundPrevHold[i + 1];
 }
 onGroundPrevHold[4] = on_ground;
-show_debug_message(string(on_ground) + ", " + string(onGroundPrev));
+//show_debug_message(string(on_ground) + ", " + string(onGroundPrev));
 
 // Sprite animations
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab); // check if standing

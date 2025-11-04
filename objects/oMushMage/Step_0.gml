@@ -4,12 +4,22 @@ if(!global.beatBoss[0]){
 	px = oPlayer.x
 	py = oPlayer.y
 	if(delay <= 0){
+		show_debug_message(string(sprite_index == sMageGrimm) + ", " + string(image_index));
+		if(sprite_index == sMageGrimm && image_index >= 18){
+			image_speed = 0;
+			image_index = 0;
+			show_debug_message("ended");
+		}
 		if(global.paused) exit;
 		if(doStep && timer <= 0 && abs(px-x) < 200 && hp > 0){
+			
 			facing = (px > x) ? 1 : -1;
 			global.phighting = [true, x - 199, x + 199];
 			if(finished == true){
 				if(choose(1, phase) == 1){
+					show_debug_message("starting");
+					sprite_index = sMageGrimm;
+					image_speed = 1;
 					grimm();
 					attackNum = 1;
 					finished = false;
@@ -20,6 +30,9 @@ if(!global.beatBoss[0]){
 				}
 			} else {
 				if(attackNum == 1){
+					
+					
+					
 					grimm();
 				} else if(attackNum == 2) {
 					rain();
@@ -62,8 +75,9 @@ if(!global.beatBoss[0]){
 				image_speed = 0;
 			}
 		}
+		
 	}
-	show_debug_message(image_index);
+	//show_debug_message(image_index);
 } else {
 	instance_destroy(self);
 }
