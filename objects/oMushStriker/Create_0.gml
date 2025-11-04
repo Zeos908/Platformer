@@ -7,6 +7,8 @@ cooldown = 10;
 
 detectionDistance = 100;
 
+sleeping = false;
+
 
 function detectPlayer()
 {
@@ -19,6 +21,4 @@ function detectPlayer()
 	{
 		return cooldown;
 	}
-	
-	
 }

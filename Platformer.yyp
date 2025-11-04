@@ -84,6 +84,7 @@
     {"id":{"name":"sMenuSelector","path":"sprites/sMenuSelector/sMenuSelector.yy",},},
     {"id":{"name":"sMushBoss","path":"sprites/sMushBoss/sMushBoss.yy",},},
     {"id":{"name":"sMushMage","path":"sprites/sMushMage/sMushMage.yy",},},
+    {"id":{"name":"sMushStriker","path":"sprites/sMushStriker/sMushStriker.yy",},},
     {"id":{"name":"sPlayer","path":"sprites/sPlayer/sPlayer.yy",},},
     {"id":{"name":"Sprite20","path":"sprites/Sprite20/Sprite20.yy",},},
     {"id":{"name":"Sprite8","path":"sprites/Sprite8/Sprite8.yy",},},
