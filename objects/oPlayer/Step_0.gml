@@ -273,7 +273,7 @@ else if (crouching)
 {
 	sprite_index = sCrouch;
 }
-else if (moving && on_ground) {
+else if (moving && on_ground && !charging) {
     if (sprite_index != sRun) {
         sprite_index = sRun;
         image_speed = 1; // running animation
