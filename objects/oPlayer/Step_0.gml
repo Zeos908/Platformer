@@ -231,6 +231,9 @@ if(!on_ground){
 } else {
 	airTime = 0;	
 }
+if(airTime > secs(1)){
+	bigFall = true;
+}
 var wallSlide = wallGrab && !on_ground;           // check if sliding on wall (maybe disable for testing)
 var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
 

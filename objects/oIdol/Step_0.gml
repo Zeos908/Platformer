@@ -14,8 +14,15 @@ if(place_meeting(x, y, oPlayer)){
 	}
 }
 //show_debug_message(sprite_index == sIdolAnim && image_index  >= 3);
-if((sprite_index == sIdolAnim && image_index  >= 3) || global.idol[room]){
-	sprite_index = sIdolEnd;
+if(sprite_index == sIdolAnim && image_index  >= 3){
+	sprite_index = sIdolAct;
 	image_speed = 1;
 	global.idol[room] = true;
+} else if(room == global.checkpoint[2] && global.idol[room]){
+	sprite_index = sIdolAct;
+	image_speed = 1;
+} else if(global.idol[room]){
+	sprite_index = sIdolEnd;
+	image_speed = 1;
 }
+

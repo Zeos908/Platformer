@@ -33,6 +33,10 @@ creation = 0;
 onGroundPrev = true;
 onGroundPrevHold = [false, false, false, false, false];
 
+// big fall
+
+bigFall = false;
+
 
 
 
