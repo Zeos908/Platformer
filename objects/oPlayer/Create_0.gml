@@ -42,7 +42,8 @@ iFrames = 0;
 delta = 1;
 dt = 0;
 
-
+knockAccel = 0;
+knockbackDir = 0;
 
 
 
@@ -56,23 +57,26 @@ function secs(input){
     return (game_get_speed(gamespeed_fps)/2) * input;
 }
 
-function damage(dmg, strength){
+function damage(dmg, strength, obj){
 	if(iFrames <= 0){
 		global.hp -= dmg;
 		iFrames = 0.5;
+		if(!global.blinking){
+		    var knockbackUp = -6;         // vertical knockback lift
+		    knockbackDir = sign(x - obj.x); // push away from hazard
+			xsp = 0;
+		    // Apply horizontal and vertical knockback
+		    knockAccel = strength * knockbackDir;
+		    ysp = knockbackUp;
+			//show_debug_message(knockAccel);
+		}
 	}
-	var knockbackStrength = 8 * strength;    // horizontal knockback pixels per step
-    var knockbackUp = -6;         // vertical knockback lift
-    var knockbackDir = sign(oPlayer.x - x); // push away from hazard
-
-    // Apply horizontal and vertical knockback
-    oPlayer.xsp = knockbackStrength * knockbackDir;
-    oPlayer.ysp = knockbackUp;
 }
 
 function kill(){
 	global.died = true;
 	global.phighting = [false, 0, 0]
+	global.hp = global.maxHp;
 	room = global.checkpoint[2]
 	
 }

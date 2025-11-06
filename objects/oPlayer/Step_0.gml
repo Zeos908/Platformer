@@ -1,5 +1,4 @@
 //show_debug_message("paused: " + string(global.paused));
-dt += delta_time;
 if(global.paused) exit;
 creation++;
 var inst = instance_nearest(x, y, oNextRoom);
@@ -51,8 +50,9 @@ if (charging && keyboard_check_released(ord("K"))){
 	sprite_index = sPlayer;
 }
 
-
-xsp = 0;
+if(knockAccel == 0){
+	xsp = 0;
+}
 
 moveDir = 0;
 if (keyboard_check(ord("A"))){
@@ -74,8 +74,14 @@ if (wallJumpTimer > 0) {
     wallJumpTimer -= 1;
 } else {
     // Normal movement
-	if(iFrames < 0.4){
+	if(knockAccel == 0){
 		xsp = moveDir * 4;
+	} else {
+		xsp += knockAccel
+		knockAccel = lerp(knockAccel, 0, 0.1);
+		if(abs(knockAccel) <= 0.5){
+			knockAccel = 0;
+		}
 	}
 }
 
@@ -93,6 +99,7 @@ if (ysp > max_fall) ysp = max_fall;
 
 // --- Jumping ---
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
+
 if ((on_ground || onGroundPrev) && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) {
 	//reg jump
     ysp = jump_spd;
@@ -299,7 +306,6 @@ else {
 // --- Flip sprite left/right ---
 image_xscale = global.facing; // facing = 1 for right, -1 for left
 prevGrab = wallGrab;
-show_debug_message(dt);
-/*if(keyboard_check_pressed()){
-	delta ++;
+if(on_ground){
+	knockAccel = 0;
 }

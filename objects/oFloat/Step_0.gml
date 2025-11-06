@@ -51,6 +51,6 @@ if (delay > 0) {
 if(place_meeting(x, y, oPlayer)){
 	if (!global.blinking) {
 	    // Reduce health
-	    oPlayer.damage(1, 8);
+	    oPlayer.damage(1, 1, oFloat);
 	}
 }
