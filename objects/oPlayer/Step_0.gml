@@ -1,9 +1,10 @@
 //show_debug_message("paused: " + string(global.paused));
+dt += delta_time;
 if(global.paused) exit;
 creation++;
 var inst = instance_nearest(x, y, oNextRoom);
 if(iFrames > 0){
-	iFrames--;
+	iFrames -= delta_time / 1000000;
 }
 if(global.died){
 	show_debug_message("died");
@@ -73,7 +74,9 @@ if (wallJumpTimer > 0) {
     wallJumpTimer -= 1;
 } else {
     // Normal movement
-    xsp = moveDir * 4;
+	if(iFrames < 0.4){
+		xsp = moveDir * 4;
+	}
 }
 
 if (keyboard_check(vk_space) && !cools[1] && global.canDash){
@@ -296,3 +299,7 @@ else {
 // --- Flip sprite left/right ---
 image_xscale = global.facing; // facing = 1 for right, -1 for left
 prevGrab = wallGrab;
+show_debug_message(dt);
+/*if(keyboard_check_pressed()){
+	delta ++;
+}

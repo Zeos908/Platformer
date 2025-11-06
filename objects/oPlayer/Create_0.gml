@@ -39,8 +39,8 @@ bigFall = false;
 
 iFrames = 0;
 
-
-
+delta = 1;
+dt = 0;
 
 
 
@@ -52,15 +52,22 @@ wallJumpSpeed = 4;   // horizontal speed of push-off
 wallJumpDuration = 8; // how many frames the push lasts
 
 
-function secs(input) {
+function secs(input){
     return (game_get_speed(gamespeed_fps)/2) * input;
 }
 
-function damage(dmg){
+function damage(dmg, strength){
 	if(iFrames <= 0){
 		global.hp -= dmg;
-		iFrames = 20;
+		iFrames = 0.5;
 	}
+	var knockbackStrength = 8 * strength;    // horizontal knockback pixels per step
+    var knockbackUp = -6;         // vertical knockback lift
+    var knockbackDir = sign(oPlayer.x - x); // push away from hazard
+
+    // Apply horizontal and vertical knockback
+    oPlayer.xsp = knockbackStrength * knockbackDir;
+    oPlayer.ysp = knockbackUp;
 }
 
 function kill(){

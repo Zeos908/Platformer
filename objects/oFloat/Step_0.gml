@@ -50,18 +50,7 @@ if (delay > 0) {
 }
 if(place_meeting(x, y, oPlayer)){
 	if (!global.blinking) {
-	    var knockbackDist = 200;      // pixels to push the player back
-	    var knockbackUp = -6;        // vertical lift
-	    var knockbackDir = sign(oPlayer.x - x); // push away from hazard
-
-	    // Apply horizontal and vertical knockback
-	    oPlayer.xsp = knockbackDist * knockbackDir;
-	    oPlayer.ysp = knockbackUp;
-
-	    // Optional: temporarily disable input or movement
-	    oPlayer.delay = oPlayer.secs(0.2); // small pause
-
 	    // Reduce health
-	    oPlayer.damage(1);
+	    oPlayer.damage(1, 8);
 	}
 }
