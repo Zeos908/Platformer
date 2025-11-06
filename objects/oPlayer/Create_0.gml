@@ -73,6 +73,10 @@ function damage(dmg, strength, obj){
 	}
 }
 
+function bounce(strength){
+	ysp = strength * 6;
+}
+
 function kill(){
 	global.died = true;
 	global.phighting = [false, 0, 0]
