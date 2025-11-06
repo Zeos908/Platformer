@@ -1,9 +1,12 @@
 w = oFloatMask.sprite_width;
 h = oFloatMask.sprite_height;
 goal = [x, y];
-maxSpd = 1;
+maxSpd = 5;
 slope = 0;
 xsp = 0;
 ysp = 0;
 dist = 0;
 dir = 0;
+delay = 0;
+startx = x;
+starty = y;
