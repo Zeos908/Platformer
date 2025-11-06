@@ -37,6 +37,8 @@ onGroundPrevHold = [false, false, false, false, false];
 
 bigFall = false;
 
+iFrames = 0;
+
 
 
 
@@ -55,7 +57,10 @@ function secs(input) {
 }
 
 function damage(dmg){
-	global.hp -= dmg;
+	if(iFrames <= 0){
+		global.hp -= dmg;
+		iFrames = 20;
+	}
 }
 
 function kill(){

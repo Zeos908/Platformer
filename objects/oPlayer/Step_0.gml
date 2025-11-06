@@ -2,7 +2,9 @@
 if(global.paused) exit;
 creation++;
 var inst = instance_nearest(x, y, oNextRoom);
-
+if(iFrames > 0){
+	iFrames--;
+}
 if(global.died){
 	show_debug_message("died");
 	x = global.checkpoint[0];

@@ -19,7 +19,7 @@ if (delay > 0) {
         goal[1] = random_range(oFloatMask.y - (h/2), oFloatMask.y + (h/2));
 
         // Set delay before moving again
-        delay = oPlayer.secs(0.75);
+        delay = oPlayer.secs(pause);
     } else {
 
         // Calculate direction to goal
@@ -40,7 +40,6 @@ if (delay > 0) {
 
         // Combine ease-in and ease-out
         var t = easeIn * easeOut;
-		var easePower = 0.75;  // higher = slower acceleration/deceleration
 		t = power(t, easePower);
         var spd = lerp(minSpd, maxSpd, t);
 
@@ -48,4 +47,21 @@ if (delay > 0) {
         x += lengthdir_x(spd, dir);
         y += lengthdir_y(spd, dir);
     }
+}
+if(place_meeting(x, y, oPlayer)){
+	if (!global.blinking) {
+	    var knockbackDist = 200;      // pixels to push the player back
+	    var knockbackUp = -6;        // vertical lift
+	    var knockbackDir = sign(oPlayer.x - x); // push away from hazard
+
+	    // Apply horizontal and vertical knockback
+	    oPlayer.xsp = knockbackDist * knockbackDir;
+	    oPlayer.ysp = knockbackUp;
+
+	    // Optional: temporarily disable input or movement
+	    oPlayer.delay = oPlayer.secs(0.2); // small pause
+
+	    // Reduce health
+	    oPlayer.damage(1);
+	}
 }
