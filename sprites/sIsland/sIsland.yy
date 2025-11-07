@@ -1,10 +1,10 @@
 {
   "$GMSprite":"",
   "%Name":"sIsland",
-  "bboxMode":0,
-  "bbox_bottom":807,
+  "bboxMode":2,
+  "bbox_bottom":796,
   "bbox_left":195,
-  "bbox_right":825,
+  "bbox_right":826,
   "bbox_top":434,
   "collisionKind":0,
   "collisionTolerance":0,

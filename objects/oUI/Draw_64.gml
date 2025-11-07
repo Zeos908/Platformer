@@ -1,7 +1,7 @@
 // obj_ui → Draw GUI event
 
 if (player_ref != noone) {
-    var total_hearts = 5;
+    var total_hearts = global.maxHp;
     var hp = global.hp;
     var start_x = 20;
     var start_y = 20;
