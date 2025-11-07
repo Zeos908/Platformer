@@ -68,6 +68,7 @@
     {"id":{"name":"Base","path":"rooms/Base/Base.yy",},},
     {"id":{"name":"MushMage","path":"rooms/MushMage/MushMage.yy",},},
     {"id":{"name":"room2","path":"rooms/room2/room2.yy",},},
+    {"id":{"name":"room4","path":"rooms/room4/room4.yy",},},
     {"id":{"name":"Spawn","path":"rooms/Spawn/Spawn.yy",},},
     {"id":{"name":"RoomControl","path":"scripts/RoomControl/RoomControl.yy",},},
     {"id":{"name":"sBlinkDouble","path":"sprites/sBlinkDouble/sBlinkDouble.yy",},},
@@ -115,6 +116,7 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"Spawn","path":"rooms/Spawn/Spawn.yy",},},
+    {"roomId":{"name":"room4","path":"rooms/room4/room4.yy",},},
     {"roomId":{"name":"room2","path":"rooms/room2/room2.yy",},},
     {"roomId":{"name":"MushMage","path":"rooms/MushMage/MushMage.yy",},},
     {"roomId":{"name":"Base","path":"rooms/Base/Base.yy",},},
