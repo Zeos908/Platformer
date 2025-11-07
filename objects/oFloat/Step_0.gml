@@ -5,7 +5,10 @@
 if (delay > 0) {
     delay--;
 } else {
-
+	inst = instance_nearest(x, y, oFloatMask);
+	if(inst == noone){
+		exit;
+	}
     // Distance to current goal
     var dist = point_distance(x, y, goal[0], goal[1]);
 
@@ -15,8 +18,8 @@ if (delay > 0) {
         startX = x;  // remember start of next movement
         startY = y;
 
-        goal[0] = random_range(oFloatMask.x - (w/2), oFloatMask.x + (w/2));
-        goal[1] = random_range(oFloatMask.y - (h/2), oFloatMask.y + (h/2));
+        goal[0] = random_range(inst.x - (w/2), inst.x + (w/2));
+        goal[1] = random_range(inst.y - (h/2), inst.y + (h/2));
 
         // Set delay before moving again
         delay = oPlayer.secs(pause);

@@ -85,7 +85,7 @@ if (wallJumpTimer > 0) {
 	}
 }
 
-if (keyboard_check(vk_space) && !cools[1] && global.canDash){
+if (keyboard_check(vk_space) && !cools[1] && global.canDash && knockAccel == 0){
 	oBlinkDouble.blink(x, y);
 	global.blinking = true;
 	xsp += 60 * global.facing;

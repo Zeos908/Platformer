@@ -74,7 +74,7 @@ function damage(dmg, strength, obj){
 }
 
 function bounce(strength){
-	ysp = strength * 6;
+	ysp = strength * -6;
 }
 
 function kill(){
