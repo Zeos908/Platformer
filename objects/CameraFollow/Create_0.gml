@@ -20,11 +20,45 @@ function camera(player)
 		y_player -= phightingOffset;
 	}
 	
-	
+	// Get camera ID for viewport 0
+	var cam = view_camera[0];
+
+	// Current camera size
+	var w = camera_get_view_width(cam);
+	var h = camera_get_view_height(cam);
+
+	// Normal and target sizes
+	var normalW = 360;
+	var normalH = 180;
+	var targetW = 720;
+	var targetH = 360;
+
+	// Smooth factor
+	var alpha = 0.1;
+
+	// Check if current room is in the parkourRooms array
+	var inParkour = false;
+	for (var i = 0; i < array_length(global.parkourRooms); i++) {
+	    if (room == global.parkourRooms[i]) {
+	        inParkour = true;
+	        break;
+	    }
+	}
+
+	// Choose target size based on room
+	var finalW = inParkour ? targetW : normalW;
+	var finalH = inParkour ? targetH : normalH;
+	// Smoothly interpolate camera size
+	camera_set_view_size(cam, lerp(w, finalW, alpha), lerp(h, finalH, alpha));
 	 
+	if(inParkour){
+		var target_x = oPlayer.x - w / 2;
+		var target_y = oPlayer.y - h / 2;
+		camera_set_view_pos(cam, target_x, target_y);
+	}
     var distance = point_distance(x, y, x_player, y_player);
 
-
+	
 	if (global.phighting[0])
 	{
 		speeds = 0.05;

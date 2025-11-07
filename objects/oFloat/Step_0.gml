@@ -5,7 +5,7 @@
 if (delay > 0) {
     delay--;
 } else {
-	inst = instance_nearest(x, y, oFloatMask);
+	var inst = instance_nearest(x, y, oFloatMask);
 	if(inst == noone){
 		exit;
 	}

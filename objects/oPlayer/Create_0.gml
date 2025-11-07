@@ -57,6 +57,10 @@ function secs(input){
     return (game_get_speed(gamespeed_fps)/2) * input;
 }
 
+function spdSmooth(relX, maxSpd, minSpd){
+	// ur mom
+}
+
 function damage(dmg, strength, obj){
 	if(iFrames <= 0){
 		global.hp -= dmg;
