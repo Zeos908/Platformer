@@ -30,6 +30,10 @@ function camera(player)
 	// Normal and target sizes
 	var normalW = 360;
 	var normalH = 180;
+	if(global.phighting[0]){
+		normalW = 420;
+		normalH = 210;
+	}
 	var targetW = 720;
 	var targetH = 360;
 

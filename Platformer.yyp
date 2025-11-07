@@ -54,6 +54,7 @@
     {"id":{"name":"oFireball","path":"objects/oFireball/oFireball.yy",},},
     {"id":{"name":"oFloat","path":"objects/oFloat/oFloat.yy",},},
     {"id":{"name":"oFloatMask","path":"objects/oFloatMask/oFloatMask.yy",},},
+    {"id":{"name":"oGate","path":"objects/oGate/oGate.yy",},},
     {"id":{"name":"oIdol","path":"objects/oIdol/oIdol.yy",},},
     {"id":{"name":"oInvisSpike","path":"objects/oInvisSpike/oInvisSpike.yy",},},
     {"id":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},},
@@ -119,8 +120,8 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"Spawn","path":"rooms/Spawn/Spawn.yy",},},
-    {"roomId":{"name":"room2","path":"rooms/room2/room2.yy",},},
     {"roomId":{"name":"MushMage","path":"rooms/MushMage/MushMage.yy",},},
+    {"roomId":{"name":"room2","path":"rooms/room2/room2.yy",},},
     {"roomId":{"name":"room4","path":"rooms/room4/room4.yy",},},
     {"roomId":{"name":"Base","path":"rooms/Base/Base.yy",},},
   ],
