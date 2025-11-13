@@ -2,7 +2,7 @@
 if (!variable_global_exists("died")) {
     global.facing       = 1;
     global.canDash      = false;
-    global.canSuperJump = true;
+    global.canSuperJump = false;
     global.debug        = false;
     global.blinking     = false;
     global.checkpoint   = [32, 330, 0];
@@ -19,6 +19,6 @@ if (!variable_global_exists("died")) {
 	global.paused       = false;
 	global.prevSpeed    = 1;
 	global.pauseCount   = 0;
-	global.parkourRooms = [2, 3];
+	global.parkourRooms = [1, 3];
     show_debug_message("Globals initialized");
 }

@@ -120,9 +120,9 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"Spawn","path":"rooms/Spawn/Spawn.yy",},},
-    {"roomId":{"name":"room4","path":"rooms/room4/room4.yy",},},
-    {"roomId":{"name":"MushMage","path":"rooms/MushMage/MushMage.yy",},},
     {"roomId":{"name":"room2","path":"rooms/room2/room2.yy",},},
+    {"roomId":{"name":"MushMage","path":"rooms/MushMage/MushMage.yy",},},
+    {"roomId":{"name":"room4","path":"rooms/room4/room4.yy",},},
     {"roomId":{"name":"Base","path":"rooms/Base/Base.yy",},},
   ],
   "templateType":"game",
