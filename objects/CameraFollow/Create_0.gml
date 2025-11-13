@@ -52,7 +52,6 @@ function camera(player)
 	// Choose target size based on room
 	var finalW = inParkour ? targetW : normalW;
 	var finalH = inParkour ? targetH : normalH;
-	show_debug_message(finalW);
 	// Smoothly interpolate camera size
 	camera_set_view_size(cam, lerp(w, finalW, alpha), lerp(h, finalH, alpha));
 	 
