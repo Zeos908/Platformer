@@ -9,8 +9,8 @@
   "name":"oBlinkDouble",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"Functionality",
+    "path":"folders/Objects/Functionality.yy",
   },
   "parentObjectId":null,
   "persistent":false,

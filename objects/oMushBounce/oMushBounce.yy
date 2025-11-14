@@ -8,8 +8,8 @@
   "name":"oMushBounce",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"Hazards",
+    "path":"folders/Objects/Props/Hazards.yy",
   },
   "parentObjectId":null,
   "persistent":false,
