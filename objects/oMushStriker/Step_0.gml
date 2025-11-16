@@ -23,6 +23,13 @@ if (agro > 0)
 }
 
 
+if ((image_index >= image_number -1) && (sprite_index == sMushStrikerMove)) 
+{
+	sprite_index = -1;
+	show_debug_message("STOPPING")
+}
+
+
 
 
 /// subtract timers
