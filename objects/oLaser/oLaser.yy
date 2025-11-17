@@ -1,13 +1,13 @@
 {
   "$GMObject":"",
-  "%Name":"oIsland",
+  "%Name":"oLaser",
   "eventList":[],
   "managed":true,
-  "name":"oIsland",
+  "name":"oLaser",
   "overriddenProperties":[],
   "parent":{
-    "name":"Props",
-    "path":"folders/Objects/Props.yy",
+    "name":"Enemies",
+    "path":"folders/Objects/Enemies.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -27,10 +27,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"sIsland",
-    "path":"sprites/sIsland/sIsland.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
   "visible":true,
 }
