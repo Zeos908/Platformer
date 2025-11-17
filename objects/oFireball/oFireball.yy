@@ -9,8 +9,8 @@
   "name":"oFireball",
   "overriddenProperties":[],
   "parent":{
-    "name":"Enemies",
-    "path":"folders/Objects/Enemies.yy",
+    "name":"Attack",
+    "path":"folders/Objects/Enemies/Attack.yy",
   },
   "parentObjectId":null,
   "persistent":false,

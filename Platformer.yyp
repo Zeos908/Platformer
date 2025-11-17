@@ -16,6 +16,8 @@
     {"$GMFolder":"","%Name":"Notes","folderPath":"folders/Notes.yy","name":"Notes","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Objects","folderPath":"folders/Objects.yy","name":"Objects","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Enemies","folderPath":"folders/Objects/Enemies.yy","name":"Enemies","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Entity","folderPath":"folders/Objects/Enemies/Entity.yy","name":"Entity","resourceType":"GMFolder","resourceVersion":"2.0",},
+    {"$GMFolder":"","%Name":"Attack","folderPath":"folders/Objects/Enemies/Attack.yy","name":"Attack","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Functionality","folderPath":"folders/Objects/Functionality.yy","name":"Functionality","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Props","folderPath":"folders/Objects/Props.yy","name":"Props","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Hazards","folderPath":"folders/Objects/Props/Hazards.yy","name":"Hazards","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -54,6 +56,7 @@
   "resources":[
     {"id":{"name":"CameraFollow","path":"objects/CameraFollow/CameraFollow.yy",},},
     {"id":{"name":"oBackgroundText","path":"objects/oBackgroundText/oBackgroundText.yy",},},
+    {"id":{"name":"Object24","path":"objects/Object24/Object24.yy",},},
     {"id":{"name":"oBlinkDouble","path":"objects/oBlinkDouble/oBlinkDouble.yy",},},
     {"id":{"name":"oBlinkSlash","path":"objects/oBlinkSlash/oBlinkSlash.yy",},},
     {"id":{"name":"oBounceCloud","path":"objects/oBounceCloud/oBounceCloud.yy",},},

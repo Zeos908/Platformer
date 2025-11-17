@@ -67,7 +67,7 @@ function damage(dmg, strength, obj){
 		global.hp -= dmg;
 		iFrames = 0.5;
 		if(!global.blinking){
-		    var knockbackUp = -6;         // vertical knockback lift
+		    var knockbackUp = -6 * strength;         // vertical knockback lift
 		    knockbackDir = sign(x - obj.x); // push away from hazard
 			xsp = 0;
 		    // Apply horizontal and vertical knockback

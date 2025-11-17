@@ -9,8 +9,8 @@
   "name":"oMushStriker",
   "overriddenProperties":[],
   "parent":{
-    "name":"Enemies",
-    "path":"folders/Objects/Enemies.yy",
+    "name":"Entity",
+    "path":"folders/Objects/Enemies/Entity.yy",
   },
   "parentObjectId":null,
   "persistent":false,
