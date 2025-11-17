@@ -47,11 +47,21 @@ function move(target)
 	var dir = random(360);
 	var endpointX = lengthdir_x(attackDistance, dir);
 	var endpointY = lengthdir_y(attackDistance, dir);
-	while place_meeting(endpointX, endpointY, oIsland)
+	/*while place_meeting(endpointX, endpointY, oIsland)
 	{
 		 dir = random(360);
 		 endpointX = lengthdir_x(attackDistance, dir);
 		 endpointY = lengthdir_y(attackDistance, dir);
+	}
+	*/
+	for(var i = 0; i < 20; i++){
+		if(place_meeting(endpointX, endpointY, oIsland)){
+			dir = random(360);
+			endpointX = lengthdir_x(attackDistance, dir);
+			endpointY = lengthdir_y(attackDistance, dir);
+		} else {
+			break;
+		}
 	}
 	
 	
@@ -60,5 +70,6 @@ function move(target)
 
 function attack(target)
 {
+	//sprite_index = oStrikerAttack;
 	
 }
