@@ -23,7 +23,7 @@ function detectPlayer()
 	var endpointY = lengthdir_y(detectionDistance, raycastDirection);
 	var hit = physics_raycast(x, y, oPlayer.x, oPlayer.y, oIsland, false)
 	
-	if (distance_to_object(oPlayer) < detectPlayer())
+	if (distance_to_object(oPlayer) < detectionDistance)
 	{
 		return cooldown;
 	}

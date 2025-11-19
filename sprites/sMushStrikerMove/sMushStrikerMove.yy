@@ -16,6 +16,7 @@
     {"$GMSpriteFrame":"","%Name":"e0e12431-3b71-4622-a65f-8f766bcf79a1","name":"e0e12431-3b71-4622-a65f-8f766bcf79a1","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"","%Name":"70bcee79-308f-4b7f-bbe3-5e5ba74d198f","name":"70bcee79-308f-4b7f-bbe3-5e5ba74d198f","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
     {"$GMSpriteFrame":"","%Name":"f19a2ba1-de95-4665-a18e-1234d5144524","name":"f19a2ba1-de95-4665-a18e-1234d5144524","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"","%Name":"5d1dd72e-24c1-447c-9502-1c65a4603335","name":"5d1dd72e-24c1-447c-9502-1c65a4603335","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -52,7 +53,7 @@
     },
     "eventStubScript":null,
     "eventToFunction":{},
-    "length":4.0,
+    "length":5.0,
     "lockOrigin":false,
     "moments":{
       "$KeyframeStore<MomentsEventKeyframe>":"",
@@ -62,7 +63,7 @@
     },
     "name":"sMushStrikerMove",
     "playback":1,
-    "playbackSpeed":30.0,
+    "playbackSpeed":12.0,
     "playbackSpeedType":0,
     "resourceType":"GMSequence",
     "resourceVersion":"2.0",
@@ -85,6 +86,9 @@
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
                 "0":{"$SpriteFrameKeyframe":"","Id":{"name":"f19a2ba1-de95-4665-a18e-1234d5144524","path":"sprites/sMushStrikerMove/sMushStrikerMove.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"6455f8c0-e87c-4f8d-8ec2-8d39b7e119bb","IsCreationKey":false,"Key":3.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"5d1dd72e-24c1-447c-9502-1c65a4603335","path":"sprites/sMushStrikerMove/sMushStrikerMove.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"a940fa67-21ff-4b45-9de8-ca7f25b98031","IsCreationKey":false,"Key":4.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

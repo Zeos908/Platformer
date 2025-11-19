@@ -1,13 +1,15 @@
 {
   "$GMObject":"",
-  "%Name":"Object24",
-  "eventList":[],
+  "%Name":"oSmokeBase",
+  "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
   "managed":true,
-  "name":"Object24",
+  "name":"oSmokeBase",
   "overriddenProperties":[],
   "parent":{
-    "name":"Entity",
-    "path":"folders/Objects/Enemies/Entity.yy",
+    "name":"VFX",
+    "path":"folders/Objects/Enemies/VFX.yy",
   },
   "parentObjectId":null,
   "persistent":false,
@@ -27,7 +29,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sSmokeRed",
+    "path":"sprites/sSmokeRed/sSmokeRed.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }
