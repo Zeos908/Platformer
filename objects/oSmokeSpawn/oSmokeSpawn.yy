@@ -30,10 +30,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"sSmokeRed",
-    "path":"sprites/sSmokeRed/sSmokeRed.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
   "visible":true,
 }

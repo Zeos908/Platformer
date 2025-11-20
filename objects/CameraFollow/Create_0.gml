@@ -30,6 +30,7 @@ function camera(player)
 	// Normal and target sizes
 	var normalW = 360;
 	var normalH = 180;
+	
 	if(global.phighting[0]){
 		normalW = 420;
 		normalH = 210;
@@ -47,6 +48,13 @@ function camera(player)
 	        inParkour = true;
 	        break;
 	    }
+	}
+	
+	if (global.testRoomCondition == "test"
+	)
+	{
+		targetW = 820;
+		targetH = 460;
 	}
 
 	// Choose target size based on room
@@ -77,11 +85,20 @@ function camera(player)
 		speeds = 1;
 	}
 	
+	
+			if global.testRoomCondition == "test"
+			{
+				y_player -= 30;
+			}
+	
 	if (!(abs(speeds) == infinity || speeds == NaN || speeds == undefined)) && (!(distance == infinity || distance == NaN || distance == undefined))
 	{
 		x = lerp(x, x_player, speeds);
 		y = lerp(y, y_player, speeds);
 	}
+	
+	
+			
 }
 
 function roomSnap(player)
