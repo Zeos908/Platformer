@@ -21,4 +21,6 @@ if (!variable_global_exists("died")) {
 	global.pauseCount   = 0;
 	global.parkourRooms = [1, 3];
     show_debug_message("Globals initialized");
+	
+	global.testRoomCondition = "no";
 }
