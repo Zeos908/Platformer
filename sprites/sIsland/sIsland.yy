@@ -1,7 +1,7 @@
 {
   "$GMSprite":"",
   "%Name":"sIsland",
-  "bboxMode":0,
+  "bboxMode":2,
   "bbox_bottom":807,
   "bbox_left":195,
   "bbox_right":825,

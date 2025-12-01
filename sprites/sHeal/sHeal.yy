@@ -39,7 +39,7 @@
   "origin":4,
   "parent":{
     "name":"Heal",
-    "path":"folders/Sprites/GUI/Heal.yy",
+    "path":"folders/Sprites/PlayerSprites/Heal.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
