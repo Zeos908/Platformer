@@ -21,6 +21,7 @@ if(global.hp <= 0){
 	global.hp = global.maxHp;
 	kill();
 }
+on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
 distanceToGround = 0;
 // find distance
 for(var i = 1; i <= 50; i++){
@@ -45,11 +46,12 @@ for(var i = 0; i < array_length(timers); i++){
 ///	sprite_index = sPlayer;
 //	charging = false;
 //}
+/*
 if (charging && keyboard_check_released(ord("K"))){
 	charging = false;
 	sprite_index = sPlayer;
 }
-
+*/
 if(knockAccel == 0){
 	xsp = 0;
 }
@@ -92,10 +94,13 @@ if (keyboard_check(vk_space) && !cools[1] && global.canDash && knockAccel == 0){
 	cools[1] = true;
 	timers[1] = secs(1.5);
 }	
+
 // --- Apply gravity ---
-ysp += grav;
-max_fall = wallGrab ? 3:12;
-if (ysp > max_fall) ysp = max_fall;
+if(!global.healing){
+	ysp += grav;
+	max_fall = wallGrab ? 3:12;
+	if (ysp > max_fall) ysp = max_fall;
+}
 
 // --- Jumping ---
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
@@ -110,7 +115,7 @@ if ((on_ground || onGroundPrev) && keyboard_check_pressed(ord("O")) && !keyboard
 	wallJumpTimer = wallJumpDuration;
 	wallJumpDir = -global.facing;
 	wallGrab = false;
-} else if (on_ground && keyboard_check(ord("K")) && global.canSuperJump){
+} else if (on_ground && keyboard_check(ord("K")) && global.canSuperJump && !wallGrab){
 	//super jump
 	holdO += 1;
 	xsp = 0;
@@ -136,15 +141,18 @@ if ((on_ground || onGroundPrev) && keyboard_check_pressed(ord("O")) && !keyboard
 	holdO = 0;	
 }	
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
+/*
 if (keyboard_check(ord("S")) && on_ground){
 	crouching = true;
 	xsp *= 0.25;
 
 } 
+
 if(keyboard_check_released(ord("S")) && (sprite_index == sCrouch || sprite_index == sCrouchRun)) {
 	// shibai im stupid // xsp *= 1;
 	crouching = false;
 }
+*/
 
 // --- Horizontal movement ---
 if(xsp != 0){
@@ -248,8 +256,9 @@ if(airTime > secs(1)){
 }
 var wallSlide = wallGrab && !on_ground;           // check if sliding on wall (maybe disable for testing)
 var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
-
-if global.blinking == true // holds the animation tree so that no other animations can be played
+if(global.healing){
+	heal(1);
+} else if global.blinking == true // holds the animation tree so that no other animations can be played
 {
 	if blinked == false //blinked = initiated blink
 	{

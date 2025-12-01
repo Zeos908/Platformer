@@ -29,6 +29,9 @@ crouching = false;
 blinked = false;
 roomChangeState = 0;
 
+
+healCool = 0;
+
 //time since created
 creation = 0;
 onGroundPrev = true;
@@ -54,6 +57,11 @@ wallJumpSpeed = 4;   // horizontal speed of push-off
 wallJumpDuration = 8; // how many frames the push lasts
 
 
+// soul
+
+jelly = 3;
+
+
 function secs(input){
     return (game_get_speed(gamespeed_fps)/2) * input;
 }
@@ -74,12 +82,33 @@ function damage(dmg, strength, obj){
 		    knockAccel = strength * knockbackDir;
 		    ysp = knockbackUp;
 			//show_debug_message(knockAccel);
+			sprite_index = sPlayer;
 		}
 	}
 }
 
 function bounce(strength){
 	ysp = strength * -6;
+}
+
+function heal(amt){
+	sprite_index = sHeal;
+	image_speed = 1;
+	if(image_index >= 3 && image_index <= 5){
+		ysp = -5;
+	} else if(image_index == 6){
+		ysp = -3;
+	} else {
+		ysp = 0;
+	}
+	if(image_index >= 13){
+		global.hp += amt;
+		global.hp = min(global.maxHp, global.hp);
+		sprite_index = sPlayer;
+		global.healing = false;
+		jelly -= 3;
+		show_debug_message(jelly);
+	}
 }
 
 function kill(){
