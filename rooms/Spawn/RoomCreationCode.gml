@@ -30,7 +30,15 @@ if (!variable_global_exists("died")) {
 	global.msg          = "";
 	global.pausePos     = [[50, 170], [53, 199], [37, 227]];
 	global.pauseIndex   = 0;
+	global.keybinds     = ds_map_create();
     show_debug_message("Globals initialized");
 	
-	
+	global.keybinds[? "Left"] = ord("A");
+	global.keybinds[? "Right"] = ord("D");
+	global.keybinds[? "Jump"] = ord("O");
+	global.keybinds[? "Crouch"] = ord("S");
+	global.keybinds[? "Blink"] = vk_space;
+	global.keybinds[? "Super Jump"] = ord("K");
+	global.keybinds[? "Heal"] = ord("P");
+	global.keybinds[? "Interact"] = ord("W");
 }

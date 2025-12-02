@@ -122,6 +122,7 @@
     {"id":{"name":"sMageGrimm","path":"sprites/sMageGrimm/sMageGrimm.yy",},},
     {"id":{"name":"sMageRain","path":"sprites/sMageRain/sMageRain.yy",},},
     {"id":{"name":"sMenuSelector","path":"sprites/sMenuSelector/sMenuSelector.yy",},},
+    {"id":{"name":"sMenuSelectorDis","path":"sprites/sMenuSelectorDis/sMenuSelectorDis.yy",},},
     {"id":{"name":"sMushBoss","path":"sprites/sMushBoss/sMushBoss.yy",},},
     {"id":{"name":"sMushBounce","path":"sprites/sMushBounce/sMushBounce.yy",},},
     {"id":{"name":"sMushFloat","path":"sprites/sMushFloat/sMushFloat.yy",},},

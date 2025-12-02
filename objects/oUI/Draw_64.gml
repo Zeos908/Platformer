@@ -1,6 +1,5 @@
 
 if (player_ref != noone) {
-	show_debug_message(global.paused);
 	if (global.paused) {
 	    var screen_w = display_get_gui_width();
 	    var screen_h = display_get_gui_height();
@@ -22,25 +21,43 @@ if (player_ref != noone) {
 			x_shift = -1;
 		}
 		draw_sprite_ext(sMenuSelector, 0, screen_w / 2 + x_pos + x_shift, y_pos, -2, 2, 0, c_white, 1);
-		
+		if(prevInd != global.pauseIndex){
+			//disapear animation
+			PII++;
+			var x_pos = global.pausePos[prevInd][0]
+			var y_pos = global.pausePos[prevInd][1]
+			draw_sprite_ext(sMenuSelectorDis, PII, screen_w / 2 - x_pos + x_shift, y_pos, 2, 2, 0, c_white, 1);
+			if(global.pauseIndex == 1){
+				x_shift = 3;
+			} else if(global.pauseIndex == 2){
+				x_shift = -1;
+			}
+			draw_sprite_ext(sMenuSelectorDis, PII, screen_w / 2 + x_pos + x_shift, y_pos, -2, 2, 0, c_white, 1);
+			if(PII >= 5){
+				PII = -1;
+				prevInd = global.pauseIndex;
+			}
+		} else {
+			prevInd = global.pauseIndex;
+		}
 		if(delay <= 0){
-			if(keyboard_check(ord("S"))){
+			if(keyboard_check(ord("S")) || keyboard_check(vk_down)){
 				global.pauseIndex++;
 				if(global.pauseIndex > 2){
 					global.pauseIndex = 0;
 				}
-				delay = oPlayer.secs(0.2);
-			} else if(keyboard_check(ord("W"))){
+				delay = oPlayer.secs(0.4);
+			} else if(keyboard_check(ord("W")) || keyboard_check(vk_up)){
 				global.pauseIndex--;
 				if(global.pauseIndex < 0){
 					global.pauseIndex = 2;
 				}
-				delay = oPlayer.secs(0.2);
+				delay = oPlayer.secs(0.4);
 			}
 		} else {
 			delay--;
 		}
-		if(keyboard_check_pressed(ord("O"))){
+		if(keyboard_check_pressed(global.keybinds[? "Jump"]) || keyboard_check_pressed(vk_enter)){
 			switch(global.pauseIndex){
 				case 0:
 					global.paused = false;
@@ -53,6 +70,7 @@ if (player_ref != noone) {
 					break;
 			}
 		}
+		
 	}
 	if(exitReq()) exit;
     var total_hearts = global.maxHp;

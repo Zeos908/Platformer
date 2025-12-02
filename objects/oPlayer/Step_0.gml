@@ -64,11 +64,11 @@ if(knockAccel == 0){
 }
 
 moveDir = 0;
-if (keyboard_check(ord("A"))){
+if (keyboard_check(global.keybinds[? "Left"])){
 	moveDir = -1;
 	global.facing = -1;
 }
-if (keyboard_check(ord("D"))){
+if (keyboard_check(global.keybinds[? "Right"])){
 	moveDir = 1
 	global.facing = 1;
 }
@@ -94,7 +94,7 @@ if (wallJumpTimer > 0) {
 	}
 }
 
-if (keyboard_check(vk_space) && !cools[1] && global.canDash && knockAccel == 0){
+if (keyboard_check(global.keybinds[? "Blink"]) && !cools[1] && global.canDash && knockAccel == 0){
 	oBlinkDouble.blink(x, y);
 	global.blinking = true;
 	xsp += 60 * global.facing;
@@ -115,17 +115,17 @@ if(on_ground){
 	global.lastSafe = [x, y]
 }
 
-if ((on_ground || onGroundPrev) && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) {
+if ((on_ground || onGroundPrev) && keyboard_check_pressed(global.keybinds[? "Jump"]) && !keyboard_check(global.keybinds[? "Super Jump"])) {
 	//reg jump
     ysp = jump_spd;
 	jumping = true;
-} else if (wallGrab && keyboard_check_pressed(ord("O"))){
+} else if (wallGrab && keyboard_check_pressed(global.keybinds[? "Jump"])){
 	//wall jump
 	ysp = jump_spd - 2;
 	wallJumpTimer = wallJumpDuration;
 	wallJumpDir = -global.facing;
 	wallGrab = false;
-} else if (on_ground && keyboard_check(ord("K")) && global.canSuperJump && !wallGrab){
+} else if (on_ground && keyboard_check(global.keybinds[? "Super Jump"]) && global.canSuperJump && !wallGrab){
 	//super jump
 	holdO += 1;
 	xsp = 0;
@@ -140,7 +140,7 @@ if ((on_ground || onGroundPrev) && keyboard_check_pressed(ord("O")) && !keyboard
 	}
 	if (holdO >= secs(3)){
 		sprite_index = sCharged;
-		if (keyboard_check_pressed(ord("O"))){
+		if (keyboard_check_pressed(global.keybinds[? "Jump"])){
 			holdO = 0;
 			ysp = superJumpSpd;
 			charging = false;
@@ -151,18 +151,27 @@ if ((on_ground || onGroundPrev) && keyboard_check_pressed(ord("O")) && !keyboard
 	holdO = 0;	
 }	
 
+if(charging && keyboard_check_released(global.keybinds[? "Super Jump"])){
+	charging = false;
+	sprite_index = sPlayer;
+}
+
+if(global.jelly >= 2 && keyboard_check_released(global.keybinds[? "Heal"])){
+	global.healing = true;
+}
+
 if(global.healing){
 	xsp = 0;
 }
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
 
-if (keyboard_check(ord("S")) && on_ground){
+if (keyboard_check(global.keybinds[? "Crouch"]) && on_ground){
 	crouching = true;
 	xsp *= 0.25;
 
 } 
 
-if(keyboard_check_released(ord("S")) && (sprite_index == sCrouch || sprite_index == sCrouchRun)) {
+if(keyboard_check_released(global.keybinds[? "Crouch"]) && (sprite_index == sCrouch || sprite_index == sCrouchRun)) {
 	// shibai im stupid // xsp *= 1;
 	crouching = false;
 }
@@ -274,7 +283,7 @@ if(airTime > secs(1)){
 	bigFall = true;
 }
 var wallSlide = wallGrab && !on_ground;           // check if sliding on wall (maybe disable for testing)
-var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
+var moving = keyboard_check(global.keybinds[? "Crouch"]) || keyboard_check(global.keybinds[? "Right"]); // left/right input
 if(global.healing){
 	heal(1);
 } else if (global.blinking == true && charging = false) // holds the animation tree so that no other animations can be played
