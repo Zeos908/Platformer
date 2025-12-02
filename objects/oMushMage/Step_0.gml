@@ -37,33 +37,32 @@ if(!global.beatBoss[0]){
 				}
 			} else {
 				if(attackNum == 1){
-					
-					
-					
 					grimm();
 				} else if(attackNum == 2) {
 					rain();
-		}
+				}
 			}
 			timer = oPlayer.secs(0.75);
-	
 		} else {
 			timer--;
 		}
 		image_xscale = -facing;
 		if(global.blinking && iFrame == 0){
-			hp -= oPlayer.hit(oMushMage);
-			image_blend = make_color_rgb(70, 70, 200);
-			iFrame = oPlayer.secs(0.5);
-			if(hp <= 5){
-				phase = 2;
-				pause = 0.35;
-			} 
-			if(hp <= 0){
-					
-				sprite_index = sMageDie;
-				image_speed = 1;
-				global.beatBoss[0] = true;
+			var hit = oPlayer.hit(oMushMage);
+			hp -= hit;
+			if(hit != 0){
+				image_blend = make_color_rgb(70, 70, 200);
+				iFrame = oPlayer.secs(0.5);
+				if(hp <= 5){
+					phase = 2;
+					pause = 0.35;
+				} 
+				if(hp <= 0){
+					image_blend = c_white;
+					sprite_index = sMageDie;
+					image_speed = 1;
+					global.beatBoss[0] = true;
+				}
 			}
 			/*
 			if((abs(oBlinkDouble.x - x) < abs(oBlinkDouble.x - oPlayer.x)) && oBlinkDouble.y < y+32 && oBlinkDouble.y > y-32){
@@ -92,7 +91,7 @@ if(!global.beatBoss[0]){
 		if(abs(px-x) < 200){
 			delay--;
 			global.phighting = [true, x - 199, x + 199];
-			if(image_index = 0){
+			if(image_index == 0){
 				image_speed = 1
 			} else if(image_index >= 20){
 				image_speed = 0;

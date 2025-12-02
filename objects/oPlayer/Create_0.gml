@@ -80,7 +80,8 @@ function hit(obj){
 	if(eiFrames > 0){
 			eiFrames -= delta_time / 1000000;
 	}
-	if (hit != noone && global.blinking && eiFrames <= 0) {
+	if (hit != noone && global.blinking && eiFrames <= 0 /*&& abs(x-oBlinkDouble.x) > abs(obj.x - oBlinkDouble.x) && sign(x-oBlinkDouble.x) == sign(obj.x - oBlinkDouble.x)*/) {
+		show_debug_message(string(abs(x-oBlinkDouble.x)) + ", " + string(abs(obj.x - oBlinkDouble.x)));
 		global.jelly = min(global.jelly + 1, global.jellyMax);
 		eiFrames = 0.5;
 	    return global.damage;
@@ -129,6 +130,55 @@ function heal(amt){
 		global.jelly -= 2;
 		show_debug_message(global.jelly);
 	}
+}
+
+function toSafe(){
+
+    // Pause the game or player input here if needed
+    var px = oPlayer.x;
+    var py = oPlayer.y;
+
+    // --- Find closest oSafePoint to global.lastSafe ---
+    var closest = noone;
+    var min_dist = 100000000000000000000; // large number
+    
+    with (oSafepoint) {
+        var d = point_distance(x, y, global.lastSafe[0], global.lastSafe[1]);
+        if (d < min_dist) {
+            closest = id;
+            min_dist = d;
+        }
+    }
+
+    // --- Darken transition ---
+    var alpha = 0;
+    while (alpha < 1) {
+        draw_set_alpha(alpha);
+        draw_set_color(c_black);
+        draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
+        draw_set_alpha(1);
+        alpha += 0.05;
+        //screen_refresh(); // forces update
+    }
+
+    // --- Move player ---
+    if (closest != noone) {
+        oPlayer.x = closest.x;
+        oPlayer.y = closest.y;
+    } else {
+		kill();
+	}
+
+    // --- Brighten transition ---
+    alpha = 1;
+    while (alpha > 0) {
+        draw_set_alpha(alpha);
+        draw_set_color(c_black);
+        draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
+        draw_set_alpha(1);
+        alpha -= 0.05;
+        //screen_refresh(); // forces update
+    }
 }
 
 function kill(){

@@ -11,6 +11,47 @@ if (player_ref != noone) {
 	    draw_set_alpha(1);
 		
 		draw_sprite_ext(sPauseMenu, 0, screen_w / 2, screen_h / 2, 0.2, 0.2, 0, c_white, 1);
+		var x_pos = global.pausePos[global.pauseIndex][0]
+		var y_pos = global.pausePos[global.pauseIndex][1]
+		var x_shift = 2
+		draw_sprite_ext(sMenuSelector, 0, screen_w / 2 - x_pos + x_shift, y_pos, 2, 2, 0, c_white, 1);
+		if(global.pauseIndex == 1){
+			x_shift = 3;
+		} else if(global.pauseIndex == 2){
+			x_shift = -1;
+		}
+		draw_sprite_ext(sMenuSelector, 0, screen_w / 2 + x_pos + x_shift, y_pos, -2, 2, 0, c_white, 1);
+		
+		if(delay <= 0){
+			if(keyboard_check(ord("S"))){
+				global.pauseIndex++;
+				if(global.pauseIndex > 2){
+					global.pauseIndex = 0;
+				}
+				delay = oPlayer.secs(0.2);
+			} else if(keyboard_check(ord("W"))){
+				global.pauseIndex--;
+				if(global.pauseIndex < 0){
+					global.pauseIndex = 2;
+				}
+				delay = oPlayer.secs(0.2);
+			}
+		} else {
+			delay--;
+		}
+		if(keyboard_check_pressed(ord("O"))){
+			switch(global.pauseIndex){
+				case 0:
+					global.paused = false;
+					break;
+				case 1:
+					// options
+					break;
+				case 2:
+					//go to menu
+					break;
+			}
+		}
 	}
 	if(exitReq()) exit;
     var total_hearts = global.maxHp;

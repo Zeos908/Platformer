@@ -108,6 +108,9 @@ if(!global.healing){
 
 // --- Jumping ---
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
+if(on_ground){
+	global.lastSafe = [x, y]
+}
 
 if ((on_ground || onGroundPrev) && keyboard_check_pressed(ord("O")) && !keyboard_check(ord("K"))) {
 	//reg jump
@@ -198,18 +201,18 @@ if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
 
 
 if (y > 750){
-	kill();
-	y = 300;
+	toSafe();
+	//y = 300;
 }
 
 // Collisions
 
 if(place_meeting(x, y, oSpike)){
-	kill();
+	toSafe();
 }
 
 
-if(place_meeting(x, y, oInvisSpike)) kill();
+if(place_meeting(x, y, oInvisSpike)) toSafe();
 
 
 //room change
@@ -266,7 +269,7 @@ var wallSlide = wallGrab && !on_ground;           // check if sliding on wall (m
 var moving = keyboard_check(ord("A")) || keyboard_check(ord("D")); // left/right input
 if(global.healing){
 	heal(1);
-} else if global.blinking == true // holds the animation tree so that no other animations can be played
+} else if (global.blinking == true && charging = false) // holds the animation tree so that no other animations can be played
 {
 	if blinked == false //blinked = initiated blink
 	{
@@ -326,4 +329,4 @@ prevGrab = wallGrab;
 if(on_ground){
 	knockAccel = 0;
 }
-show_debug_message(hit(oLaser));
+//show_debug_message(hit(oLaser));
