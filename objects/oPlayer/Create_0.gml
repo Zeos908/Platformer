@@ -74,20 +74,19 @@ function hit(obj){
 	var y1 = oBlinkDouble.y;
 	var x2 = oPlayer.x;
 	var y2 = oPlayer.y;
-
+	//show_debug_message(eiFrames);
 	// Check if any instance exists along the line
 	var hit = collision_line(x1, y1, x2, y2, obj, true, true);
-	if(eiFrames > 0){
-			eiFrames -= delta_time / 1000000;
-	}
+	
 	if (hit != noone && global.blinking && eiFrames <= 0 /*&& abs(x-oBlinkDouble.x) > abs(obj.x - oBlinkDouble.x) && sign(x-oBlinkDouble.x) == sign(obj.x - oBlinkDouble.x)*/) {
-		show_debug_message(string(abs(x-oBlinkDouble.x)) + ", " + string(abs(obj.x - oBlinkDouble.x)));
+		//show_debug_message(string(abs(x-oBlinkDouble.x)) + ", " + string(abs(obj.x - oBlinkDouble.x)));
 		global.jelly = min(global.jelly + 1, global.jellyMax);
 		eiFrames = 0.5;
 	    return global.damage;
 	} else {
 	    return 0;
 	}
+	
 	
 }
 

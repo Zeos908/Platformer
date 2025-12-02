@@ -1,4 +1,4 @@
-exitReq();
+if(exitReq()) exit;
 if(wait <= 0){	
 	if (diry != 0) y += diry * spd;
 	else x += dirx * spd;

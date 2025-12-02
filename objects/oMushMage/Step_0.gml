@@ -47,12 +47,13 @@ if(!global.beatBoss[0]){
 			timer--;
 		}
 		image_xscale = -facing;
-		if(global.blinking && iFrame == 0){
+		//show_debug_message(iFrame);
+		if(global.blinking && iFrame <= 0){
 			var hit = oPlayer.hit(oMushMage);
 			hp -= hit;
 			if(hit != 0){
 				image_blend = make_color_rgb(70, 70, 200);
-				iFrame = oPlayer.secs(0.5);
+				iFrame = 0.5;
 				if(hp <= 5){
 					phase = 2;
 					pause = 0.35;
@@ -83,8 +84,9 @@ if(!global.beatBoss[0]){
 			}*/
 		}
 		if(iFrame > 0){
-			iFrame--;
-			if(iFrame < oPlayer.secs(0.25)) image_blend = c_white;
+			//show_debug_message("TEST (MAGE)");
+			iFrame -= delta_time/1000000;
+			if(iFrame < 0.25) image_blend = c_white;
 		}
 		//show_debug_message(hp)
 	} else {
@@ -111,3 +113,4 @@ if(!global.beatBoss[0]){
 		instance_destroy(self);
 	}
 }
+

@@ -9,6 +9,9 @@ var inst = instance_nearest(x, y, oNextRoom);
 if(iFrames > 0){
 	iFrames -= delta_time / 1000000;
 }
+if(eiFrames > 0){
+	eiFrames -= delta_time / 1000000;
+}
 if(global.died){
 	show_debug_message("died");
 	x = global.checkpoint[0];
@@ -334,4 +337,3 @@ prevGrab = wallGrab;
 if(on_ground){
 	knockAccel = 0;
 }
-show_debug_message(string(cools[0]) + ", " + string(timers[0]));

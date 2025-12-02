@@ -1,5 +1,6 @@
 
 if (player_ref != noone) {
+	show_debug_message(global.paused);
 	if (global.paused) {
 	    var screen_w = display_get_gui_width();
 	    var screen_h = display_get_gui_height();
