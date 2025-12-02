@@ -1,5 +1,6 @@
 /// @description MushStriker actions
-
+prevSpd = 0;
+unpaused = false;
 
 agro = 0; 
 

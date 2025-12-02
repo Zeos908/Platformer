@@ -1,3 +1,4 @@
+exitReq();
 if(image_index == 34){
 	//image_speed = 0;
 } else if(place_meeting(x, y, oPlayer) && iFrame == 0){

@@ -15,6 +15,8 @@ attackNum = 0;
 finished = true;
 pause = 0.5;
 delay = oPlayer.secs(4);
+prevSpd = 0;
+unpaused = false;
 image_speed = 0;
 function attack(player_x, player_y){
 	py = player_y;

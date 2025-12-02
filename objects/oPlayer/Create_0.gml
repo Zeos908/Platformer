@@ -57,6 +57,9 @@ wallJumpDir = 0;     // direction of push: -1 or 1
 wallJumpSpeed = 4;   // horizontal speed of push-off
 wallJumpDuration = 8; // how many frames the push lasts
 
+prevSpd = 0;
+unpaused = false;
+
 
 function secs(input){
     return (game_get_speed(gamespeed_fps)/2) * input;
@@ -123,7 +126,7 @@ function heal(amt){
 		global.hp = min(global.maxHp, global.hp);
 		sprite_index = sPlayer;
 		global.healing = false;
-		global.jelly -= 3;
+		global.jelly -= 2;
 		show_debug_message(global.jelly);
 	}
 }

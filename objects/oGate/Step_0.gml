@@ -1,3 +1,4 @@
+if(exitReq()) exit;
 if(global.phighting[0]){
 	visible = true;
 	/*

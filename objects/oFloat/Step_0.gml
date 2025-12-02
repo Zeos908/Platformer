@@ -1,5 +1,5 @@
 /// Step Event for smooth wandering with easing
-
+if(exitReq()) exit;
 // Initialize delay if it doesn't exist
 // Only decrease delay if active
 if (delay > 0) {

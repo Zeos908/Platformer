@@ -1,4 +1,4 @@
-
+if(exitReq()) exit;
 
 if(!global.beatBoss[0]){
 	px = oPlayer.x

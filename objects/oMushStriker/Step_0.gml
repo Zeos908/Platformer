@@ -1,5 +1,4 @@
-/// @description Repeat every frame
-
+if(exitReq()) exit;
 //detect only when agro requires a refresh
 if (!sleeping) && (agro < 5)
 {

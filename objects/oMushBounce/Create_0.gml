@@ -1,3 +1,2 @@
-iFrame = 0;
 prevSpd = 0;
 unpaused = false;

@@ -12,3 +12,5 @@ function blink(x_pos, y_pos)
 	//return true; 
 }
 
+prevSpd = 0;
+unpaused = false;

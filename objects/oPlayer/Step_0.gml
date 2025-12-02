@@ -1,5 +1,9 @@
 //show_debug_message("paused: " + string(global.paused));
-if(global.paused) exit;
+if(exitReq()){
+	exit;
+} else if(unpaused){
+	sprite_index = oPlayer;
+}
 creation++;
 var inst = instance_nearest(x, y, oNextRoom);
 if(iFrames > 0){
@@ -140,8 +144,12 @@ if ((on_ground || onGroundPrev) && keyboard_check_pressed(ord("O")) && !keyboard
 } else {
 	holdO = 0;	
 }	
+
+if(global.healing){
+	xsp = 0;
+}
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
-/*
+
 if (keyboard_check(ord("S")) && on_ground){
 	crouching = true;
 	xsp *= 0.25;
@@ -152,7 +160,7 @@ if(keyboard_check_released(ord("S")) && (sprite_index == sCrouch || sprite_index
 	// shibai im stupid // xsp *= 1;
 	crouching = false;
 }
-*/
+
 
 // --- Horizontal movement ---
 if(xsp != 0){

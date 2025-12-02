@@ -10,3 +10,5 @@ startx = x;
 starty = y;
 easePower = 0.75;  // higher = slower acceleration/deceleration
 pause = 0.75;
+prevSpd = 0;
+unpaused = false;

@@ -1,3 +1,3 @@
-if(global.jelly >= 3){
+if(global.jelly >= 2){
 	global.healing = true;
 }

@@ -1,4 +1,5 @@
 /// @description follow player when called
+if(exitReq()) exit;
 if ((image_index >= image_number -1) && !(sprite_index == -1))
 	{
 		

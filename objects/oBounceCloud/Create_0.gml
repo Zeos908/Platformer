@@ -1,3 +1,4 @@
+
 var inst = instance_nearest(x, y, oFloatMask);
 w = oFloatMask.sprite_width;
 h = oFloatMask.sprite_height;
@@ -11,3 +12,5 @@ delay = 0;
 dist = 0;
 minSpd = 1;
 spd = 0;
+prevSpd = 0;
+unpaused = false;

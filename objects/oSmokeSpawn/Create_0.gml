@@ -19,3 +19,6 @@ function smoke(duration)
 		//show_debug_message("STOPPING")
 	}
 }
+
+prevSpd = 0;
+unpaused = false;

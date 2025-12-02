@@ -1,5 +1,18 @@
 
 if (player_ref != noone) {
+	if (global.paused) {
+	    var screen_w = display_get_gui_width();
+	    var screen_h = display_get_gui_height();
+
+	    // Dim the screen
+	    draw_set_alpha(0.5);
+	    draw_set_color(c_black);
+	    draw_rectangle(0, 0, screen_w, screen_h, false);
+	    draw_set_alpha(1);
+		
+		draw_sprite_ext(sPauseMenu, 0, screen_w / 2, screen_h / 2, 0.2, 0.2, 0, c_white, 1);
+	}
+	if(exitReq()) exit;
     var total_hearts = global.maxHp;
     var hp = global.hp;
     var start_x = 20;
@@ -23,15 +36,6 @@ if (player_ref != noone) {
 	}
 	draw_sprite_ext(sJellyCont, image_ind, x_jelly, y_jelly, 2.5, 1.5, 0, c_white, 1);
 	
-	if (global.paused) {
-	    var screen_w = display_get_gui_width();
-	    var screen_h = display_get_gui_height();
-
-	    // Dim the screen
-	    draw_set_alpha(0.5);
-	    draw_set_color(c_black);
-	    draw_rectangle(0, 0, screen_w, screen_h, false);
-	    draw_set_alpha(1);
-	}
+	
 	//show_debug_message(frameGoal);
 }
