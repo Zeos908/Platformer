@@ -8,7 +8,7 @@ superJumpSpd = -12
 max_fall = 12;
 resetCool = false;
 dashCool = false;
-//cools = [false, false, false];
+cools = [false, false, false];
 timers = [0, 0, 0]; // reset, dash, wall jump
 holdO = 0;
 wallGrab = false;
@@ -164,7 +164,7 @@ function toSafe(){
     // --- Move player ---
     if (closest != noone) {
         oPlayer.x = closest.x;
-        oPlayer.y = closest.y;
+        oPlayer.y = closest.y - 2;
     } else {
 		kill();
 	}

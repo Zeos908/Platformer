@@ -38,10 +38,10 @@ for(var i = 1; i <= 50; i++){
 
 // Timers
 for(var i = 0; i < array_length(timers); i++){
-	if (timers[i] == 0){
+	if (timers[i] <= 0){
 		cools[i] = false;
 	} else {
-		timers[i] -= 1;
+		timers[i]--;
 	}
 }
 
@@ -201,13 +201,18 @@ if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
 
 
 if (y > 750){
+	damage(1, 0, oPlayer);
+	timers[0] = secs(0.75);
+	cools[0] = true;
 	toSafe();
-	//y = 300;
 }
 
 // Collisions
 
 if(place_meeting(x, y, oSpike)){
+	damage(1, 0, oSpike);
+	timers[0] = secs(0.75);
+	cools[0] = true;
 	toSafe();
 }
 
@@ -329,4 +334,4 @@ prevGrab = wallGrab;
 if(on_ground){
 	knockAccel = 0;
 }
-//show_debug_message(hit(oLaser));
+show_debug_message(string(cools[0]) + ", " + string(timers[0]));
