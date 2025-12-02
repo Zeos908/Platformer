@@ -9,6 +9,12 @@ if(keyboard_check_pressed(vk_escape)){
 	if(!global.paused){
 		global.pauseCount++;
 		menu_state = "paused";
-		
+	} else {
+		menu_state = "paused";
+		prevInd = 0;
+		PII = -1;
+		imageSlow = 0;
+		global.pauseIndex = 0;
+		keybind_menu_index = 0;
 	}
 }

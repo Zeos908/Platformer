@@ -28,6 +28,7 @@ if (player_ref != noone) {
 				paused();
 				break;
 			case "options":
+				keys();
 				break;
 			
 		}
