@@ -41,4 +41,7 @@ if (!variable_global_exists("died")) {
 	global.keybinds[? "Super Jump"] = ord("K");
 	global.keybinds[? "Heal"] = ord("P");
 	global.keybinds[? "Interact"] = ord("W");
+	
+	
+	//global.keybind_order = ds_map_keys(global.keybinds);
 }
