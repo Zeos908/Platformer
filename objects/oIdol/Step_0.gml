@@ -2,6 +2,9 @@ if(place_meeting(x, y, oPlayer)){
 	if(keyboard_check_pressed(ord("W"))){
 		if(room == 0){
 			global.canDash = true;
+			global.msg = "Learned to Blink"; // custom text
+			var popup = instance_create_layer(0, 0, "Vfx", oPopupScreen);
+
 		} else if(room == 1){
 			global.canSuperJump = true
 		}

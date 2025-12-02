@@ -42,6 +42,7 @@ onGroundPrevHold = [false, false, false, false, false];
 bigFall = false;
 
 iFrames = 0;
+eiFrames = 0;
 
 delta = 1;
 dt = 0;
@@ -57,17 +58,33 @@ wallJumpSpeed = 4;   // horizontal speed of push-off
 wallJumpDuration = 8; // how many frames the push lasts
 
 
-// soul
-
-jelly = 3;
-
-
 function secs(input){
     return (game_get_speed(gamespeed_fps)/2) * input;
 }
 
 function spdSmooth(relX, maxSpd, minSpd){
 	// ur mom
+}
+
+function hit(obj){
+	var x1 = oBlinkDouble.x;
+	var y1 = oBlinkDouble.y;
+	var x2 = oPlayer.x;
+	var y2 = oPlayer.y;
+
+	// Check if any instance exists along the line
+	var hit = collision_line(x1, y1, x2, y2, obj, true, true);
+	if(eiFrames > 0){
+			eiFrames -= delta_time / 1000000;
+	}
+	if (hit != noone && global.blinking && eiFrames <= 0) {
+		global.jelly = min(global.jelly + 1, global.jellyMax);
+		eiFrames = 0.5;
+	    return global.damage;
+	} else {
+	    return 0;
+	}
+	
 }
 
 function damage(dmg, strength, obj){
@@ -106,8 +123,8 @@ function heal(amt){
 		global.hp = min(global.maxHp, global.hp);
 		sprite_index = sPlayer;
 		global.healing = false;
-		jelly -= 3;
-		show_debug_message(jelly);
+		global.jelly -= 3;
+		show_debug_message(global.jelly);
 	}
 }
 
@@ -115,6 +132,7 @@ function kill(){
 	global.died = true;
 	global.phighting = [false, 0, 0]
 	global.hp = global.maxHp;
+	global.jelly = 0;
 	room = global.checkpoint[2]
 	
 }

@@ -52,6 +52,20 @@ if(!global.beatBoss[0]){
 		}
 		image_xscale = -facing;
 		if(global.blinking && iFrame == 0){
+			hp -= oPlayer.hit(oMushMage);
+			image_blend = make_color_rgb(70, 70, 200);
+			iFrame = oPlayer.secs(0.5);
+			if(hp <= 5){
+				phase = 2;
+				pause = 0.35;
+			} 
+			if(hp <= 0){
+					
+				sprite_index = sMageDie;
+				image_speed = 1;
+				global.beatBoss[0] = true;
+			}
+			/*
 			if((abs(oBlinkDouble.x - x) < abs(oBlinkDouble.x - oPlayer.x)) && oBlinkDouble.y < y+32 && oBlinkDouble.y > y-32){
 				hp--;
 				if(hp <= 5){
@@ -67,10 +81,11 @@ if(!global.beatBoss[0]){
 					iFrame = oPlayer.secs(0.5);
 				}
 		
-			}
+			}*/
 		}
 		if(iFrame > 0){
 			iFrame--;
+			if(iFrame < oPlayer.secs(0.25)) image_blend = c_white;
 		}
 		//show_debug_message(hp)
 	} else {

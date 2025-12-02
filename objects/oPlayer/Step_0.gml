@@ -318,3 +318,4 @@ prevGrab = wallGrab;
 if(on_ground){
 	knockAccel = 0;
 }
+show_debug_message(hit(oLaser));

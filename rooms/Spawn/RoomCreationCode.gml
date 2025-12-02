@@ -22,6 +22,10 @@ if (!variable_global_exists("died")) {
 	global.parkourRooms = [1, 3];
 	global.testRoomCondition = "no";
 	global.healing      = false;
+	global.jelly        = 0;
+	global.jellyMax     = 3;
+	global.damage       = 1;
+	global.msg          = "";
     show_debug_message("Globals initialized");
 	
 	
