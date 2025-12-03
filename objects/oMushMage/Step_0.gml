@@ -48,7 +48,7 @@ if(!global.beatBoss[0]){
 		}
 		image_xscale = -facing;
 		//show_debug_message(iFrame);
-		if(global.blinking && iFrame <= 0){
+		if(iFrame <= 0){
 			var hit = oPlayer.hit(oMushMage);
 			hp -= hit;
 			if(hit != 0){

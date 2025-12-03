@@ -64,6 +64,8 @@
     {"id":{"name":"oBlinkDouble","path":"objects/oBlinkDouble/oBlinkDouble.yy",},},
     {"id":{"name":"oBlinkSlash","path":"objects/oBlinkSlash/oBlinkSlash.yy",},},
     {"id":{"name":"oBounceCloud","path":"objects/oBounceCloud/oBounceCloud.yy",},},
+    {"id":{"name":"oDart","path":"objects/oDart/oDart.yy",},},
+    {"id":{"name":"oEnemy","path":"objects/oEnemy/oEnemy.yy",},},
     {"id":{"name":"oFireball","path":"objects/oFireball/oFireball.yy",},},
     {"id":{"name":"oFloat","path":"objects/oFloat/oFloat.yy",},},
     {"id":{"name":"oFloatMask","path":"objects/oFloatMask/oFloatMask.yy",},},

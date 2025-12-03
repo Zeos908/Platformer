@@ -3,8 +3,8 @@ if(image_index == 34){
 	image_speed = 0;
 	instance_destroy(self);
 } else if(image_index == 0){
-	if(startDur > 0){
-		startDur -= delta_time / 1000000;
+	if(durStart > 0){
+		durStart -= delta_time / 1000000;
 	} else {
 		image_speed = 1;
 	}

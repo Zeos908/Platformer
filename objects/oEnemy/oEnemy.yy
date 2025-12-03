@@ -1,20 +1,15 @@
 {
   "$GMObject":"",
-  "%Name":"oMushMage2",
-  "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "%Name":"oEnemy",
+  "eventList":[],
   "managed":true,
-  "name":"oMushMage2",
+  "name":"oEnemy",
   "overriddenProperties":[],
   "parent":{
     "name":"Entity",
     "path":"folders/Objects/Enemies/Entity.yy",
   },
-  "parentObjectId":{
-    "name":"oEnemy",
-    "path":"objects/oEnemy/oEnemy.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,

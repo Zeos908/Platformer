@@ -34,6 +34,8 @@ if (!variable_global_exists("died")) {
 	global.curled       = false;
 	global.coyoteBounce = false;
 	global.canPogo      = false;
+	global.hit          = false;
+	global.hitTimer     = 0;
     show_debug_message("Globals initialized");
 	
 	global.keybinds[? "Left"] = ord("A");
@@ -44,7 +46,8 @@ if (!variable_global_exists("died")) {
 	global.keybinds[? "Super Jump"] = ord("I");
 	global.keybinds[? "Heal"] = ord("P");
 	global.keybinds[? "Interact"] = ord("W");
-	global.keybinds[? "Bounce"] = ord("K");
+	global.keybinds[? "Bounce"] = ord("J");
+	global.keybinds[? "Dart"] = ord("K");
 	
 	
 	//global.keybind_order = ds_map_keys(global.keybinds);

@@ -32,6 +32,14 @@ if(global.hp <= 0){
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
 distanceToGround = 0;
 // find distance
+
+if(global.hitTimer > 0){
+	global.hitTimer -= delta_time / 1000000;
+} else if(global.hit){
+	global.hit = false;
+	global.hitTimer = 0;
+}
+
 for(var i = 1; i <= 50; i++){
 	if !place_meeting(x, y+i, oIsland){
 		distanceToGround++;
@@ -171,7 +179,7 @@ if(charging && keyboard_check_released(global.keybinds[? "Super Jump"])){
 	sprite_index = sPlayer;
 }
 
-if(global.jelly >= 2 && keyboard_check_released(global.keybinds[? "Heal"])){
+if(global.jelly >= 2 && keyboard_check_pressed(global.keybinds[? "Heal"])){
 	global.healing = true;
 }
 
@@ -191,6 +199,11 @@ if(keyboard_check_released(global.keybinds[? "Crouch"]) && (sprite_index == sCro
 	crouching = false;
 }
 
+if(!global.healing && !charging && keyboard_check_pressed(global.keybinds[? "Dart"]) && global.jelly > 0 && global.hitTimer == 0){
+	var direc = global.facing * -1;
+	instance_create_layer(x, y, "Instances_2", oDart, {direc});
+	global.jelly--;
+}
 
 // --- Horizontal movement ---
 if(global.coyoteBounce){
@@ -235,7 +248,8 @@ if (keyboard_check_released(global.keybinds[? "Bounce"]) || (wallGrab || chargin
 	global.curled = false;
 }
 // --- Vertical movement ---
-if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
+//var instIsland = instance_nearest(x, y, oIsland);
+if ((!place_meeting(x, y + ysp, oIsland) /*&& !place_meeting(instIsland.x, instIsland.y - ysp, oIsland)*/ && !global.blinking) || wallGrab) {
     y += ysp; // move down/up if no collision
 } else {
     // landed on the ground or hit ceiling
@@ -384,3 +398,5 @@ prevGrab = wallGrab;
 if(on_ground){
 	knockAccel = 0;
 }
+
+//show_debug_message("hit: " + string(global.hit) + ", " + string(global.hitTimer));
