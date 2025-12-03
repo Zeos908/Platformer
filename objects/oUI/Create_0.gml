@@ -6,7 +6,7 @@ delay = 0;
 prevInd = 0;
 PII = -1;
 imageSlow = 0;
-
+x_jelly = 30;
 // --- New menu / keybind variables ---
 menu_state = "paused";
 pause_selected_index = 0;

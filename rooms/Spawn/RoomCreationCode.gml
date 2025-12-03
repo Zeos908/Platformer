@@ -25,7 +25,7 @@ if (!variable_global_exists("died")) {
 	global.testRoomCondition = "no";
 	global.healing      = false;
 	global.jelly        = 0;
-	global.jellyMax     = 3;
+	global.jellyMax     = 9;
 	global.damage       = 1;
 	global.msg          = "";
 	global.pausePos     = [[50, 170], [53, 199], [37, 227]];

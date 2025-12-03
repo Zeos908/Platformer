@@ -199,7 +199,7 @@ if(keyboard_check_released(global.keybinds[? "Crouch"]) && (sprite_index == sCro
 	crouching = false;
 }
 
-if(!global.healing && !charging && keyboard_check_pressed(global.keybinds[? "Dart"]) && global.jelly > 0 && global.hitTimer == 0){
+if(!global.healing && !charging && keyboard_check_pressed(global.keybinds[? "Dart"]) && global.jelly > 0 && global.hitTimer <= 0){
 	var direc = global.facing * -1;
 	instance_create_layer(x, y, "Instances_2", oDart, {direc});
 	global.jelly--;
