@@ -1,6 +1,6 @@
 if(exitReq()) exit;
 if(place_meeting(x, y, oPlayer)){
-	oPlayer.bounce(1);
+	oPlayer.bounce(1, 1);
 }
 if(inst == noone) exit;
 show_debug_message(goal[goalInd]);

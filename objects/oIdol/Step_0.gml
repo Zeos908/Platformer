@@ -4,15 +4,18 @@ if(place_meeting(x, y, oPlayer)){
 		if(room == 0){
 			global.canDash = true;
 			global.msg = "Learned to Blink"; // custom text
-			var popup = instance_create_layer(0, 0, "Vfx", oPopupScreen);
+			//var popup = instance_create_layer(0, 0, "Vfx", oPopupScreen);
 
 		} else if(room == 2){
 			global.canSuperJump = true
 			global.msg = "Learned to Super Jump"; // custom text
-			var popup = instance_create_layer(0, 0, "Vfx", oPopupScreen);
+			//var popup = instance_create_layer(0, 0, "Vfx", oPopupScreen);
+		} else if(room == 1){
+			global.canPogo = true;
 		}
 		global.checkpoint = [x, y-10, room];
 		global.hp = global.maxHp;
+		global.jelly = global.jellyMax;
 		//show_debug_message("erm");
 		sprite_index = sIdolAnim;
 		image_speed = 1.5;

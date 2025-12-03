@@ -222,7 +222,7 @@ else
 if(on_ground){
 	global.lastSafe = [x, y];
 	global.curled = false;
-} else if (keyboard_check_pressed(global.keybinds[? "Bounce"]) && !(wallGrab || charging || global.healing || crouching || global.blinking)){
+} else if (global.canPogo && keyboard_check_pressed(global.keybinds[? "Bounce"]) && !(wallGrab || charging || global.healing || crouching || global.blinking)){
 	global.curled = true;
 	global.coyoteBounce = true;
 	sprite_index = sPogo;

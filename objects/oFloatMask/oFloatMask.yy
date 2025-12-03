@@ -32,5 +32,5 @@
     "path":"sprites/sFloatMask/sFloatMask.yy",
   },
   "spriteMaskId":null,
-  "visible":true,
+  "visible":false,
 }

@@ -1,8 +1,8 @@
 // At the very top of your room creation code
 if (!variable_global_exists("died")) {
     global.facing       = 1;
-    global.canDash      = false;
-    global.canSuperJump = false;
+    global.canDash      = true;
+    global.canSuperJump = true;
     global.debug        = false;
     global.blinking     = false;
     global.checkpoint   = [32, 330, 0];
@@ -33,6 +33,7 @@ if (!variable_global_exists("died")) {
 	global.keybinds     = ds_map_create();
 	global.curled       = false;
 	global.coyoteBounce = false;
+	global.canPogo      = false;
     show_debug_message("Globals initialized");
 	
 	global.keybinds[? "Left"] = ord("A");
