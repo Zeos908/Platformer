@@ -24,7 +24,7 @@ charging = false;
 prevGrab = false;
 //crouch animation
 crouching = false;
-
+coyoteTimer = 0;
 //blink animation
 blinked = false;
 roomChangeState = 0;
@@ -108,7 +108,8 @@ function damage(dmg, strength, obj){
 }
 
 function bounce(strength){
-	ysp = strength * -6;
+	if(global.coyoteBounce) strength *= 1.75;
+	ysp = strength * -6 - (0.2 * ysp);
 }
 
 function heal(amt){

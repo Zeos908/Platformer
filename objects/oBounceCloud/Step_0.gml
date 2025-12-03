@@ -2,6 +2,7 @@ if(exitReq()) exit;
 if(place_meeting(x, y, oPlayer)){
 	oPlayer.bounce(1);
 }
+if(inst == noone) exit;
 show_debug_message(goal[goalInd]);
 if(delay <= 0){
 	var dist = abs(goal[goalInd] - x);

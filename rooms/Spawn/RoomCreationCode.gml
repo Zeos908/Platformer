@@ -31,6 +31,8 @@ if (!variable_global_exists("died")) {
 	global.pausePos     = [[50, 170], [53, 199], [37, 227]];
 	global.pauseIndex   = 0;
 	global.keybinds     = ds_map_create();
+	global.curled       = false;
+	global.coyoteBounce = false;
     show_debug_message("Globals initialized");
 	
 	global.keybinds[? "Left"] = ord("A");

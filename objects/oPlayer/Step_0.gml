@@ -48,6 +48,14 @@ for(var i = 0; i < array_length(timers); i++){
 	}
 }
 
+if(!global.curled && global.coyoteBounce){
+	coyoteTimer -= delta_time / 1000000;
+	if(coyoteTimer <= 0){
+		global.coyoteBounce = false;
+	}
+} else if(global.curled){
+	coyoteTimer = 0.1;
+}
 // --- Horizontal movement ---
 //if (charging && keyboard_check_released(ord("K"))){
 ///	sprite_index = sPlayer;
@@ -104,16 +112,22 @@ if (keyboard_check(global.keybinds[? "Blink"]) && !cools[1] && global.canDash &&
 
 // --- Apply gravity ---
 if(!global.healing){
-	ysp += grav;
-	max_fall = wallGrab ? 3:12;
-	if (ysp > max_fall) ysp = max_fall;
+	if(global.coyoteBounce){
+		ysp += grav * 1.5;
+		max_fall = wallGrab ? 3:12;
+		if (ysp > max_fall + 10) ysp = max_fall + 10;
+	} else {
+		ysp += grav;
+		max_fall = wallGrab ? 3:12;
+		if (ysp > max_fall) ysp = max_fall;
+	}
 }
 
 // --- Jumping ---
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
-if(on_ground){
-	global.lastSafe = [x, y]
-}
+
+
+
 
 if ((on_ground || onGroundPrev) && keyboard_check_pressed(global.keybinds[? "Jump"]) && !keyboard_check(global.keybinds[? "Super Jump"])) {
 	//reg jump
@@ -178,6 +192,10 @@ if(keyboard_check_released(global.keybinds[? "Crouch"]) && (sprite_index == sCro
 
 
 // --- Horizontal movement ---
+if(global.coyoteBounce){
+	xsp *= 0.5;
+}
+
 if(xsp != 0){
 	if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
 		if(!global.phighting[0] || (x + xsp > global.phighting[1] && x + xsp < global.phighting[2])){ // checks if you are within the range if you are fighting
@@ -199,6 +217,21 @@ else
 		wallGrab = false;
 	}
 	
+}
+
+if(on_ground){
+	global.lastSafe = [x, y];
+	global.curled = false;
+} else if (keyboard_check_pressed(global.keybinds[? "Bounce"]) && !(wallGrab || charging || global.healing || crouching || global.blinking)){
+	global.curled = true;
+	global.coyoteBounce = true;
+	sprite_index = sPogo;
+	image_index = 0;
+	image_speed = 2;
+}
+
+if (keyboard_check_released(global.keybinds[? "Bounce"]) || (wallGrab || charging || global.healing || crouching || global.blinking)){
+	global.curled = false;
 }
 // --- Vertical movement ---
 if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
@@ -283,7 +316,7 @@ if(airTime > secs(1)){
 	bigFall = true;
 }
 var wallSlide = wallGrab && !on_ground;           // check if sliding on wall (maybe disable for testing)
-var moving = keyboard_check(global.keybinds[? "Crouch"]) || keyboard_check(global.keybinds[? "Right"]); // left/right input
+var moving = keyboard_check(global.keybinds[? "Left"]) || keyboard_check(global.keybinds[? "Right"]); // left/right input
 if(global.healing){
 	heal(1);
 } else if (global.blinking == true && charging = false) // holds the animation tree so that no other animations can be played
@@ -331,7 +364,11 @@ else if (moving && on_ground && !charging) {
         image_speed = 1; // running animation
     }
 } 
-
+else if(global.curled){
+	if(image_index >= 6){
+		image_speed = 0;
+	}
+}
 
 else {
     if (sprite_index != sPlayer && !charging) {

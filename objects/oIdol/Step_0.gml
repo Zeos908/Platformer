@@ -6,8 +6,10 @@ if(place_meeting(x, y, oPlayer)){
 			global.msg = "Learned to Blink"; // custom text
 			var popup = instance_create_layer(0, 0, "Vfx", oPopupScreen);
 
-		} else if(room == 1){
+		} else if(room == 2){
 			global.canSuperJump = true
+			global.msg = "Learned to Super Jump"; // custom text
+			var popup = instance_create_layer(0, 0, "Vfx", oPopupScreen);
 		}
 		global.checkpoint = [x, y-10, room];
 		global.hp = global.maxHp;

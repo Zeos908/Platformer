@@ -86,6 +86,7 @@ function paused(){
 				break;
 			case 2:
 				//go to menu
+				game_end();
 				break;
 		}
 	}

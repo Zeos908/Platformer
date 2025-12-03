@@ -6,7 +6,7 @@ if (active) {
     }
     
     // Wait for input
-    if (keyboard_check_pressed(vk_anykey)) {
+    if (keyboard_check_pressed(vk_enter)) {
         closing = true;
     }
     
