@@ -1,5 +1,6 @@
 
 inst = instance_nearest(x, y, oFloatMask);
+if(!place_meeting(x, y, inst)) inst = noone;
 maxSpd = 2;
 goalInd = 0;
 startX = x;

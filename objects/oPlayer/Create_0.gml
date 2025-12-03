@@ -103,6 +103,7 @@ function damage(dmg, strength, obj){
 		    ysp = knockbackUp;
 			//show_debug_message(knockAccel);
 			sprite_index = sPlayer;
+			global.healing = false;
 		}
 	}
 }
@@ -127,7 +128,7 @@ function heal(amt){
 		global.hp = min(global.maxHp, global.hp);
 		sprite_index = sPlayer;
 		global.healing = false;
-		global.jelly -= 2;
+		global.jelly = max(0, global.jelly - 2);
 		show_debug_message(global.jelly);
 	}
 }

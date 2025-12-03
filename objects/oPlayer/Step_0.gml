@@ -21,6 +21,7 @@ if(global.died){
 	cools[0] = true;
 	timers[1] = 0;
 	sprite_index = sPlayer;
+	global.healing = false;
 	global.died = false;
 }
 

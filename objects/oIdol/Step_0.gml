@@ -10,7 +10,7 @@ if(place_meeting(x, y, oPlayer)){
 			global.canSuperJump = true
 			global.msg = "Learned to Super Jump"; // custom text
 			//var popup = instance_create_layer(0, 0, "Vfx", oPopupScreen);
-		} else if(room == 1){
+		} else if(room == 3){
 			global.canPogo = true;
 		}
 		global.checkpoint = [x, y-10, room];
