@@ -1,6 +1,6 @@
 if(exitReq()) exit;
 if(place_meeting(x, y, oPlayer)){
-	if(keyboard_check_pressed(ord("W"))){
+	if(keyboard_check_pressed(global.keybinds[? "Interact"])){
 		if(room == 0){
 			global.canDash = true;
 			global.msg = "Learned to Blink"; // custom text

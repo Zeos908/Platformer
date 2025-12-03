@@ -82,6 +82,7 @@ function paused(){
 			case 1:
 				// options
 				menu_state = "options"
+				keybind_menu_index = 0;
 				break;
 			case 2:
 				//go to menu
@@ -105,53 +106,60 @@ function keys() {
 
     // --- Step / Input Handling ---
     keybind_pulse += 0.05;
-	var num_actions = array_length(keybind_actions);
-	var total_items = num_actions + 1; // +1 for the Done button
+
+    var num_actions = array_length(keybind_actions);
+    var total_items = num_actions + 1;   // +1 for DONE button
+
     if (!keybind_waiting) {
-	    if (keyboard_check_pressed(vk_up)) keybind_menu_index = (keybind_menu_index + total_items - 1) mod total_items;
-	    if (keyboard_check_pressed(vk_down)) keybind_menu_index = (keybind_menu_index + 1) mod total_items;
+        if (keyboard_check_pressed(vk_up) || keyboard_check_pressed(ord("W")))
+            keybind_menu_index = (keybind_menu_index + total_items - 1) mod total_items;
 
-	    // Start rebinding or select Done
-	    if (keyboard_check_pressed(vk_enter)) {
-	        if (keybind_menu_index < array_length(keybind_actions)) {
-	            // Rebinding key
-	            keybind_waiting = true;
-	            keybind_waiting_action = keybind_actions[keybind_menu_index];
-	        } else {
-	            menu_state = "paused";
-	        }
-	    }
-	} else {
+        if (keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S")))
+            keybind_menu_index = (keybind_menu_index + 1) mod total_items;
+
+        // Select rebinding OR Done
+        if (keyboard_check_pressed(vk_enter)) {
+            if (keybind_menu_index < num_actions) {
+                keybind_waiting = true;
+                keybind_waiting_action = keybind_actions[keybind_menu_index];
+            } else {
+                // --- DONE was pressed ---
+                // This prints "Done" on the screen or log:
+                show_debug_message("KEYBIND MENU: Done selected.");
+                menu_state = "paused";   // or whatever your close logic is
+            }
+        }
+    }
+    else {
+        // Waiting for input
         var k = keyboard_lastkey;
+
         if (k != 0 && k != vk_enter) {
-		    // Get array of all actions
-		    var actions = ds_map_keys_to_array(global.keybinds);
+            var actions = ds_map_keys_to_array(global.keybinds);
+            var duplicate_action = undefined;
 
-		    // Check if any other action already uses this key
-		    var duplicate_action = undefined;
-		    for (var i = 0; i < array_length(actions); i++) {
-		        var act = actions[i];
-		        if (act != keybind_waiting_action && global.keybinds[? act] == k) {
-		            duplicate_action = act;
-		            break;
-		        }
-		    }
+            // Look for a conflicting keybind
+            for (var i = 0; i < array_length(actions); i++) {
+                var act = actions[i];
+                if (act != keybind_waiting_action && global.keybinds[? act] == k) {
+                    duplicate_action = act;
+                    break;
+                }
+            }
 
-		    // Swap if duplicate exists
-		    if (duplicate_action != undefined) {
-		        var old_key = global.keybinds[? keybind_waiting_action];
-		        global.keybinds[? duplicate_action] = old_key;
-		    }
+            // Swap keys if needed
+            if (duplicate_action != undefined) {
+                var old_key = global.keybinds[? keybind_waiting_action];
+                global.keybinds[? duplicate_action] = old_key;
+            }
 
-		    // Assign the new key
-		    global.keybinds[? keybind_waiting_action] = k;
+            // Assign new key
+            global.keybinds[? keybind_waiting_action] = k;
 
-		    // Reset waiting state
-		    keybind_waiting = false;
-		    keybind_waiting_action = "";
-		}
-
-
+            // Exit waiting
+            keybind_waiting = false;
+            keybind_waiting_action = "";
+        }
     }
 
     // --- Draw GUI ---
@@ -162,25 +170,23 @@ function keys() {
     var cy_list = cy_title + 40;
     var spacing = 35;
 
-    // Column / highlight settings
-    var col_offset = 160;      // increased horizontal distance between columns
-    var rect_half_width = 100; // wider highlight rectangles
+    var col_offset = 160;
+    var rect_half_width = 100;
 
-    // --- Draw semi-transparent background ---
+    // Dim background
     draw_set_color(c_black);
     draw_set_alpha(0.6);
     draw_rectangle(0, 0, screen_w, screen_h, false);
     draw_set_alpha(1);
 
-    // Title (centered)
+    // Title
     draw_set_color(c_white);
     draw_set_halign(fa_center);
     draw_text(cx, cy_title, "Keybindings");
 
-    // Two-column layout
-    var num_actions = array_length(keybind_actions);
     var half = ceil(num_actions / 2);
 
+    // Draw keybind grid
     for (var i = 0; i < num_actions; i++) {
         var action = keybind_actions[i];
         var key = global.keybinds[? action];
@@ -190,12 +196,15 @@ function keys() {
         var row_index = (i < half) ? i : i - half;
         var yy = cy_list + row_index * spacing;
 
-        // Highlight selected action
+        // Highlight for selected action
         if (i == keybind_menu_index && !keybind_waiting) {
-            draw_set_alpha(0.2 + 0.05 * sin(current_time / 200));
+            draw_set_alpha(0.25);
             draw_set_color(c_white);
-		
-            draw_rectangle(col_x - rect_half_width - 50, yy - 10, col_x + rect_half_width + 50, yy + 25, false);
+            draw_rectangle(col_x - rect_half_width - 50,
+                           yy - 10,
+                           col_x + rect_half_width + 50,
+                           yy + 25,
+                           false);
             draw_set_alpha(1);
         }
 
@@ -203,20 +212,34 @@ function keys() {
         draw_set_color(make_color_rgb(230, 230, 255));
         draw_text(col_x - rect_half_width, yy, string_upper(action));
 
-        // Draw key text
+        // Draw key
         draw_set_color(c_white);
         draw_text(col_x + rect_half_width, yy, key_name);
     }
 
-    // Draw waiting-for-key prompt
+    // --- DONE BUTTON DRAWING ---
+    var done_y = cy_list + spacing * half + 50;
+
+    // Highlight Done if selected
+    if (keybind_menu_index == num_actions && !keybind_waiting) {
+        draw_set_alpha(0.25);
+        draw_set_color(c_white);
+        draw_rectangle(cx - 150, done_y - 40, cx + 150, done_y - 40 + 20, false);
+        draw_set_alpha(1);
+    }
+
+    draw_set_color(c_white);
+    draw_text(cx, done_y - 40, "DONE");
+
+    // Waiting prompt
     if (keybind_waiting) {
         var alpha = 0.65 + 0.25 * sin(keybind_pulse);
         draw_set_alpha(alpha);
-        draw_text(cx, cy_list + spacing * ceil(half) + 20,
-                  "Press a key for " + string_upper(keybind_waiting_action) + "...");
+        draw_text(cx, done_y + 50, "Press a key for " + string_upper(keybind_waiting_action) + "...");
         draw_set_alpha(1);
     }
 }
+
 
 
 
