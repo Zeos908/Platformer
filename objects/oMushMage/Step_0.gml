@@ -19,7 +19,7 @@ if(!global.beatBoss[0]){
 		if(doStep && timer <= 0 && abs(px-x) < 200 && hp > 0){
 			
 			facing = (px > x) ? 1 : -1;
-			global.phighting = [true, x - 199, x + 199];
+			global.phighting = [true, 10, 490];
 			if(finished == true){
 				if(choose(1, phase) == 1){
 					//show_debug_message("starting");
@@ -54,7 +54,7 @@ if(!global.beatBoss[0]){
 			if(hit != 0){
 				image_blend = make_color_rgb(70, 70, 200);
 				iFrame = 0.5;
-				if(hp <= 5){
+				if(hp <= 30){
 					phase = 2;
 					pause = 0.35;
 				} 

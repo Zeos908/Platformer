@@ -29,7 +29,7 @@
   "origin":4,
   "parent":{
     "name":"JellyBullet",
-    "path":"folders/Sprites/JellyBullet.yy",
+    "path":"folders/Sprites/GUI/Jelly/JellyBullet.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

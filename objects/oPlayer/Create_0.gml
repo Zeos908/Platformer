@@ -74,7 +74,7 @@ function hit(obj){
 	var y1 = oBlinkDouble.y;
 	var x2 = oPlayer.x;
 	var y2 = oPlayer.y;
-	show_debug_message("dung");
+	//show_debug_message("dung");
 	//show_debug_message(eiFrames);
 	// Check if any instance exists along the line
 	var hit = collision_line(x1, y1, x2, y2, obj, true, true);
@@ -85,9 +85,9 @@ function hit(obj){
 		eiFrames = 0.5;
 	    return global.damage;
 	} else if(global.hit) {
-		show_debug_message("dung");
+		//show_debug_message("dung");
 		global.hit = false;
-		return 3;
+		return global.dartDamage;
 	} else {
 	    return 0;
 	}
@@ -133,7 +133,7 @@ function heal(amt){
 		global.hp = min(global.maxHp, global.hp);
 		sprite_index = sPlayer;
 		global.healing = false;
-		global.jelly = max(0, global.jelly - 2);
+		global.jelly = max(0, global.jelly - 6);
 		show_debug_message(global.jelly);
 	}
 }

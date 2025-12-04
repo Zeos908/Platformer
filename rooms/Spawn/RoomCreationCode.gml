@@ -26,7 +26,8 @@ if (!variable_global_exists("died")) {
 	global.healing      = false;
 	global.jelly        = 0;
 	global.jellyMax     = 9;
-	global.damage       = 1;
+	global.damage       = 5;
+	global.dartDamage   = 9;
 	global.msg          = "";
 	global.pausePos     = [[50, 170], [53, 199], [37, 227]];
 	global.pauseIndex   = 0;

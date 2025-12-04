@@ -4,7 +4,7 @@ doStep = true;
 facing = 0;
 timer = 0;
 inst = 0;
-hp = 10;
+hp = 70;
 phase = 1;
 iFrame = 0;
 fireballCount = 0;
@@ -63,7 +63,7 @@ function rain(){
 		fireball(x3, 250, oPlayer.secs(pause + 0.5), 1);
 		fireball(x4, 250, oPlayer.secs(pause + 0.5), 1);
 		rainCount ++;
-		cooldown = 2;
+		cooldown = 1;
 		if(rainCount == 3){
 			
 			finished = true;
