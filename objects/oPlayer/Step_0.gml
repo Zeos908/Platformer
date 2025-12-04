@@ -4,6 +4,19 @@ if(exitReq()){
 } else if(unpaused){
 	sprite_index = oPlayer;
 }
+
+if(keyboard_check_pressed(ord("T"))){
+	global.bossStart = !global.bossStart;
+}
+
+if(global.bossStart){
+	ysp += grav;
+	if (ysp > 8) ysp = 8;
+	if(!place_meeting(x, y + 1, oIsland)) x -= 4;
+	if ((!place_meeting(x, y + ysp - 1, oIsland))) y += ysp;
+	else y+= distance_to_object(oIsland) - 0.25;
+	exit;
+}
 creation++;
 var inst = instance_nearest(x, y, oNextRoom);
 if(iFrames > 0){

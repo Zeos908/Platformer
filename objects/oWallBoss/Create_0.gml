@@ -6,8 +6,8 @@ function shockwave(start){
 	
 }
 
-function wave(dir){
-	
+function wave(sped){
+	instance_create_layer(x - 10, y, "Instances_2", oWave, {sped});
 }
 
 function respawnOrb(){

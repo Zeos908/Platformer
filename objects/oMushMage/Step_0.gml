@@ -15,7 +15,6 @@ if(!global.beatBoss[0]){
 			image_index = 0;
 			//show_debug_message("ended");
 		}
-		if(global.paused) exit;
 		if(doStep && timer <= 0 && abs(px-x) < 200 && hp > 0){
 			
 			facing = (px > x) ? 1 : -1;
@@ -92,7 +91,7 @@ if(!global.beatBoss[0]){
 	} else {
 		if(abs(px-x) < 200){
 			delay--;
-			global.phighting = [true, x - 199, x + 199];
+			global.phighting = [true, 10, 490];
 			if(image_index == 0){
 				image_speed = 1
 			} else if(image_index >= 20){

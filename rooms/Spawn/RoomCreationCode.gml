@@ -10,6 +10,7 @@ if (!variable_global_exists("died")) {
 	global.lastSafe     = [32, 330];
     global.died         = false;
 	global.phighting    = [false, 0, 0]; // Fighting?, x min, x max
+	global.bossStart    = false;
 	global.hp           = 5;
 	global.maxHp        = 5;
 	global.idol         = [];
