@@ -5,10 +5,6 @@ if(exitReq()){
 	sprite_index = oPlayer;
 }
 
-if(keyboard_check_pressed(ord("T"))){
-	global.bossStart = !global.bossStart;
-}
-
 if(global.bossStart){
 	ysp += grav;
 	if (ysp > 8) ysp = 8;
@@ -192,7 +188,7 @@ if(charging && keyboard_check_released(global.keybinds[? "Super Jump"])){
 	sprite_index = sPlayer;
 }
 
-if(global.jelly >= 2 && keyboard_check_pressed(global.keybinds[? "Heal"])){
+if(global.jelly >= 6 && keyboard_check_pressed(global.keybinds[? "Heal"])){
 	global.healing = true;
 }
 

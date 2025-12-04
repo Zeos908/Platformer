@@ -14,7 +14,7 @@ if (!variable_global_exists("died")) {
 	global.hp           = 5;
 	global.maxHp        = 5;
 	global.idol         = [];
-	global.roomCount    = 4;
+	global.roomCount    = 7;
 	for(var i = 0; i < global.roomCount; i++){
 		global.idol[i]  = false;
 	}
@@ -22,7 +22,7 @@ if (!variable_global_exists("died")) {
 	global.paused       = false;
 	global.prevSpeed    = 1;
 	global.pauseCount   = 0;
-	global.parkourRooms = [1, 3];
+	global.parkourRooms = [1, 4, ];
 	global.testRoomCondition = "no";
 	global.healing      = false;
 	global.jelly        = 0;
