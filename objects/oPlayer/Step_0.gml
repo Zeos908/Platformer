@@ -258,8 +258,6 @@ if (keyboard_check_released(global.keybinds[? "Bounce"]) || (wallGrab || chargin
 }
 // --- Vertical movement ---
 //var instIsland = instance_nearest(x, y, oIsland);
-on_ground = (place_meeting(x, y + 1, oIsland) /*&& !prevGrab*/);
-if(on_ground) wallGrab = false;
 if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
     y += ysp; // move down/up if no collision
 } else {

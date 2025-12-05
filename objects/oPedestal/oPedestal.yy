@@ -27,7 +27,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sPedestal",
+    "path":"sprites/sPedestal/sPedestal.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }
