@@ -54,10 +54,10 @@ function grimm(){
 }
 function rain(){
 	if(cooldown <= 0){
-		x1 = irandom_range(250, 350);
-		x2 = irandom_range(370, 460);
-		x3 = irandom_range(480, 580);
-		x4 = irandom_range(600, 690)
+		x1 = irandom_range(20, 110);
+		x2 = irandom_range(130, 222);
+		x3 = irandom_range(252, 345);
+		x4 = irandom_range(365, 460)
 		fireball(x1, 250, oPlayer.secs(pause + 0.5), 1);
 		fireball(x2, 250, oPlayer.secs(pause + 0.5), 1);
 		fireball(x3, 250, oPlayer.secs(pause + 0.5), 1);

@@ -13,8 +13,8 @@
     {"name":"inst_42EED1CD_1_3","path":"rooms/WallBoss/WallBoss.yy",},
     {"name":"inst_C8B3995_1_3","path":"rooms/WallBoss/WallBoss.yy",},
     {"name":"inst_79A25F2E","path":"rooms/WallBoss/WallBoss.yy",},
-    {"name":"inst_2E07EA3","path":"rooms/WallBoss/WallBoss.yy",},
     {"name":"inst_6D87CB3B","path":"rooms/WallBoss/WallBoss.yy",},
+    {"name":"inst_2E07EA3","path":"rooms/WallBoss/WallBoss.yy",},
   ],
   "isDnd":false,
   "layers":[
