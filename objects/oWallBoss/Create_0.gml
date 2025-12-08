@@ -32,6 +32,7 @@ function respawnOrb(){
 	    var ped = instance_find(oPedestal, index);
 
 	    ped.sprite_index = sPedestalOrb;
+		ped.image_speed = 0;
 		orbAct = true;
 	}
 }

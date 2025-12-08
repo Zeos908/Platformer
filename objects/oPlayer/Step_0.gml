@@ -8,9 +8,9 @@ if(exitReq()){
 if(global.bossStart){
 	ysp += grav;
 	if (ysp > 8) ysp = 8;
-	if(!place_meeting(x, y + 1, oIsland)) x -= 4;
+	if(!place_meeting(x, y + 2, oIsland)) x -= 4;
 	if ((!place_meeting(x, y + ysp - 1, oIsland))) y += ysp;
-	else y+= distance_to_object(oIsland) - 0.25;
+	else y+= distance_to_object(oIsland) - 1;
 	exit;
 }
 creation++;

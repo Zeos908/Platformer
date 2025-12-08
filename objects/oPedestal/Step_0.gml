@@ -1,6 +1,5 @@
 if(sprite_index == sPedestalOrb){
 	if(oPlayer.hit(self) > 0){
-		sprite_index = sPedestal;
 		oWallBoss.orbAct = false;
 		oWallBoss.hp --;
 		image_speed = 1;
