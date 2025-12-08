@@ -4,14 +4,20 @@ facing = -1;
 image_speed = 0;
 atk = 0;
 cooldwn = 0;
-
+test = false;
+atkCount = 0;
+orbAct = false;
 
 function shockwave(start){
 	
 }
 
 function wave(sped){
-	instance_create_layer(x - 10, y, "Instances_2", oWave, {sped});
+	instance_create_layer(x - 10, y, "Instances_2", oWave, 
+	{
+		spd : sped
+		});
+	show_debug_message("TEST WAVE")
 }
 	
 function spike(){
@@ -26,5 +32,6 @@ function respawnOrb(){
 	    var ped = instance_find(oPedestal, index);
 
 	    ped.sprite_index = sPedestalOrb;
+		orbAct = true;
 	}
 }

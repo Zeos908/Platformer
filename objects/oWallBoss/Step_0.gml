@@ -1,27 +1,32 @@
-if(global.phighting[0]){
-	if(cooldwn == 0){
+if(global.phighting[0] || test){
+	if(atkCount >= 2 + phase * 3 && !orbAct){
+		respawnOrb();
+		atkCount = 0;
+	}
+	if(cooldwn <= 0){
 		atk = irandom(phase) + 1;
-		wave(5);
 		atk = 0;
 		if(atk == 1){
 			shockwave(irandom_range(310, 550));
+			atkCount++;
 		} else if(atk == 2) {
 			spike();
+			atkCount++;
 		} else {
-			wave(10);
+			wave(5);
+			atkCount++;
 		}
-		cooldwn = 5
-	}
-	oPlayer.hit(self);
-	if(cooldwn > 0){
+		cooldwn = 4 - phase ;
+	} else {
 		cooldwn -= delta_time / 1000000;
 	}
 } else {
 	if(distance_to_object(oPlayer) < 30){
 		global.bossStart = true;
 		image_speed = 1;
-		if(image_index >= sprite_get_number(sWallSpawnAnim) - 1){
+		if(image_index >= image_number - 1){
 			//global.phighting[0] = true;
+			test = true;
 			//global.phighting[1] = 
 			//global.phighting[2] = 
 			image_speed = 0;
