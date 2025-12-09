@@ -31,10 +31,11 @@ if(global.phighting[0] || test){
 		image_speed = 1;
 	}
 	if(image_index >= image_number - 1){
-		//global.phighting[0] = true;
+		global.phighting[0] = true;
 		test = true;
-		//global.phighting[1] = 
-		//global.phighting[2] = 
+		global.phighting[2] = x - 16;
+		show_debug_message(string(x) + ": RIGHT");
+		global.phighting[1] = 15;
 		image_speed = 0;
 		global.bossStart = false;
 		cooldwn = 3;

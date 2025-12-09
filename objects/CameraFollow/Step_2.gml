@@ -17,9 +17,9 @@ if (!instance_exists(player)) {
 
 if (global.phighting[0])
 {
+	//var nearEnem = instance_nearest(oPlayer.x, oPlayer.y, oEnemy);
 	
-	
-	camera(oMushMage);
+	camera(oPlayer);
 }
 else
 {

@@ -409,3 +409,4 @@ if(on_ground){
 }
 
 //show_debug_message("hit: " + string(global.hit) + ", " + string(global.hitTimer));
+show_debug_message(x + xsp);
