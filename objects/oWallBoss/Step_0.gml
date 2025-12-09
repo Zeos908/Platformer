@@ -24,6 +24,7 @@ if(global.phighting[0] || test){
 	} else {
 		cooldwn -= delta_time / 1000000;
 	}
+	if(hp <= 0) global.phighting[0] = false;
 } else if(hp > 0) {
 	if(distance_to_object(oPlayer) < 70){
 		global.bossStart = true;
@@ -40,5 +41,6 @@ if(global.phighting[0] || test){
 	}
 } else {
 	//death anim
-	//if(image_index >= image_number)
+	//sprite_index = sWallDie
+	//if(image_index >= image_number) instance_destroy(self);
 }

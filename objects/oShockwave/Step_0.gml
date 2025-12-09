@@ -27,6 +27,7 @@ if(image_index >= image_number - 1){
 			if(place_meeting(x - 20, y + 1, oIsland)){
 				oWallBoss.shockwave(x - 20, -1);
 			}
+			break;
 	}
 	next = true;
 }
