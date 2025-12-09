@@ -1,3 +1,4 @@
+if(exitReq()) exit;
 if(sprite_index == sPedestalOrb){
 	if(oPlayer.hit(self) > 0){
 		oWallBoss.orbAct = false;

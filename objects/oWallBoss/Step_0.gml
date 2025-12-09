@@ -1,3 +1,5 @@
+if(exitReq()) exit;
+
 if(global.phighting[0] || test){
 	if(atkCount >= 2 + phase * 3 && !orbAct){
 		respawnOrb();

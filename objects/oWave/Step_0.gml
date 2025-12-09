@@ -1,3 +1,5 @@
+if(exitReq()) exit;
+
 if(global.phighting[1] < x){
 	x -= spd;
 	if(place_meeting(x, y, oPlayer) && !global.blinking){

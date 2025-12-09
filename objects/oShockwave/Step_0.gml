@@ -1,3 +1,4 @@
+if(exitReq()) exit;
 if(delay > 0){
 	image_speed = 0;
 	delay -= delta_time / 1000000;
@@ -16,7 +17,6 @@ if(image_index >= image_number - 1){
 			break;
 		case 1:
 			if(place_meeting(x + 20, y + 1, oIsland)){
-				show_debug_message("2");
 				oWallBoss.shockwave(x + 20, 1);
 			}
 			break;
