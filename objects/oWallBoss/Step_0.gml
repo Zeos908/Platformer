@@ -9,7 +9,7 @@ if(global.phighting[0] || test){
 		atk = irandom(phase) + 1;
 		atk = 0;
 		if(atk == 1){
-			shockwave(irandom_range(310, 550));
+			shockwave(irandom_range(310, 550), 0);
 			atkCount++;
 		} else if(atk == 2) {
 			spike();
@@ -24,7 +24,7 @@ if(global.phighting[0] || test){
 	} else {
 		cooldwn -= delta_time / 1000000;
 	}
-} else {
+} else if(hp > 0) {
 	if(distance_to_object(oPlayer) < 70){
 		global.bossStart = true;
 		image_speed = 1;
@@ -38,4 +38,7 @@ if(global.phighting[0] || test){
 		global.bossStart = false;
 		cooldwn = 3;
 	}
+} else {
+	//death anim
+	//if(image_index >= image_number)
 }

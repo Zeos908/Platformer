@@ -163,6 +163,7 @@
     {"id":{"name":"sWallArena","path":"sprites/sWallArena/sWallArena.yy",},},
     {"id":{"name":"sWallAttack","path":"sprites/sWallAttack/sWallAttack.yy",},},
     {"id":{"name":"sWallBoss","path":"sprites/sWallBoss/sWallBoss.yy",},},
+    {"id":{"name":"sWallDie","path":"sprites/sWallDie/sWallDie.yy",},},
     {"id":{"name":"sWallSlide","path":"sprites/sWallSlide/sWallSlide.yy",},},
     {"id":{"name":"sWallSpawnAnim","path":"sprites/sWallSpawnAnim/sWallSpawnAnim.yy",},},
     {"id":{"name":"temp","path":"sprites/temp/temp.yy",},},
