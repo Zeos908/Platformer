@@ -7,4 +7,26 @@ if(delay > 0){
 
 if(image_index >= image_number - 1){
 	instance_destroy(self);
+} else if (image_index > 2 && image_index < 4 && !next){
+	switch(dir){
+		case -1:
+			if(place_meeting(x - 20, y + 1, oIsland)){
+				oWallBoss.shockwave(x - 20, -1);
+			}
+			break;
+		case 1:
+			if(place_meeting(x + 20, y + 1, oIsland)){
+				show_debug_message("2");
+				oWallBoss.shockwave(x + 20, 1);
+			}
+			break;
+		case 0:
+			if(place_meeting(x + 20, y + 1, oIsland)){
+				oWallBoss.shockwave(x + 20, 1);
+			}
+			if(place_meeting(x - 20, y + 1, oIsland)){
+				oWallBoss.shockwave(x - 20, -1);
+			}
+	}
+	next = true;
 }

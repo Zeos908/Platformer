@@ -8,10 +8,11 @@ test = false;
 atkCount = 0;
 orbAct = false;
 
-function shockwave(start){
+function shockwave(start, direc){
 	instance_create_layer(start, 320, "Instances_2", oShockwave, 
 	{
-		delay : 0
+		delay : 0,
+		dir : direc
 	});
 }
 
