@@ -13,7 +13,9 @@ if(global.phighting[0] || test){
 			spike();
 			atkCount++;
 		} else {
-			wave(5);
+			
+			//wave(5);
+			shockwave(527);
 			atkCount++;
 		}
 		cooldwn = 4 - phase ;

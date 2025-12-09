@@ -9,9 +9,9 @@ atkCount = 0;
 orbAct = false;
 
 function shockwave(start){
-	instance_create_layer(start, 333, "Instances_2", oShockwave, 
+	instance_create_layer(start, 320, "Instances_2", oShockwave, 
 	{
-		delay : 0.2
+		delay : 0
 	});
 }
 
