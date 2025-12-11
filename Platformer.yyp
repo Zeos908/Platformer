@@ -145,6 +145,7 @@
     {"id":{"name":"sMushBounce","path":"sprites/sMushBounce/sMushBounce.yy",},},
     {"id":{"name":"sMushFloat","path":"sprites/sMushFloat/sMushFloat.yy",},},
     {"id":{"name":"sMushMage","path":"sprites/sMushMage/sMushMage.yy",},},
+    {"id":{"name":"sMushRune","path":"sprites/sMushRune/sMushRune.yy",},},
     {"id":{"name":"sMushRuneActive","path":"sprites/sMushRuneActive/sMushRuneActive.yy",},},
     {"id":{"name":"sMushSpore","path":"sprites/sMushSpore/sMushSpore.yy",},},
     {"id":{"name":"sMushStriker","path":"sprites/sMushStriker/sMushStriker.yy",},},
