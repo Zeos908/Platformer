@@ -34,8 +34,9 @@ if(global.phighting[0] || test){
 		global.phighting[0] = true;
 		test = true;
 		global.phighting[2] = x - 16;
-		show_debug_message(string(x) + ": RIGHT");
+		//show_debug_message(string(x) + ": RIGHT");
 		global.phighting[1] = 15;
+		global.phighting[3] = 240
 		image_speed = 0;
 		global.bossStart = false;
 		cooldwn = 3;

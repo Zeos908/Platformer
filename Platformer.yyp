@@ -172,11 +172,11 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"Spawn","path":"rooms/Spawn/Spawn.yy",},},
-    {"roomId":{"name":"WallBoss","path":"rooms/WallBoss/WallBoss.yy",},},
     {"roomId":{"name":"room2","path":"rooms/room2/room2.yy",},},
     {"roomId":{"name":"MushMage","path":"rooms/MushMage/MushMage.yy",},},
     {"roomId":{"name":"room4","path":"rooms/room4/room4.yy",},},
     {"roomId":{"name":"room5","path":"rooms/room5/room5.yy",},},
+    {"roomId":{"name":"WallBoss","path":"rooms/WallBoss/WallBoss.yy",},},
     {"roomId":{"name":"Base","path":"rooms/Base/Base.yy",},},
     {"children":[
         {"roomId":{"name":"enemyTests","path":"rooms/enemyTests/enemyTests.yy",},},

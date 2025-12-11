@@ -9,7 +9,7 @@ if (!variable_global_exists("died")) {
 	global.safepoint    = [32, 330];
 	global.lastSafe     = [32, 330];
     global.died         = false;
-	global.phighting    = [false, 0, 0]; // Fighting?, x min, x max
+	global.phighting    = [false, 0, 0, 0]; // Fighting?, x min, x max, y
 	global.bossStart    = false;
 	global.hp           = 5;
 	global.maxHp        = 5;
@@ -22,7 +22,7 @@ if (!variable_global_exists("died")) {
 	global.paused       = false;
 	global.prevSpeed    = 1;
 	global.pauseCount   = 0;
-	global.parkourRooms = [1, 4, ];
+	global.parkourRooms = [1, 4];
 	global.testRoomCondition = "no";
 	global.healing      = false;
 	global.jelly        = 0;
