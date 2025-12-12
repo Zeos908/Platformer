@@ -1,6 +1,6 @@
 /// @apply camera smoothing
 /// pray it works
-/*
+
 player = noone;
 
 speeds = 0.5;

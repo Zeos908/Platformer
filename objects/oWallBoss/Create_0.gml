@@ -21,11 +21,13 @@ function wave(sped){
 	{
 		spd : sped
 		});
-	show_debug_message("TEST WAVE")
 }
 	
-function spike(){
-	
+function spike(start, direc){
+	instance_create_layer(start, 320, "Instances_2", oRockSpike, 
+	{
+		dir : direc
+	});
 }
 
 function respawnOrb(){

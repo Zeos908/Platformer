@@ -7,7 +7,6 @@ if(global.phighting[0] || test){
 	}
 	if(cooldwn <= 0){
 		atk = irandom(phase) + 1;
-		atk = 0;
 		if(atk == 1){
 			shockwave(irandom_range(310, 550), 0);
 			atkCount++;

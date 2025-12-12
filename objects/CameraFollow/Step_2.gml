@@ -2,7 +2,7 @@
 // You can write your code in this editor
 
 // Step event of CameraFollow
-/*
+
 if (!snapyRoom)
 {
 	roomSnap(oPlayer);
@@ -34,7 +34,7 @@ else
 	    camera(player);
 	}
 }
-*/
+/*
 
  /// Step Event of camera object
 
