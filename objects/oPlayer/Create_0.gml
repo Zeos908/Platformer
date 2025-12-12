@@ -96,6 +96,7 @@ function hit(obj){
 }
 
 function damage(dmg, strength, obj){
+	
 	if(iFrames <= 0){
 		global.hp -= dmg;
 		iFrames = 0.5;

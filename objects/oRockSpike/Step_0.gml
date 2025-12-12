@@ -16,4 +16,9 @@ if(image_index >= image_number - 1 && !done){
 	image_speed = 0;
 }
 
+if(image_index != 0 && place_meeting(x, y, oPlayer) && timer <= 0){
+	oPlayer.damage(1, 1, self);
+	timer = 1;
+}
 //show_debug_message(pause);
+timer -= delta_time / 1000000;

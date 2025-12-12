@@ -31,3 +31,7 @@ if(image_index >= image_number - 1){
 	}
 	next = true;
 }
+
+if(place_meeting(x, y, oPlayer)){
+	oPlayer.damage(1, 1, self)
+}

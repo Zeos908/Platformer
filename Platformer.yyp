@@ -74,6 +74,7 @@
     {"id":{"name":"oFloat","path":"objects/oFloat/oFloat.yy",},},
     {"id":{"name":"oFloatMask","path":"objects/oFloatMask/oFloatMask.yy",},},
     {"id":{"name":"oGate","path":"objects/oGate/oGate.yy",},},
+    {"id":{"name":"oHazard","path":"objects/oHazard/oHazard.yy",},},
     {"id":{"name":"oIdol","path":"objects/oIdol/oIdol.yy",},},
     {"id":{"name":"oInvisSpike","path":"objects/oInvisSpike/oInvisSpike.yy",},},
     {"id":{"name":"oIsland","path":"objects/oIsland/oIsland.yy",},},

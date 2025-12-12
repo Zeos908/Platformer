@@ -42,6 +42,10 @@ on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
 distanceToGround = 0;
 // find distance
 
+if(place_meeting(x, y, oIsland)){
+	wallGrab = true;
+}
+
 if(global.hitTimer > 0){
 	global.hitTimer -= delta_time / 1000000;
 } else if(global.hit){
@@ -278,10 +282,11 @@ if (y > 750){
 
 // Collisions
 
-if(place_meeting(x, y, oSpike)){
+if(place_meeting(x, y, oHazard)){
 	damage(1, 0, oSpike);
 	timers[0] = secs(0.75);
 	cools[0] = true;
+	iFrames = 0;
 	toSafe();
 }
 

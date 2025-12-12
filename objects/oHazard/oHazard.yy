@@ -1,18 +1,15 @@
 {
   "$GMObject":"",
-  "%Name":"oSpike",
+  "%Name":"oHazard",
   "eventList":[],
   "managed":true,
-  "name":"oSpike",
+  "name":"oHazard",
   "overriddenProperties":[],
   "parent":{
     "name":"Hazards",
     "path":"folders/Objects/Props/Hazards.yy",
   },
-  "parentObjectId":{
-    "name":"oHazard",
-    "path":"objects/oHazard/oHazard.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -30,10 +27,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"sSpike",
-    "path":"sprites/sSpike/sSpike.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
   "visible":true,
 }
