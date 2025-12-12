@@ -6,20 +6,18 @@ if(global.phighting[0] || test){
 		atkCount = 0;
 	}
 	if(cooldwn <= 0){
-		atk = irandom(phase) + 1;
+		atk = irandom(phase + 1) + 1;
 		if(atk == 1){
 			shockwave(irandom_range(310, 550), 0);
 			atkCount++;
 		} else if(atk == 2) {
-			spike();
+			spike(irandom_range(310, 550), 0);
 			atkCount++;
 		} else {
-			
-			//wave(5);
-			shockwave(527, 0);
+			wave(5);
 			atkCount++;
 		}
-		cooldwn = 4 - phase ;
+		cooldwn = 7 - phase ;
 	} else {
 		cooldwn -= delta_time / 1000000;
 	}
@@ -38,7 +36,7 @@ if(global.phighting[0] || test){
 		global.phighting[3] = 240
 		image_speed = 0;
 		global.bossStart = false;
-		cooldwn = 3;
+		cooldwn = 1;
 	}
 } else {
 	//death anim

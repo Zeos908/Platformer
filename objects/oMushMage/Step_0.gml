@@ -89,7 +89,7 @@ if(!global.beatBoss[0]){
 		}
 		//show_debug_message(hp)
 	} else {
-		if(abs(px-x) < 200){
+		//if(abs(px-x) < 200){
 			delay--;
 			global.phighting = [true, 10, 490];
 			if(image_index == 0){
@@ -97,7 +97,7 @@ if(!global.beatBoss[0]){
 			} else if(image_index >= 20){
 				image_speed = 0;
 			}
-		}
+		//}
 		
 	}
 	//show_debug_message(image_index);

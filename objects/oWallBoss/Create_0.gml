@@ -24,7 +24,7 @@ function wave(sped){
 }
 	
 function spike(start, direc){
-	instance_create_layer(start, 320, "Instances_2", oRockSpike, 
+	instance_create_layer(start, 280, "Instances_2", oRockSpike, 
 	{
 		dir : direc
 	});

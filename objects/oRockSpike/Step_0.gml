@@ -1,33 +1,19 @@
 if(exitReq()) exit;
 
-if(pause >= 0){
+if(pause > 0){
 	image_speed = 0;
 	pause -= delta_time / 1000000
+	if(image_index >= image_number - 1 && pause <= 0){
+		instance_destroy(self);
+	}
 } else {
-	image_speed = 1;
+	image_speed = 1.25;
 }
 
-if(image_index >= image_number - 1){
-	instance_destroy(self);
-} else if (image_index == 0){
-	switch(dir){
-		case -1:
-			if(place_meeting(x - 20, y + 1, oIsland)){
-				oWallBoss.spike(x - 20, -1);
-			}
-			break;
-		case 1:
-			if(place_meeting(x + 20, y + 1, oIsland)){
-				oWallBoss.spike(x + 20, 1);
-			}
-			break;
-		case 0:
-			if(place_meeting(x + 20, y + 1, oIsland)){
-				oWallBoss.spike(x + 20, 1);
-			}
-			if(place_meeting(x - 20, y + 1, oIsland)){
-				oWallBoss.spike(x - 20, -1);
-			}
-			break;
-	}
+if(image_index >= image_number - 1 && !done){
+	pause = 1.5;
+	done = true;
+	image_speed = 0;
 }
+
+//show_debug_message(pause);
