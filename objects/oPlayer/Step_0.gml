@@ -26,7 +26,7 @@ if(global.died){
 	x = global.checkpoint[0];
 	y = global.checkpoint[1];
 	//show_debug_message(global.checkpoint[1]);
-	timers[0] = secs(0.5);
+	timers[0] = 0.5;
 	cools[0] = true;
 	timers[1] = 0;
 	sprite_index = sPlayer;
@@ -41,10 +41,6 @@ if(global.hp <= 0){
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
 distanceToGround = 0;
 // find distance
-
-if(place_meeting(x, y, oIsland)){
-	wallGrab = true;
-}
 
 if(global.hitTimer > 0){
 	global.hitTimer -= delta_time / 1000000;
@@ -66,7 +62,7 @@ for(var i = 0; i < array_length(timers); i++){
 	if (timers[i] <= 0){
 		cools[i] = false;
 	} else {
-		timers[i]--;
+		timers[i] -= delta_time / 1000000;
 	}
 }
 
@@ -103,13 +99,10 @@ if (keyboard_check(global.keybinds[? "Right"])){
 	global.facing = 1;
 }
 
-// Wall jump active?
 if (wallJumpTimer > 0) {
-    // Gradual push away from wall
+	// Wall jump
     xsp = wallJumpDir * wallJumpSpeed;
-
-    // Player input modifies horizontal motion
-    xsp += moveDir * 2; // tweak 2 for influence strength
+    xsp += moveDir * 2; 
     wallJumpTimer -= 1;
 } else {
     // Normal movement
@@ -129,7 +122,7 @@ if (keyboard_check(global.keybinds[? "Blink"]) && !cools[1] && global.canDash &&
 	global.blinking = true;
 	xsp += 60 * global.facing;
 	cools[1] = true;
-	timers[1] = secs(1.5);
+	timers[1] = 1.5;
 }	
 
 // --- Apply gravity ---
@@ -275,7 +268,7 @@ if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
 
 if (y > 750){
 	damage(1, 0, oPlayer);
-	timers[0] = secs(0.75);
+	timers[0] = 1.5;
 	cools[0] = true;
 	toSafe();
 }
@@ -284,7 +277,7 @@ if (y > 750){
 
 if(place_meeting(x, y, oHazard)){
 	damage(1, 0, oSpike);
-	timers[0] = secs(0.75);
+	timers[0] = 1.5;
 	cools[0] = true;
 	iFrames = 0;
 	toSafe();
@@ -378,6 +371,12 @@ else if (wallSlide)
 /*
 animation
 */
+else if (sprite_index == sRespawn){
+	if(image_index >= image_number - 1){
+		sprite_index = sPlayer;
+	}
+}
+
 else if (crouching && moving){
 	if (sprite_index != sCrouchRun){
 		sprite_index = sCrouchRun;

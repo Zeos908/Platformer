@@ -29,6 +29,8 @@ coyoteTimer = 0;
 blinked = false;
 roomChangeState = 0;
 
+knockAccel = 0;
+
 
 healCool = 0;
 
@@ -47,7 +49,7 @@ eiFrames = 0;
 delta = 1;
 dt = 0;
 
-knockAccel = 0;
+d = 0;
 knockbackDir = 0;
 
 
@@ -165,13 +167,14 @@ function toSafe(){
         draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
         draw_set_alpha(1);
         alpha += 0.05;
-        //screen_refresh(); // forces update
     }
 
     // --- Move player ---
     if (closest != noone) {
+		sprite_index = sRespawn;
         oPlayer.x = closest.x;
         oPlayer.y = closest.y - 2;
+		
     } else {
 		kill();
 	}
@@ -184,8 +187,8 @@ function toSafe(){
         draw_rectangle(0, 0, display_get_gui_width(), display_get_gui_height(), false);
         draw_set_alpha(1);
         alpha -= 0.05;
-        //screen_refresh(); // forces update
     }
+	//show_debug_message("sprite: " + string(sprite_index));
 }
 
 function kill(){
