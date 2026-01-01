@@ -28,7 +28,7 @@ coyoteTimer = 0;
 //blink animation
 blinked = false;
 roomChangeState = 0;
-
+xdecel = 1;
 knockAccel = 0;
 
 

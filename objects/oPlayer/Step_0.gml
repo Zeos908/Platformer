@@ -216,6 +216,21 @@ if(global.coyoteBounce){
 	xsp *= 0.5;
 }
 
+on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab); // check if standing
+if(!on_ground){
+	airTime += delta_time/1000000;	
+} else {
+	airTime = 0;	
+}
+
+if(!on_ground && !global.blinking){
+	xdecel = lerp(xdecel, 0.1, 0.2);
+} else {
+	xdecel = 1;
+}
+
+xsp *= xdecel;
+
 if(xsp != 0){
 	if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
 		if(!global.phighting[0] || (x + xsp > global.phighting[1] && x + xsp < global.phighting[2])){ // checks if you are within the range if you are fighting
@@ -328,13 +343,8 @@ onGroundPrevHold[4] = on_ground;
 //show_debug_message(string(on_ground) + ", " + string(onGroundPrev));
 
 // Sprite animations
-on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab); // check if standing
-if(!on_ground){
-	airTime++;	
-} else {
-	airTime = 0;	
-}
-if(airTime > secs(1)){
+
+if(airTime > 1){
 	bigFall = true;
 }
 var wallSlide = wallGrab && !on_ground;           // check if sliding on wall (maybe disable for testing)
