@@ -122,7 +122,7 @@ if (keyboard_check(global.keybinds[? "Blink"]) && !cools[1] && global.canDash &&
 	global.blinking = true;
 	xsp += 60 * global.facing;
 	cools[1] = true;
-	timers[1] = 1.5;
+	timers[1] = 1;
 }	
 
 // --- Apply gravity ---
@@ -224,12 +224,12 @@ if(!on_ground){
 }
 
 if(!on_ground && !global.blinking){
-	xdecel = lerp(xdecel, 0.1, 0.2);
+	xdecel = lerp(xdecel, 0.8, 0.2);
 } else {
 	xdecel = 1;
 }
 
-xsp *= xdecel;
+//xsp *= xdecel;
 
 if(xsp != 0){
 	if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
@@ -270,6 +270,11 @@ if (keyboard_check_released(global.keybinds[? "Bounce"]) || (wallGrab || chargin
 }
 // --- Vertical movement ---
 //var instIsland = instance_nearest(x, y, oIsland);
+
+if(!on_ground && ysp > 0){
+	ysp += 0.2
+}
+
 if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
     y += ysp; // move down/up if no collision
 } else {
