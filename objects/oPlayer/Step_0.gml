@@ -26,12 +26,13 @@ if(global.died){
 	x = global.checkpoint[0];
 	y = global.checkpoint[1];
 	//show_debug_message(global.checkpoint[1]);
-	timers[0] = 0.5;
+	timers[0] = 0.8;
 	cools[0] = true;
 	timers[1] = 0;
 	sprite_index = sPlayer;
 	global.healing = false;
 	global.died = false;
+	sprite_index = sRespawn;
 }
 
 if(global.hp <= 0){
@@ -122,7 +123,7 @@ if (keyboard_check(global.keybinds[? "Blink"]) && !cools[1] && global.canDash &&
 	global.blinking = true;
 	xsp += 60 * global.facing;
 	cools[1] = true;
-	timers[1] = 1;
+	timers[1] = 0.8;
 }	
 
 // --- Apply gravity ---
@@ -141,10 +142,9 @@ if(!global.healing){
 // --- Jumping ---
 on_ground = (place_meeting(x, y + 1, oIsland) && !prevGrab);
 
+if(sprite_index == sRespawn){
 
-
-
-if ((on_ground || onGroundPrev) && keyboard_check_pressed(global.keybinds[? "Jump"]) && !keyboard_check(global.keybinds[? "Super Jump"])) {
+} else if ((on_ground || onGroundPrev) && keyboard_check_pressed(global.keybinds[? "Jump"]) && !keyboard_check(global.keybinds[? "Super Jump"])) {
 	//reg jump
     ysp = jump_spd;
 	jumping = true;
@@ -231,6 +231,10 @@ if(!on_ground && !global.blinking){
 
 //xsp *= xdecel;
 
+if(sprite_index = sRespawn){
+	xsp = 0;
+}
+
 if(xsp != 0){
 	if (!place_meeting(x + xsp, y, oIsland) && !cools[0]) {
 		if(!global.phighting[0] || (x + xsp > global.phighting[1] && x + xsp < global.phighting[2])){ // checks if you are within the range if you are fighting
@@ -288,7 +292,7 @@ if ((!place_meeting(x, y + ysp, oIsland) && !global.blinking) || wallGrab) {
 
 if (y > 750){
 	damage(1, 0, oPlayer);
-	timers[0] = 1.5;
+	timers[0] = 0.8;
 	cools[0] = true;
 	toSafe();
 }
@@ -297,7 +301,7 @@ if (y > 750){
 
 if(place_meeting(x, y, oHazard)){
 	damage(1, 0, oSpike);
-	timers[0] = 1.5;
+	timers[0] = 0.8;
 	cools[0] = true;
 	iFrames = 0;
 	toSafe();
@@ -389,6 +393,7 @@ animation
 else if (sprite_index == sRespawn){
 	if(image_index >= image_number - 1){
 		sprite_index = sPlayer;
+		timers[0] = 0.1
 	}
 }
 
