@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"freeze",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"freeze",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

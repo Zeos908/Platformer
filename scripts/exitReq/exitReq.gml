@@ -2,7 +2,8 @@ function exitReq(){
 	if (!variable_instance_exists(id, "prevSpd")) prevSpd = image_speed;
 	if (!variable_instance_exists(id, "unpaused")) unpaused = false;
 
-	if (global.paused) {
+	if (global.paused || global.freeze > 0) {
+		//show_debug_message(global.freeze);
 	    if (!unpaused) {
 	        prevSpd = image_speed;  // store current speed
 	        image_speed = 0;        // stop animation

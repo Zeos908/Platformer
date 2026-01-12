@@ -1,4 +1,6 @@
 //show_debug_message("paused: " + string(global.paused));
+doTimers()
+
 if(exitReq()){
 	exit;
 } else if(unpaused){
@@ -362,17 +364,17 @@ if(global.healing){
 	heal(2);
 } else if (global.blinking == true && charging = false) // holds the animation tree so that no other animations can be played
 {
-	if blinked == false //blinked = initiated blink
+	show_debug_message(global.blinked);
+	if global.blinked == false //blinked = initiated blink
 	{
-		blinked = true;
+		global.blinked = true;
 		sprite_index = sBlinkPlayer;
 		image_speed = 1;
 	}
-	if(image_index >= image_number - 1) //blink is done - other animations can be played
+	if(image_index >= image_number - 1/* global.blinkPause <= 0*/) //blink is done - other animations can be played
 	{
 		sprite_index = sPlayer;
-		global.blinking = false;
-		blinked = false;
+		//global.blinkPause = 0.001
 	}
 }
 

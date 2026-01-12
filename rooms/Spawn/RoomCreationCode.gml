@@ -1,7 +1,7 @@
 // At the very top of your room creation code
 if (!variable_global_exists("died")) {
     global.facing       = 1;
-    global.canDash      = false;
+    global.canDash      = true;
     global.canSuperJump = false;
     global.debug        = false;
     global.blinking     = false;
@@ -36,8 +36,10 @@ if (!variable_global_exists("died")) {
 	global.curled       = false;
 	global.coyoteBounce = false;
 	global.canPogo      = false;
+	global.freeze       = false;
 	global.hit          = false;
 	global.hitTimer     = 0;
+	global.blinkPause   = 0;
     show_debug_message("Globals initialized");
 	
 	global.keybinds[? "Left"] = ord("A");

@@ -26,7 +26,7 @@ prevGrab = false;
 crouching = false;
 coyoteTimer = 0;
 //blink animation
-blinked = false;
+global.blinked = false;
 roomChangeState = 0;
 xdecel = 1;
 knockAccel = 0;
@@ -62,6 +62,7 @@ wallJumpDuration = 8; // how many frames the push lasts
 prevSpd = 0;
 unpaused = false;
 
+hitFreeze = 0.2;
 
 function secs(input){
     return (game_get_speed(gamespeed_fps)/2) * input;
@@ -85,6 +86,7 @@ function hit(obj){
 		//show_debug_message(string(abs(x-oBlinkDouble.x)) + ", " + string(abs(obj.x - oBlinkDouble.x)));
 		global.jelly = min(global.jelly + 1, global.jellyMax);
 		eiFrames = 0.5;
+		freeze(hitFreeze);
 	    return global.damage;
 	} else if(global.hit) {
 		//show_debug_message("dung");
