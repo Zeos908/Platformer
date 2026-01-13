@@ -375,6 +375,8 @@ if(global.healing){
 	{
 		sprite_index = sPlayer;
 		//global.blinkPause = 0.001
+		global.blinking = false;
+		global.blinked = false;
 	}
 }
 
