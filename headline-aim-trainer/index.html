@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Headline Aim Range</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Browser aim trainer: agents peek from cover at 6 to 55 m, rifle and revolver damage models, and flash-dodging drills.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&family=Saira+Condensed:wght@600;800&display=swap">
+<style>
+/* Layout: the live 3D range fills the window; menus are a console laid over its left side
+   (brand + start in a narrow column, settings in a wrapping card grid), stacking to one column on phones. */
+:root {
+  --ink: #0b1118;
+  --ink-2: #111a24;
+  --raise: #172331;
+  --line: #263649;
+  --bone: #ece6d6;
+  --dim: #8e9bab;
+  --sodium: #f4b740;
+  --sodium-ink: #2a1d05;
+  --teal: #43d1bf;
+  --hazard: #ff5f4a;
+  --f-display: "Saira Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --radius: 6px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--bone);
+  font: 15px/1.5 var(--f-body);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+canvas#view { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+body.playing canvas#view, body.free-aim.playing { cursor: none; }
+button, input { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+/* ---------- overlays ---------- */
+.screen {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 20;
+  padding-block: 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+#menu {
+  background: linear-gradient(90deg, rgba(11,17,24,0.94) 0%, rgba(11,17,24,0.86) 46%, rgba(11,17,24,0.55) 100%);
+}
+.menu-grid {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 960px) { .menu-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
+
+.brand { position: sticky; top: 0; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+@media (max-width: 960px) { .brand { position: static; } }
+.eyebrow {
+  font: 600 12px/1 var(--f-data);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sodium);
+}
+h1.title {
+  position: relative;
+  margin: 0;
+  font: 800 clamp(64px, 9vw, 116px)/0.86 var(--f-display);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--bone);
+  text-wrap: balance;
+}
+/* the head line: a sodium stroke at head height through the wordmark */
+h1.title::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -40px;
+  top: 30%;
+  height: 3px;
+  background: var(--sodium);
+  box-shadow: 0 0 18px rgba(244,183,64,0.55);
+}
+@media (max-width: 960px) { h1.title::after { left: 0; right: 0; } }
+h1.title span { display: block; color: transparent; -webkit-text-stroke: 1.5px var(--bone); }
+.lede { margin: 0; color: var(--dim); max-width: 34ch; }
+.lede b { color: var(--bone); font-weight: 600; }
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--raise);
+  color: var(--bone);
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  font: 600 15px/1 var(--f-body);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.08s;
+}
+.btn:hover { border-color: var(--dim); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible, .seg input:focus-visible + span, .wcard input:focus-visible + .wcard-body, .toggle input:focus-visible + span {
+  outline: 2px solid var(--sodium);
+  outline-offset: 2px;
+}
+.btn-primary {
+  background: var(--sodium);
+  border-color: var(--sodium);
+  color: var(--sodium-ink);
+  font: 800 24px/1 var(--f-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.btn-primary:hover { background: #ffc85a; border-color: #ffc85a; }
+.btn-primary small { white-space: nowrap; font: 600 11px/1 var(--f-data); letter-spacing: 0.04em; text-transform: none; opacity: 0.75; }
+.summary { margin: -8px 0 0; font: 500 12px/1.5 var(--f-data); color: var(--dim); }
+
+.keys { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; margin: 0; font-size: 13px; color: var(--dim); }
+.keys dt { display: flex; gap: 4px; }
+.keys dd { margin: 0; align-self: center; }
+kbd {
+  font: 600 11px/1 var(--f-data);
+  color: var(--bone);
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 4px 6px;
+  min-width: 22px;
+  text-align: center;
+}
+.note {
+  font-size: 13px;
+  color: var(--bone);
+  background: rgba(244,183,64,0.1);
+  border: 1px solid rgba(244,183,64,0.35);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+.last-run {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.last-run h3 { grid-column: 1 / -1; margin: 0; font: 600 12px/1 var(--f-data); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+.mini { display: flex; flex-direction: column; gap: 2px; }
+.mini b { font: 700 22px/1 var(--f-data); font-variant-numeric: tabular-nums; }
+.mini span { font-size: 12px; color: var(--dim); }
+
+/* settings */
+.settings { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px; min-width: 0; }
+fieldset.card {
+  margin: 0;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(17,26,36,0.88);
+  padding: 16px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+fieldset.card.wide { grid-column: 1 / -1; }
+legend {
+  padding: 0 6px;
+  margin-left: -6px;
+  font: 800 18px/1 var(--f-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.row { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.row > .label { font: 600 11px/1 var(--f-data); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+.help { margin: 0; font-size: 13px; color: var(--dim); max-width: 62ch; }
+.help b { color: var(--bone); font-weight: 600; }
+
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg label { position: relative; flex: 1 1 auto; }
+.seg input, .wcard input, .toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.seg span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--ink-2);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.1;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.seg span small { font: 500 10.5px/1 var(--f-data); color: var(--dim); }
+.seg label:hover span { border-color: var(--dim); }
+.seg input:checked + span { background: var(--sodium); border-color: var(--sodium); color: var(--sodium-ink); }
+.seg input:checked + span small { color: var(--sodium-ink); opacity: 0.75; }
+
+.weapons { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px; }
+.wcard { position: relative; display: block; cursor: pointer; }
+.wcard-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--ink-2);
+}
+.wcard:hover .wcard-body { border-color: var(--dim); }
+.wcard input:checked + .wcard-body { border-color: var(--sodium); box-shadow: inset 0 0 0 1px var(--sodium); }
+.wcard-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.wcard-head strong { font: 800 24px/1 var(--f-display); letter-spacing: 0.03em; text-transform: uppercase; }
+.wcard-head span { font: 500 11px/1 var(--f-data); color: var(--dim); }
+.wcard input:checked + .wcard-body .wcard-head strong { color: var(--sodium); }
+table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var(--f-data); font-variant-numeric: tabular-nums; }
+.dmg-table th { font: 600 10.5px/1 var(--f-data); letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); text-align: right; padding: 0 0 6px; }
+.dmg-table th:first-child, .dmg-table td:first-child { text-align: left; }
+.dmg-table td { padding: 5px 0; border-top: 1px solid var(--line); text-align: right; }
+.dmg-table td:first-child { color: var(--dim); }
+.dmg-table tr.head td:not(:first-child) { color: var(--sodium); }
+.wcard-foot { font: 500 11.5px/1.5 var(--f-data); color: var(--dim); }
+.wcard-foot b { color: var(--bone); font-weight: 700; }
+
+.toggle { position: relative; display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; }
+.toggle span {
+  flex: none;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  position: relative;
+  transition: background 0.15s;
+}
+.toggle span::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--dim);
+  transition: transform 0.15s, background 0.15s;
+}
+.toggle input:checked + span { background: var(--sodium); border-color: var(--sodium); }
+.toggle input:checked + span::after { transform: translateX(16px); background: var(--sodium-ink); }
+.inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > span { font: 600 11px/1 var(--f-data); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+.field input[type="number"] {
+  width: 100%;
+  padding: 9px 10px;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: 500 15px/1 var(--f-data);
+}
+.field input[type="number"]:focus-visible, .field input[type="range"]:focus-visible, .field input[type="color"]:focus-visible { outline: 2px solid var(--sodium); outline-offset: 1px; }
+.field input[type="color"] { width: 100%; height: 38px; padding: 2px; background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--radius); }
+.field input[type="range"] { width: 100%; accent-color: var(--sodium); }
+.readout { font: 700 15px/1 var(--f-data); color: var(--sodium); padding: 11px 0; font-variant-numeric: tabular-nums; }
+
+/* pause + results */
+.center-screen { display: grid; place-items: center; background: rgba(11,17,24,0.78); backdrop-filter: blur(4px); }
+.panel {
+  width: min(100%, 760px);
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.panel h2 { margin: 0; font: 800 44px/1 var(--f-display); text-transform: uppercase; letter-spacing: 0.02em; }
+.panel h2 small { display: block; margin-top: 8px; font: 600 12px/1.4 var(--f-data); letter-spacing: 0.1em; color: var(--dim); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.actions .btn-primary { width: auto; flex: 1 1 220px; }
+.actions .btn { flex: 0 1 auto; }
+.big-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.big-stats div { background: var(--ink-2); padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+.big-stats b { font: 700 30px/1 var(--f-data); font-variant-numeric: tabular-nums; }
+.big-stats span { font: 600 10.5px/1 var(--f-data); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+.big-stats .pb { color: var(--sodium); }
+.detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px 24px; font-size: 14px; }
+.detail div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding-bottom: 6px; }
+.detail dt { color: var(--dim); }
+.detail dd { margin: 0; font: 600 14px/1.4 var(--f-data); font-variant-numeric: tabular-nums; }
+.section-label { font: 600 11px/1 var(--f-data); letter-spacing: 0.14em; text-transform: uppercase; color: var(--sodium); margin: 0; }
+.zones { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: var(--raise); }
+.zones i { display: block; height: 100%; }
+.zones .z-head { background: var(--sodium); }
+.zones .z-body { background: var(--bone); }
+.zones .z-leg { background: var(--dim); }
+.zone-key { display: flex; gap: 16px; font: 500 12px/1 var(--f-data); color: var(--dim); flex-wrap: wrap; }
+.zone-key i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+/* ---------- HUD ---------- */
+#hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; font-family: var(--f-data); }
+#flashOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at center, #ffffff 0%, #ffffff 55%, #fff6e8 100%);
+}
+#crosshair { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.hitmarker { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; transform: translate(-50%, -50%); opacity: 0; }
+.hitmarker.show { opacity: 1; }
+.hitmarker i { position: absolute; width: 9px; height: 2px; background: #fff; left: 50%; top: 50%; box-shadow: 0 0 2px rgba(0,0,0,0.8); }
+.hitmarker i:nth-child(1) { transform: translate(-50%, -50%) rotate(45deg) translateX(-9px); }
+.hitmarker i:nth-child(2) { transform: translate(-50%, -50%) rotate(135deg) translateX(-9px); }
+.hitmarker i:nth-child(3) { transform: translate(-50%, -50%) rotate(225deg) translateX(-9px); }
+.hitmarker i:nth-child(4) { transform: translate(-50%, -50%) rotate(315deg) translateX(-9px); }
+.hitmarker.head i { background: var(--sodium); }
+.hitmarker.kill i { background: var(--hazard); width: 12px; }
+
+.topbar {
+  position: absolute;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: stretch;
+  gap: 1px;
+  background: rgba(38,54,73,0.85);
+  border-radius: 6px;
+  overflow: hidden;
+  text-shadow: none;
+}
+.topbar div { background: rgba(11,17,24,0.72); padding: 6px 14px; display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 74px; }
+.topbar b { font: 700 20px/1 var(--f-data); font-variant-numeric: tabular-nums; color: var(--bone); }
+.topbar span { font: 600 9.5px/1 var(--f-data); letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+.topbar .t-time b { color: var(--sodium); font-size: 24px; }
+.ammo {
+  position: absolute;
+  right: max(24px, env(safe-area-inset-right, 0px));
+  bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  text-align: right;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+.ammo .count { font: 800 54px/0.9 var(--f-display); color: var(--bone); font-variant-numeric: tabular-nums; }
+.ammo .count.low { color: var(--hazard); }
+.ammo .mag { font: 600 20px/1 var(--f-display); color: var(--dim); margin-left: 4px; }
+.ammo .wname { font: 600 11px/1 var(--f-data); letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-top: 6px; }
+.reloadbar { width: 120px; height: 3px; margin: 8px 0 0 auto; background: rgba(255,255,255,0.15); position: relative; }
+.reloadbar::after { content: ""; position: absolute; inset: 0; transform-origin: left; transform: scaleX(var(--p, 0)); background: var(--sodium); }
+.flashstat {
+  position: absolute;
+  left: max(24px, env(safe-area-inset-left, 0px));
+  bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+  font: 500 12px/1 var(--f-data);
+  color: var(--dim);
+  background: rgba(11,17,24,0.65);
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+.flashstat span { color: var(--bone); letter-spacing: 0.12em; text-transform: uppercase; margin-right: 6px; }
+.good { color: var(--teal); }
+.warn { color: var(--sodium); }
+.bad { color: var(--hazard); }
+#hudFps { position: absolute; left: max(12px, env(safe-area-inset-left, 0px)); top: calc(10px + env(safe-area-inset-top, 0px)); font: 500 11px/1 var(--f-data); color: rgba(236,230,214,0.55); }
+#killfeed {
+  position: absolute;
+  right: max(18px, env(safe-area-inset-right, 0px));
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.feed-item {
+  font: 500 12.5px/1 var(--f-data);
+  background: rgba(11,17,24,0.72);
+  border-right: 3px solid var(--bone);
+  padding: 7px 10px;
+  border-radius: 4px 0 0 4px;
+  transition: opacity 0.4s, transform 0.4s;
+  white-space: nowrap;
+}
+.feed-item b { color: var(--bone); font-weight: 700; }
+.feed-item em { font-style: normal; color: var(--sodium); font-weight: 700; margin-left: 4px; }
+.feed-item .feed-dim { color: var(--dim); margin-left: 6px; }
+.feed-item .feed-x { color: var(--hazard); margin: 0 4px; }
+.feed-item.head { border-right-color: var(--sodium); }
+.feed-item.miss { border-right-color: var(--dim); color: var(--dim); }
+.feed-item.flash.good { border-right-color: var(--teal); }
+.feed-item.flash.good em { color: var(--teal); }
+.feed-item.flash.bad { border-right-color: var(--hazard); }
+.feed-item.flash.bad em { color: var(--hazard); }
+.feed-item.out { opacity: 0; transform: translateX(10px); }
+.toast {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 64px);
+  transform: translate(-50%, 6px);
+  font: 800 22px/1 var(--f-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.12s, transform 0.12s;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+#centerMsg {
+  position: absolute;
+  left: 50%;
+  top: 34%;
+  transform: translate(-50%, -50%);
+  font: 800 120px/1 var(--f-display);
+  color: var(--sodium);
+  text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+#floats, #bars { position: absolute; inset: 0; }
+.dmg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font: 700 17px/1 var(--f-data);
+  color: var(--bone);
+  text-shadow: 0 1px 2px #000, 0 0 6px rgba(0,0,0,0.6);
+  will-change: transform, opacity;
+}
+.dmg.head { color: var(--sodium); font-size: 21px; }
+.dmg.leg { color: #c6ccd4; font-size: 15px; }
+.hpbar { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.hp-name { font: 600 10px/1 var(--f-data); letter-spacing: 0.08em; text-transform: uppercase; color: var(--bone); text-shadow: 0 1px 2px #000; }
+.hp-track { display: flex; width: 64px; height: 5px; background: rgba(11,17,24,0.7); outline: 1px solid rgba(0,0,0,0.5); }
+.hp-track i { display: block; height: 100%; }
+.hp-health { background: #f0ece0; }
+.hp-shield { background: var(--teal); }
+.free-banner {
+  position: absolute;
+  left: 50%;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  font: 500 12px/1.4 var(--f-body);
+  background: rgba(11,17,24,0.8);
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: var(--dim);
+  max-width: min(560px, 90vw);
+  text-align: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-item, .toast, .btn { transition: none; }
+}
+</style>
+</head>
+<body>
+<canvas id="view" aria-label="3D aim range"></canvas>
+
+<div id="hud" hidden>
+  <canvas id="crosshair" width="160" height="160"></canvas>
+  <div id="hitmarker" class="hitmarker"><i></i><i></i><i></i><i></i></div>
+  <div class="topbar">
+    <div class="t-time"><b id="hudTime">1:00</b><span>Time</span></div>
+    <div><b id="hudKills">0</b><span>Kills</span></div>
+    <div><b id="hudAcc">0%</b><span>Accuracy</span></div>
+    <div><b id="hudHs">0%</b><span>Headshot</span></div>
+  </div>
+  <div class="ammo">
+    <div><span id="hudAmmo" class="count">25</span><span class="mag">/ <span id="hudMag">25</span></span></div>
+    <div id="hudWeapon" class="wname">Rifle</div>
+    <div id="hudReload" class="reloadbar" hidden></div>
+  </div>
+  <div id="hudFlash" class="flashstat" hidden></div>
+  <div id="hudFps"></div>
+  <div id="killfeed"></div>
+  <div id="floats"></div>
+  <div id="bars"></div>
+  <div id="toast" class="toast"></div>
+  <div id="centerMsg" hidden></div>
+  <div id="freeBanner" class="free-banner" hidden>Pointer lock is blocked in this frame, so the cursor can hit the screen edge. Open the page in its own browser tab for full mouse look. Press Esc to pause.</div>
+</div>
+<div id="flashOverlay"></div>
+
+<!-- MENU -->
+<div id="menu" class="screen">
+  <div class="menu-grid">
+    <section class="brand">
+      <div class="eyebrow">Aim range · 9–60 m · 150 HP agents</div>
+      <h1 class="title">Head<span>line</span></h1>
+      <p class="lede">Agents walk out from cover at every distance with the same <b>100 health + shields</b> and the same hitbox. Keep your crosshair at head height, tap the rifle or the revolver, and turn away from flashes before they pop.</p>
+      <button id="startBtn" class="btn btn-primary" type="button">Start session <small>locks mouse</small></button>
+      <p id="startSummary" class="summary"></p>
+      <p id="touchNote" class="note" hidden>This range needs a mouse and keyboard. Open it on a computer to play.</p>
+      <dl class="keys">
+        <dt><kbd>LMB</kbd></dt><dd>Fire (hold for full auto)</dd>
+        <dt><kbd>RMB</kbd></dt><dd>Zoom 1.25× (rifle)</dd>
+        <dt><kbd>R</kbd></dt><dd>Reload</dd>
+        <dt><kbd>1</kbd><kbd>2</kbd></dt><dd>Rifle / revolver</dd>
+        <dt><kbd>Esc</kbd></dt><dd>Pause</dd>
+      </dl>
+      <div id="lastRun" class="last-run" hidden></div>
+    </section>
+
+    <section class="settings" aria-label="Session settings">
+      <fieldset class="card wide">
+        <legend>Weapon</legend>
+        <div class="weapons">
+          <label class="wcard">
+            <input type="radio" name="weapon" value="rifle">
+            <div class="wcard-body">
+              <div class="wcard-head"><strong>Rifle</strong><span>full auto · 7.62</span></div>
+              <table class="dmg-table">
+                <thead><tr><th>Zone</th><th>All ranges</th><th>Shots to kill</th></tr></thead>
+                <tbody>
+                  <tr class="head"><td>Head</td><td>160</td><td data-stk="rifle-head">1</td></tr>
+                  <tr><td>Body</td><td>40</td><td data-stk="rifle-body">4</td></tr>
+                  <tr><td>Legs</td><td>34</td><td data-stk="rifle-leg">5</td></tr>
+                </tbody>
+              </table>
+              <div class="wcard-foot"><b>9.75</b> rds/s · <b>25</b> mag · <b>2.5 s</b> reload · first shot <b>0.25°</b> spread</div>
+            </div>
+          </label>
+          <label class="wcard">
+            <input type="radio" name="weapon" value="revolver">
+            <div class="wcard-body">
+              <div class="wcard-head"><strong>Revolver</strong><span>semi auto · .44</span></div>
+              <table class="dmg-table">
+                <thead><tr><th>Zone</th><th>0–30 m</th><th>30 m+</th><th>Shots to kill</th></tr></thead>
+                <tbody>
+                  <tr class="head"><td>Head</td><td>159</td><td>145</td><td data-stk="revolver-head">1 / 2</td></tr>
+                  <tr><td>Body</td><td>55</td><td>50</td><td data-stk="revolver-body">3 / 3</td></tr>
+                  <tr><td>Legs</td><td>46</td><td>42</td><td data-stk="revolver-leg">4 / 4</td></tr>
+                </tbody>
+              </table>
+              <div class="wcard-foot"><b>4</b> rds/s · <b>6</b> rounds · <b>2.25 s</b> reload · spamming blooms fast</div>
+            </div>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>Targets</legend>
+        <div class="row"><span class="label">Distance</span>
+          <div class="seg">
+            <label><input type="radio" name="distance" value="close"><span>Close<small>9–16 m</small></span></label>
+            <label><input type="radio" name="distance" value="mid"><span>Mid<small>16–31 m</small></span></label>
+            <label><input type="radio" name="distance" value="long"><span>Long<small>31 m+</small></span></label>
+            <label><input type="radio" name="distance" value="mixed"><span>Mixed<small>all</small></span></label>
+          </div>
+        </div>
+        <div class="row"><span class="label">Movement</span>
+          <div class="seg">
+            <label><input type="radio" name="movement" value="peek"><span>Peek<small>step out, hold</small></span></label>
+            <label><input type="radio" name="movement" value="strafe"><span>Strafe<small>A-D jiggle</small></span></label>
+            <label><input type="radio" name="movement" value="cross"><span>Cross<small>gap to gap</small></span></label>
+            <label><input type="radio" name="movement" value="mix"><span>Mix</span></label>
+          </div>
+        </div>
+        <div class="row"><span class="label">Speed</span>
+          <div class="seg">
+            <label><input type="radio" name="speed" value="walk"><span>Walk<small>silent</small></span></label>
+            <label><input type="radio" name="speed" value="run"><span>Run<small>6.75 m/s</small></span></label>
+            <label><input type="radio" name="speed" value="mix"><span>Mix</span></label>
+          </div>
+        </div>
+        <div class="row"><span class="label">Agents at once</span>
+          <div class="seg">
+            <label><input type="radio" name="maxTargets" value="1"><span>1</span></label>
+            <label><input type="radio" name="maxTargets" value="2"><span>2</span></label>
+            <label><input type="radio" name="maxTargets" value="3"><span>3</span></label>
+          </div>
+        </div>
+        <div class="row"><span class="label">Shields (every agent)</span>
+          <div class="seg">
+            <label><input type="radio" name="shields" value="none"><span>None<small>100 HP</small></span></label>
+            <label><input type="radio" name="shields" value="light"><span>Light<small>125 HP</small></span></label>
+            <label><input type="radio" name="shields" value="heavy"><span>Heavy<small>150 HP</small></span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>Flashes</legend>
+        <div class="row"><span class="label">Thrown at you</span>
+          <div class="seg">
+            <label><input type="radio" name="flashes" value="off"><span>Off</span></label>
+            <label><input type="radio" name="flashes" value="flare"><span>Curve flare<small>0.65 s fuse</small></span></label>
+            <label><input type="radio" name="flashes" value="hawk"><span>Hawk<small>screech, then pop</small></span></label>
+            <label><input type="radio" name="flashes" value="both"><span>Both</span></label>
+          </div>
+        </div>
+        <div class="row"><span class="label">How often</span>
+          <div class="seg">
+            <label><input type="radio" name="flashRate" value="low"><span>Low<small>9–13 s</small></span></label>
+            <label><input type="radio" name="flashRate" value="normal"><span>Normal<small>5–8 s</small></span></label>
+            <label><input type="radio" name="flashRate" value="high"><span>High<small>3–5 s</small></span></label>
+          </div>
+        </div>
+        <label class="toggle"><input type="checkbox" data-setting="flashPeek"><span></span>An agent swings out right after each pop</label>
+        <label class="toggle"><input type="checkbox" data-setting="flashOnly"><span></span>Flash drill only (no other agents)</label>
+        <p class="help">The <b>curve flare</b> arcs around a corner and pops 0.65 s after you hear it. The <b>hawk</b> glides out, then screeches for 0.55 s before it pops. Turn about 90° away before the pop to dodge it fully, then turn back for the swing.</p>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>Session</legend>
+        <div class="row"><span class="label">Length</span>
+          <div class="seg">
+            <label><input type="radio" name="duration" value="60"><span>60 s</span></label>
+            <label><input type="radio" name="duration" value="120"><span>120 s</span></label>
+            <label><input type="radio" name="duration" value="0"><span>Endless</span></label>
+          </div>
+        </div>
+        <div class="inputs">
+          <label class="field"><span>Sensitivity</span><input id="sens" type="number" min="0.01" max="10" step="0.001" data-setting="sens"></label>
+          <label class="field"><span>Mouse DPI</span><input id="dpi" type="number" min="100" max="32000" step="50" data-setting="dpi"></label>
+          <label class="field"><span>Zoom sens ×</span><input id="scopedMult" type="number" min="0.1" max="3" step="0.01" data-setting="scopedMult"></label>
+          <div class="field"><span>cm / 360°</span><div id="cm360" class="readout">40.8</div></div>
+        </div>
+        <p class="help">Sensitivity uses the same scale as Valorant (0.07° per count), so your in-game number carries over.</p>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>HUD &amp; sound</legend>
+        <div class="row"><span class="label">Crosshair</span>
+          <div class="seg">
+            <label><input type="radio" name="crossStyle" value="cross"><span>Cross</span></label>
+            <label><input type="radio" name="crossStyle" value="crossdot"><span>Cross + dot</span></label>
+            <label><input type="radio" name="crossStyle" value="dot"><span>Dot</span></label>
+          </div>
+        </div>
+        <div class="inputs">
+          <label class="field"><span>Color</span><input id="crossColor" type="color" data-setting="crossColor"></label>
+          <label class="field"><span>Volume</span><input id="volume" type="range" min="0" max="1" step="0.05" data-setting="volume"></label>
+        </div>
+        <label class="toggle"><input type="checkbox" data-setting="firingError"><span></span>Crosshair shows firing error</label>
+        <label class="toggle"><input type="checkbox" data-setting="healthBars"><span></span>Health and shield bars over agents</label>
+      </fieldset>
+    </section>
+  </div>
+</div>
+
+<!-- PAUSE -->
+<div id="pauseScreen" class="screen center-screen" hidden>
+  <div class="panel">
+    <h2>Paused<small id="pauseHint">Click resume to lock the mouse again.</small></h2>
+    <div class="actions">
+      <button id="resumeBtn" class="btn btn-primary" type="button">Resume</button>
+      <button id="endBtn" class="btn" type="button">End session</button>
+      <button id="quitBtn" class="btn" type="button">Back to settings</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen center-screen" hidden>
+  <div class="panel">
+    <h2>Session report<small id="resultsSub"></small></h2>
+    <div id="resultsBody"></div>
+    <div class="actions">
+      <button id="againBtn" class="btn btn-primary" type="button">Run it again</button>
+      <button id="menuBtn" class="btn" type="button">Change settings</button>
+    </div>
+  </div>
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

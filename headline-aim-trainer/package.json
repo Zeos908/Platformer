@@ -1,0 +1,10 @@
+{
+  "name": "headline-aim-trainer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser aim trainer: agents peek from cover at 9-60 m, rifle and revolver damage models, flash-dodging drills.",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve@14.2.4 -l 5173 ."
+  }
+}
