@@ -168,6 +168,63 @@ function buildRevolver(mats) {
   };
 }
 
+// Bolt-action sniper: long fluted barrel, big scope, bolt that cycles after each shot.
+function buildSniper(mats) {
+  const g = new THREE.Group();
+  const steel = M(0x33363c, { metalness: 0.75, roughness: 0.36 });
+  const steel2 = M(0x4a4f57, { metalness: 0.7, roughness: 0.3 });
+  const poly = M(0x5d6247, { roughness: 0.75, metalness: 0.04 });
+  const poly2 = M(0x464a35, { roughness: 0.8, metalness: 0.04 });
+  const glass = M(0x10202a, { metalness: 0.9, roughness: 0.08, emissive: 0x0a2a3a, emissiveIntensity: 0.4 });
+  const accent = M(0xf4b740, { emissive: 0xf4b740, emissiveIntensity: 0.5, roughness: 0.4 });
+
+  part(g, B(0.054, 0.07, 0.32), steel, 0, 0, 0);
+  part(g, B(0.062, 0.06, 0.3), poly, 0, -0.012, -0.29);
+  part(g, C(0.0125, 0.6), steel, 0, 0.006, -0.62, Math.PI / 2);
+  part(g, B(0.03, 0.03, 0.07), steel2, 0, 0.006, -0.95);
+  part(g, B(0.034, 0.012, 0.05), steel, 0, 0.006, -0.95);
+  part(g, B(0.008, 0.01, 0.26), accent, 0.032, -0.012, -0.29);
+  // scope
+  part(g, C(0.024, 0.3), steel, 0, 0.085, -0.03, Math.PI / 2);
+  const bell = part(g, new THREE.CylinderGeometry(0.034, 0.024, 0.07, 18), steel, 0, 0.085, -0.215, -Math.PI / 2);
+  bell.rotation.x = -Math.PI / 2;
+  part(g, C(0.031, 0.006), glass, 0, 0.085, -0.252, Math.PI / 2);
+  part(g, C(0.028, 0.05), steel2, 0, 0.085, 0.14, Math.PI / 2);
+  part(g, C(0.022, 0.004), glass, 0, 0.085, 0.166, Math.PI / 2);
+  part(g, C(0.011, 0.03), steel2, 0, 0.118, -0.03);
+  part(g, C(0.011, 0.03), steel2, 0.032, 0.085, -0.03, 0, 0, Math.PI / 2);
+  part(g, B(0.03, 0.04, 0.025), steel, 0, 0.055, -0.1);
+  part(g, B(0.03, 0.04, 0.025), steel, 0, 0.055, 0.06);
+  // magazine, grip, stock
+  part(g, B(0.036, 0.06, 0.085), steel2, 0, -0.06, -0.03);
+  part(g, B(0.012, 0.03, 0.06), steel, 0, -0.05, 0.06);
+  part(g, B(0.036, 0.1, 0.046), poly2, 0, -0.08, 0.12, -0.3);
+  part(g, B(0.042, 0.075, 0.27), poly, 0, -0.02, 0.3, 0.05);
+  part(g, B(0.03, 0.03, 0.14), poly2, 0, 0.03, 0.3);
+  part(g, B(0.046, 0.12, 0.026), poly2, 0, -0.035, 0.44, 0.05);
+  // bolt handle (animated)
+  const bolt = new THREE.Group();
+  bolt.position.set(0.03, 0.022, 0.07);
+  part(bolt, C(0.0055, 0.05), steel2, 0.024, 0, 0, 0, 0, Math.PI / 2 + 0.35);
+  part(bolt, new THREE.SphereGeometry(0.011, 10, 8), steel, 0.048, -0.01, 0);
+  g.add(bolt);
+
+  arms(g, mats,
+    { hand: [0.022, -0.078, 0.12], handRot: [-0.3, 0, 0], wrist: [0.035, -0.11, 0.17], elbow: [0.17, -0.32, 0.47] },
+    { hand: [-0.018, -0.045, -0.33], wrist: [-0.04, -0.07, -0.29], elbow: [-0.24, -0.34, -0.04] });
+
+  const muzzle = new THREE.Object3D();
+  muzzle.position.set(0, 0.006, -0.99);
+  g.add(muzzle);
+  return {
+    group: g, mag: bolt, bolt, muzzle,
+    scale: 0.6,
+    hip: new THREE.Vector3(0.115, -0.125, -0.3), hipRotY: 0.065,
+    ads: new THREE.Vector3(0.02, -0.11, -0.22),
+    flashScale: 0.5,
+  };
+}
+
 export class WeaponSystem {
   constructor(vmScene, audio) {
     this.audio = audio;
@@ -175,7 +232,7 @@ export class WeaponSystem {
       glove: M(0x2a2b2f, { roughness: 0.85, metalness: 0 }),
       sleeve: M(0x2d4757, { roughness: 0.9, metalness: 0 }),
     };
-    this.models = { rifle: buildRifle(armMats), revolver: buildRevolver(armMats) };
+    this.models = { rifle: buildRifle(armMats), revolver: buildRevolver(armMats), operator: buildSniper(armMats) };
     const flashTex = flashTexture();
     for (const m of Object.values(this.models)) {
       m.group.scale.setScalar(m.scale);
@@ -197,13 +254,10 @@ export class WeaponSystem {
 
   get def() { return WEAPONS[this.current]; }
   get model() { return this.models[this.current]; }
-  get adsActive() { return this.adsT > 0.8; }
-  get zoomFactor() {
-    const w = this.def;
-    if (!w.zoom) return 1;
-    const e = smoothstep(0, 1, this.adsT);
-    return 1 + (w.zoom - 1) * e;
-  }
+  /** Fully zoomed (rifle ADS or a scope level). */
+  get adsActive() { return this.adsT > (this.def.zoomLevels ? 0.9 : 0.8); }
+  get scoped() { return !!this.def.zoomLevels && this.adsT > 0.7; }
+  get zoomFactor() { return this.zoom; }
 
   reset(id) {
     this.current = id;
@@ -217,6 +271,11 @@ export class WeaponSystem {
     this.nextFire = 0;
     this.lastShot = -99;
     this.adsT = 0;
+    this.zoom = 1;
+    this.zoomLevel = 0;
+    this.levelZoom = 1;
+    this.latched = false;
+    this.boltT = 99;
     this.flashT = 0;
     this.emptyT = 0;
     for (const [k, m] of Object.entries(this.models)) m.group.visible = k === id;
@@ -229,6 +288,8 @@ export class WeaponSystem {
     this.equipT = 0;
     this.heat = 0;
     this.adsT = 0;
+    this.zoomLevel = 0;
+    this.latched = false;
     for (const [k, m] of Object.entries(this.models)) m.group.visible = k === id;
     this.audio?.equip();
   }
@@ -238,18 +299,29 @@ export class WeaponSystem {
     if (this.reloading || this.ammo[w.id] >= w.magSize || this.equipT < w.equipTime) return;
     this.reloading = true;
     this.reloadT = 0;
+    this.zoomLevel = 0;
     this.adsT = Math.min(this.adsT, 0.5);
     this.audio?.reload(w.reloadTime);
   }
 
+  /** Current spread cone in degrees. */
   spreadDeg() {
     const w = this.def;
     const s = w.spread;
+    if (s.hip !== undefined) return s.hip + (s.scoped - s.hip) * smoothstep(0.6, 1, this.adsT);
     if (s.perHeat !== undefined) return Math.min(s.max, s.base + s.perHeat * this.heat);
     const ads = this.adsActive;
     const base = ads ? s.adsBase : s.base;
     const max = ads ? s.adsMax : s.max;
     return base + (max - base) * smoothstep(s.rampStart, s.rampEnd, this.heat);
+  }
+
+  /** Spread with no recoil heat, used to place firing-error crosshair lines. */
+  restingSpreadDeg() {
+    const s = this.def.spread;
+    if (s.hip !== undefined) return this.spreadDeg();
+    if (s.perHeat !== undefined) return s.base;
+    return this.adsActive ? s.adsBase : s.base;
   }
 
   applyKick() {
@@ -270,14 +342,27 @@ export class WeaponSystem {
     this.heat += 1;
   }
 
-  /** Advance one frame. Returns the shots fired this frame. */
+  /** Advance one frame. input: { fire, ads, zoomClicks, lookDX, lookDY }. Returns shots fired. */
   update(dt, t, input, canFire = true) {
     const w = this.def;
     const shots = [];
     this.equipT += dt;
+    const equipped = this.equipT >= w.equipTime * 0.6;
 
-    const wantAds = input.ads && w.zoom && !this.reloading && this.equipT >= w.equipTime * 0.6;
-    this.adsT = clamp(this.adsT + (wantAds ? dt : -dt) / 0.16, 0, 1);
+    let wantAds;
+    if (w.zoomLevels) {
+      const clicks = input.zoomClicks || 0;
+      for (let i = 0; i < clicks; i++) this.zoomLevel = (this.zoomLevel + 1) % (w.zoomLevels.length + 1);
+      if (this.reloading || !equipped) this.zoomLevel = 0;
+      if (this.zoomLevel > 0) this.levelZoom = w.zoomLevels[this.zoomLevel - 1];
+      wantAds = this.zoomLevel > 0;
+    } else {
+      wantAds = !!(input.ads && w.zoom && !this.reloading && equipped);
+      this.levelZoom = w.zoom || 1;
+    }
+    this.adsT = clamp(this.adsT + (wantAds ? dt : -dt) / (w.scopeTime || 0.16), 0, 1);
+    const targetZoom = 1 + (this.levelZoom - 1) * smoothstep(0, 1, this.adsT);
+    this.zoom += (targetZoom - this.zoom) * Math.min(1, dt * 22);
 
     if (this.reloading) {
       this.reloadT += dt;
@@ -287,7 +372,8 @@ export class WeaponSystem {
       }
     }
 
-    const ready = canFire && this.equipT >= w.equipTime && !this.reloading;
+    if (!input.fire) this.latched = false;
+    const ready = canFire && this.equipT >= w.equipTime && !this.reloading && !(w.semi && this.latched);
     if (input.fire && ready) {
       if (this.ammo[w.id] <= 0) {
         this.startReload();
@@ -306,9 +392,16 @@ export class WeaponSystem {
           this.model.flash.material.rotation = Math.random() * Math.PI * 2;
           this.model.flash.scale.setScalar(this.model.flashScale * (0.8 + Math.random() * 0.45));
           this.audio?.shot(w.id);
+          if (w.semi) {
+            this.latched = true;
+            this.boltT = 0;
+            if (this.ammo[w.id] > 0) this.audio?.bolt(interval);
+            break;
+          }
         }
       }
     }
+    this.boltT += dt;
     if (this.ammo[w.id] === 0 && !this.reloading) {
       this.emptyT += dt;
       if (this.emptyT > 0.3) this.startReload();
@@ -356,10 +449,11 @@ export class WeaponSystem {
 
     m.mag.position.set(0, 0, 0);
     m.mag.rotation.set(0, 0, 0);
+    if (m.bolt) m.bolt.position.set(0.03, 0.022, 0.07);
     if (this.reloading) {
       const p = this.reloadT / w.reloadTime;
       const tilt = bump(p, 0.04, 0.18, 0.82, 0.97);
-      rz += tilt * (w.id === 'rifle' ? 0.55 : 0.9);
+      rz += tilt * (w.id === 'revolver' ? 0.9 : 0.55);
       rx += tilt * 0.2;
       pos.y -= tilt * 0.035;
       if (w.id === 'rifle') {
@@ -367,20 +461,34 @@ export class WeaponSystem {
         m.mag.position.y = -out * 0.4;
         m.mag.position.z = out * 0.04;
         m.mag.rotation.x = out * 0.4;
-        // charging handle rack near the end
         pos.z += bump(p, 0.78, 0.82, 0.84, 0.9) * 0.02;
-      } else {
+      } else if (w.id === 'revolver') {
         const out = bump(p, 0.12, 0.25, 0.75, 0.88);
         m.mag.position.x = -out * 0.042;
         m.mag.rotation.z = out * p * 12;
+      } else if (m.bolt) {
+        const rack = bump(p, 0.8, 0.85, 0.88, 0.95);
+        m.bolt.rotation.z = rack * 1.1;
+        m.bolt.position.z = 0.07 + rack * 0.06;
       }
+    } else if (m.bolt) {
+      // Bolt cycle after a sniper shot
+      const interval = 1 / w.fireRate;
+      const p = this.boltT / interval;
+      const lift = bump(p, 0.2, 0.3, 0.62, 0.72);
+      const pull = bump(p, 0.3, 0.4, 0.52, 0.62);
+      m.bolt.rotation.z = lift * 1.1;
+      m.bolt.position.z = 0.07 + pull * 0.07;
+      rz += bump(p, 0.15, 0.3, 0.6, 0.8) * 0.12;
     }
 
     m.group.position.copy(pos);
     m.group.rotation.set(rx, ry, rz);
+    // The sniper's viewmodel disappears behind the scope overlay.
+    m.group.visible = !(w.zoomLevels && this.adsT > 0.7);
 
     this.flashT -= dt;
-    const on = this.flashT > 0;
+    const on = this.flashT > 0 && m.group.visible;
     m.flash.visible = on;
     m.muzzle.getWorldPosition(this.flashLight.position);
     this.flashLight.intensity = on ? 2.2 : 0;
@@ -388,6 +496,7 @@ export class WeaponSystem {
 
   /** Screen position of the muzzle, in normalized device coordinates. */
   muzzleNDC(vmCamera, out) {
+    if (!this.model.group.visible) return out.set(0, -0.15, 0.5);
     this.model.muzzle.getWorldPosition(out);
     return out.project(vmCamera);
   }

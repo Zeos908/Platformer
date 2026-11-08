@@ -11,6 +11,7 @@ export class Input {
     this.lookDY = 0;
     this.fire = false;
     this.ads = false;
+    this.zoomClicks = 0;
     this.active = false;
     this.locked = false;
     this.freeMode = false;
@@ -46,7 +47,10 @@ export class Input {
     document.addEventListener('mousedown', (e) => {
       if (!this.active || !(this.locked || (this.freeMode && e.target === this.target))) return;
       if (e.button === 0) this.fire = true;
-      if (e.button === 2) this.ads = true;
+      if (e.button === 2) {
+        this.ads = true;
+        this.zoomClicks++;
+      }
       e.preventDefault();
     });
     document.addEventListener('mouseup', (e) => {
@@ -100,6 +104,13 @@ export class Input {
 
   unlock() {
     if (document.pointerLockElement) document.exitPointerLock();
+  }
+
+  /** Right-click presses since the last call (the sniper cycles zoom on each). */
+  takeZoomClicks() {
+    const n = this.zoomClicks;
+    this.zoomClicks = 0;
+    return n;
   }
 
   /** Mouse delta since the last call. */

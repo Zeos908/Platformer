@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {
   DEG, YAW_PER_COUNT, H_FOV, EYE_HEIGHT, WEAPONS, SHIELDS, SPEEDS, ROSTER,
-  FLASH_RATES, DISTANCES, damageFor, flashFactor,
+  FLASH_RATES, DISTANCES, ENDLESS, damageFor, flashFactor, scoreForKill, sessionConfig,
 } from './config.js';
 import { World } from './world.js';
 import { Agent, planFor } from './agents.js';
@@ -20,12 +20,14 @@ function shuffle(arr) {
   return a;
 }
 const mean = (arr) => (arr.length ? arr.reduce((s, v) => s + v, 0) / arr.length : null);
+const lerp = (a, b, t) => a + (b - a) * t;
 
 function freshStats() {
   return {
     shots: 0, hits: 0, head: 0, body: 0, leg: 0, kills: 0, headKills: 0, oneTaps: 0,
     escaped: 0, damage: 0, reaction: [], ttk: [], killDist: [], streak: 0, bestStreak: 0,
     flashes: 0, dodged: 0, partial: 0, flashed: 0, blindTime: 0,
+    score: 0, bulletsPerKill: [], efficiency: [],
   };
 }
 
@@ -79,6 +81,12 @@ export class Game {
     this.lastDef = null;
     this.lastSpot = null;
     this.onSessionEnd = null;
+    this.endless = false;
+    this.allowed = ['rifle', 'revolver'];
+    this.bulletsSinceKill = 0;
+    this.killedBy = null;
+    this.maxSight = 0;
+    this.warnStep = 0;
 
     this._e = new THREE.Euler(0, 0, 0, 'YXZ');
     this._f = new THREE.Vector3();
@@ -164,8 +172,14 @@ export class Game {
 
   // --- session flow ---------------------------------------------------------
 
-  startSession(settings) {
+  startSession(raw) {
+    const settings = sessionConfig(raw);
     this.settings = settings;
+    this.endless = settings.mode === 'endless';
+    this.allowed = settings.mode === 'operator' ? ['operator'] : ['rifle', 'revolver'];
+    this.bulletsSinceKill = 0;
+    this.killedBy = null;
+    this.maxSight = 0;
     this.clearField();
     this.weapon.reset(settings.weapon);
     this.yaw = 0;
@@ -179,8 +193,18 @@ export class Game {
     this.spawnTimer = 0.2;
     this.flashTimer = 2.5;
     this.input.fire = false;
+    this.input.takeZoomClicks();
     this.hud.clear();
-    this.hud.setCrosshairSettings(settings.crossColor, settings.crossStyle);
+  }
+
+  /** Swap weapons if this mode allows it. */
+  trySwitch(id) {
+    if (this.allowed.includes(id)) this.weapon.switchTo(id);
+  }
+
+  /** Show a weapon in the menu's background scene. */
+  previewWeapon(id) {
+    if (this.mode === 'demo' && this.weapon.current !== id) this.weapon.reset(id);
   }
 
   pause() {
@@ -199,6 +223,7 @@ export class Game {
     this.mode = 'results';
     this.blind.hold = this.blind.fade = 0;
     this.hud.setFlash(0);
+    this.hud.setScope(false);
     const r = this.results();
     this.onSessionEnd?.(r);
     return r;
@@ -209,6 +234,8 @@ export class Game {
     this.clearField();
     this.weapon.reset(this.settings?.weapon || 'rifle');
     this.hud.clear();
+    this.hud.setDanger(0);
+    this.hud.setScope(false);
   }
 
   clearField() {
@@ -238,6 +265,11 @@ export class Game {
       avgDist: mean(s.killDist),
       bestStreak: s.bestStreak,
       elapsed: this.elapsed,
+      score: s.score,
+      bulletsPerKill: mean(s.bulletsPerKill),
+      efficiency: mean(s.efficiency),
+      mode: this.settings?.mode || 'training',
+      killedBy: this.killedBy,
       flashes: { total: s.flashes, dodged: s.dodged, partial: s.partial, flashed: s.flashed, blindTime: s.blindTime },
     };
   }
@@ -297,6 +329,7 @@ export class Game {
     agent.spawnedAt = this.time;
     agent.demo = demo;
     agent.hitsTaken = 0;
+    agent.sight = 0;
     this.scene.add(agent.root);
     this.agents.push(agent);
     return agent;
@@ -377,7 +410,10 @@ export class Game {
 
   resolveShot(shot) {
     const counting = this.mode === 'playing';
-    if (counting) this.stats.shots++;
+    if (counting) {
+      this.stats.shots++;
+      this.bulletsSinceKill++;
+    }
     const w = shot.weapon;
     this._e.set(this.pitch + shot.pitchOff * DEG, this.yaw - shot.yawOff * DEG, 0, 'YXZ');
     const fwd = this._f.set(0, 0, -1).applyEuler(this._e);
@@ -454,13 +490,39 @@ export class Game {
     const ttk = agent.exposedAt !== null ? this.time - agent.exposedAt : null;
     if (ttk !== null) st.ttk.push(ttk);
     st.killDist.push(dist);
-    const ms = ttk !== null ? `${Math.round(ttk * 1000)} ms` : '';
+    // Score: 1000 x (fewest bullets that could have killed) / (bullets fired since the last kill)
+    const used = Math.max(1, this.bulletsSinceKill);
+    const minBullets = Math.ceil(agent.maxTotal / damageFor(weapon, 'head', dist));
+    const points = scoreForKill(minBullets, used);
+    this.bulletsSinceKill = 0;
+    st.score += points;
+    st.bulletsPerKill.push(used);
+    st.efficiency.push(Math.min(1, minBullets / used));
     this.hud.feedItem(
-      `<b>${weapon.name}</b> <span class="feed-x">✕</span> ${agent.def.name}${head ? ' <em>Headshot</em>' : ''} <span class="feed-dim">${Math.round(dist)} m${ms ? ` · ${ms}` : ''}</span>`,
+      `<b>${weapon.name}</b> <span class="feed-x">✕</span> ${agent.def.name}${head ? ' <em>Headshot</em>' : ''} <span class="feed-dim">${Math.round(dist)} m · ${used} ${used === 1 ? 'bullet' : 'bullets'}</span> <span class="feed-pts">+${points}</span>`,
       head ? 'head' : '',
     );
-    if (head && agent.hitsTaken === 1) this.hud.toast('One tap', 'good');
+    this.hud.toast(points === 1000 ? '+1000 · one tap' : `+${points} · ${used} bullets`, points === 1000 ? 'good' : points >= 500 ? 'warn' : '');
     this.spawnTimer = Math.max(this.spawnTimer, rand(0.3, 0.85));
+  }
+
+  /** Spawn and flash pacing. Endless ramps these up the longer you survive. */
+  pacing() {
+    const s = this.settings;
+    if (!this.endless) {
+      return { maxTargets: s.maxTargets, spawnDelay: [0.35, 1.0], flashGap: FLASH_RATES[s.flashRate] || FLASH_RATES.normal };
+    }
+    const t = this.elapsed;
+    let maxTargets = 1;
+    for (const [at, n] of ENDLESS.targetsAt) if (t >= at) maxTargets = n;
+    const k = Math.min(1, t / ENDLESS.rampTime);
+    const [d0, d1] = ENDLESS.spawnDelay;
+    const [f0, f1] = ENDLESS.flashGap;
+    return {
+      maxTargets,
+      spawnDelay: [lerp(d0[0], d1[0], k), lerp(d0[1], d1[1], k)],
+      flashGap: [lerp(f0[0], f1[0], k), lerp(f0[1], f1[1], k)],
+    };
   }
 
   // --- frame ----------------------------------------------------------------
@@ -478,8 +540,10 @@ export class Game {
     // Look
     const { dx, dy } = this.input.consume();
     if (live) {
-      const scoped = this.weapon.adsActive && s.scopedMult ? s.scopedMult : 1;
-      const k = s.sens * YAW_PER_COUNT * scoped * DEG;
+      // Zoomed sensitivity scales with the zoom (1/zoom), then by the zoom multiplier.
+      const zoom = this.weapon.zoomFactor;
+      const zoomed = zoom > 1.01 ? (s.scopedMult || 1) / zoom : 1;
+      const k = s.sens * YAW_PER_COUNT * zoomed * DEG;
       this.yaw -= dx * k;
       this.pitch = Math.max(-89 * DEG, Math.min(89 * DEG, this.pitch - dy * k));
     } else if (mode === 'demo') {
@@ -488,7 +552,10 @@ export class Game {
     }
 
     // Shooting
-    const shots = this.weapon.update(dt, this.time, live ? this.input : { fire: false, ads: false }, live);
+    const win = live
+      ? { fire: this.input.fire, ads: this.input.ads, zoomClicks: this.input.takeZoomClicks(), lookDX: this.input.lookDX, lookDY: this.input.lookDY }
+      : { fire: false, ads: false, zoomClicks: 0 };
+    const shots = this.weapon.update(dt, this.time, win, live);
     for (const shot of shots) this.resolveShot(shot);
     this.applyFov(this.weapon.zoomFactor);
     this.camera.rotation.set(this.pitch + this.weapon.recoilP * DEG, this.yaw - this.weapon.recoilY * DEG, 0);
@@ -525,17 +592,17 @@ export class Game {
     if (this.mode === 'playing') {
       const flashDrill = s.flashOnly && s.flashes !== 'off';
       const alive = this.agents.filter((a) => a.alive && !a.forced).length;
+      const pace = this.pacing();
       this.spawnTimer -= dt;
-      if (!flashDrill && this.spawnTimer <= 0 && alive < s.maxTargets) {
+      if (!flashDrill && this.spawnTimer <= 0 && alive < pace.maxTargets) {
         this.spawnAgent();
-        this.spawnTimer = rand(0.35, 1.0);
+        this.spawnTimer = rand(pace.spawnDelay[0], pace.spawnDelay[1]);
       }
       if (s.flashes !== 'off') {
         this.flashTimer -= dt;
         if (this.flashTimer <= 0 && !this.flashes.busy) {
           const ok = this.throwFlash();
-          const [lo, hi] = FLASH_RATES[s.flashRate] || FLASH_RATES.normal;
-          this.flashTimer = ok ? rand(lo, hi) : 0.6;
+          this.flashTimer = ok ? rand(pace.flashGap[0], pace.flashGap[1]) : 0.6;
         }
       }
       for (let i = this.pendingPeeks.length - 1; i >= 0; i--) {
@@ -563,8 +630,11 @@ export class Game {
         const pts = a.samplePoints(this._pts);
         a.visibleNow = this.world.visibleFromEye(pts[0].x, pts[0].y, pts[0].z) || this.world.visibleFromEye(pts[1].x, pts[1].y, pts[1].z);
         if (a.visibleNow && a.exposedAt === null) a.exposedAt = this.time;
+        // Line-of-sight meter: fills while the agent can see you, drains while it cannot.
+        a.sight = Math.max(0, a.sight + (a.visibleNow ? dt : -dt));
       } else {
         a.visibleNow = false;
+        a.sight = 0;
       }
       if (a.finished) {
         if (a.alive && a.exposedAt !== null && this.mode === 'playing' && !a.demo) {
@@ -575,6 +645,29 @@ export class Game {
         this.removeAgent(a);
       }
     }
+
+    // Endless: any agent that keeps line of sight for too long wins the duel.
+    let maxSight = 0;
+    let threat = null;
+    for (const a of this.agents) {
+      if (a.alive && a.sight > maxSight) { maxSight = a.sight; threat = a; }
+    }
+    this.maxSight = maxSight;
+    if (this.endless && this.mode === 'playing') {
+      const level = maxSight / ENDLESS.sightLimit;
+      const step = level > 0.5 ? Math.floor(level * 8) : 0;
+      if (step > this.warnStep) this.audio.warn(level);
+      this.warnStep = step;
+      if (threat && maxSight >= ENDLESS.sightLimit) {
+        this.killedBy = threat.def.name;
+        this.audio.death();
+        this.hud.setDanger(1);
+        this.endSession();
+        this.render();
+        return;
+      }
+    }
+    this.hud.setDanger(this.endless && this.mode === 'playing' ? Math.min(1, maxSight / ENDLESS.sightLimit) : 0);
 
     // Flashes + blind
     this.flashes.update(dt, (f) => this.onFlashPop(f));
@@ -604,8 +697,9 @@ export class Game {
     const st = this.stats;
     hud.setStats({
       time: s.duration > 0 ? (this.mode === 'countdown' ? s.duration : this.remaining) : this.elapsed,
-      endless: s.duration === 0,
+      timeLabel: this.endless ? 'Survived' : s.duration > 0 ? 'Time' : 'Elapsed',
       kills: st.kills,
+      score: st.score,
       acc: st.shots ? Math.round((st.hits / st.shots) * 100) : 0,
       hs: st.hits ? Math.round((st.head / st.hits) * 100) : 0,
     });
@@ -616,13 +710,18 @@ export class Game {
     } else {
       hud.setFlashStats('');
     }
-    let errorPx = 0;
-    if (s.firingError) {
-      const h = window.innerHeight;
-      errorPx = (Math.tan(this.weapon.spreadDeg() * DEG) / Math.tan((this.camera.fov / 2) * DEG)) * (h / 2);
-    }
-    hud.drawCrosshair(errorPx);
-    hud.update(dt, this.camera, this.agents, s.healthBars);
+    // Firing error in device pixels, for crosshair lines that follow it.
+    const halfH = (window.innerHeight * (window.devicePixelRatio || 1)) / 2;
+    const toPx = (deg) => (Math.tan(deg * DEG) / Math.tan((this.camera.fov / 2) * DEG)) * halfH;
+    const scoped = this.weapon.scoped;
+    hud.setScope(scoped, this.weapon.recoilP);
+    hud.drawCrosshair({
+      errorPx: toPx(this.weapon.spreadDeg()),
+      basePx: toPx(this.weapon.restingSpreadDeg()),
+      zoomed: this.weapon.adsActive,
+      hidden: scoped,
+    });
+    hud.update(dt, this.camera, this.agents, s.healthBars, this.endless ? ENDLESS.sightLimit : 0);
   }
 
   render() {

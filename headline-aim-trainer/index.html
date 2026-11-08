@@ -222,6 +222,48 @@ legend {
 
 .weapons { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px; }
 .wcard { position: relative; display: block; cursor: pointer; }
+.wcard.fixed { cursor: default; }
+.wcard.fixed .wcard-body { border-color: var(--sodium); box-shadow: inset 0 0 0 1px var(--sodium); }
+.wcard.fixed .wcard-head strong { color: var(--sodium); }
+.modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px; }
+.modes .wcard-body { gap: 6px; }
+.modes .wcard-body p { margin: 0; font-size: 13.5px; color: var(--dim); }
+.modes .wcard-head span { color: var(--sodium); }
+fieldset.card:disabled { opacity: 0.45; }
+fieldset.card:disabled .seg span, fieldset.card:disabled .toggle { cursor: not-allowed; }
+.lock-note { margin: -4px 0 0; font: 600 11px/1.4 var(--f-data); letter-spacing: 0.06em; color: var(--sodium); }
+.formula { font: 500 12.5px/1.6 var(--f-data); color: var(--bone); background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 0; overflow-x: auto; }
+.formula b { color: var(--sodium); }
+/* crosshair panel */
+.xh-grid { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 640px) { .xh-grid { grid-template-columns: minmax(0, 1fr); } }
+.xh-previews { display: flex; gap: 10px; flex-wrap: wrap; }
+.xh-preview { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.xh-preview canvas { display: block; border-radius: var(--radius); border: 1px solid var(--line); background: linear-gradient(180deg, #9fb7cf 0%, #c9c6bb 48%, #8f8a80 52%, #6f6b63 100%); }
+.xh-preview span { font: 600 10.5px/1 var(--f-data); letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
+#xhZoom { image-rendering: pixelated; }
+.code-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.code-row input {
+  flex: 1 1 260px;
+  min-width: 0;
+  padding: 10px 12px;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: 500 13px/1.2 var(--f-data);
+}
+.code-row input:focus-visible { outline: 2px solid var(--sodium); outline-offset: 1px; }
+.btn-small { padding: 9px 12px; font-size: 13.5px; }
+.xh-status { margin: 0; font: 500 12px/1.5 var(--f-data); color: var(--dim); overflow-wrap: anywhere; }
+.xh-status.err { color: var(--hazard); }
+.xh-status.ok { color: var(--teal); }
+.swatches { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.swatch { width: 26px; height: 26px; border-radius: 5px; border: 2px solid var(--line); cursor: pointer; padding: 0; }
+.swatch[aria-pressed="true"] { border-color: var(--bone); box-shadow: 0 0 0 2px var(--sodium); }
+.swatch:focus-visible { outline: 2px solid var(--sodium); outline-offset: 2px; }
+.swatches input[type="color"] { width: 34px; height: 30px; padding: 2px; background: var(--ink-2); border: 1px solid var(--line); border-radius: 5px; }
+.presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.toggles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
 .wcard-body {
   display: flex;
   flex-direction: column;
@@ -309,6 +351,8 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
 .big-stats b { font: 700 30px/1 var(--f-data); font-variant-numeric: tabular-nums; }
 .big-stats span { font: 600 10.5px/1 var(--f-data); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
 .big-stats .pb { color: var(--sodium); }
+.big-stats.six { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 520px) { .big-stats.six { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px 24px; font-size: 14px; }
 .detail div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed var(--line); padding-bottom: 6px; }
 .detail dt { color: var(--dim); }
@@ -332,7 +376,30 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
   opacity: 0;
   background: radial-gradient(ellipse at center, #ffffff 0%, #ffffff 55%, #fff6e8 100%);
 }
-#crosshair { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+#crosshair { position: absolute; left: 50%; top: 50%; image-rendering: pixelated; }
+#danger {
+  position: fixed;
+  inset: 0;
+  z-index: 14;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(ellipse at center, rgba(255,40,30,0) 45%, rgba(255,40,30,0.55) 85%, rgba(160,0,0,0.85) 100%);
+}
+.scope { position: absolute; inset: 0; }
+.scope-mask {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0,0,0,0) 0, rgba(0,0,0,0) 44vmin, rgba(0,0,0,0.35) 45.5vmin, #000 46.5vmin);
+}
+.scope-ring { position: absolute; left: 50%; top: 50%; width: 92vmin; height: 92vmin; transform: translate(-50%, -50%); border-radius: 50%; box-shadow: inset 0 0 6vmin rgba(0,0,0,0.55); }
+.scope i { position: absolute; background: #050505; }
+.scope .r-h { left: calc(50% - 46vmin); right: calc(50% - 46vmin); top: 50%; height: 1px; transform: translateY(-0.5px); }
+.scope .r-v { top: calc(50% - 46vmin); bottom: calc(50% - 46vmin); left: 50%; width: 1px; transform: translateX(-0.5px); }
+.scope .r-l, .scope .r-r { top: 50%; height: 4px; width: 26vmin; transform: translateY(-2px); }
+.scope .r-l { left: calc(50% - 46vmin); }
+.scope .r-r { right: calc(50% - 46vmin); }
+.scope .r-b { left: 50%; width: 4px; height: 26vmin; bottom: calc(50% - 46vmin); transform: translateX(-2px); }
+#scopeDot { position: absolute; left: 50%; top: 50%; border-radius: 50%; transform: translate(-50%, -50%); }
 .hitmarker { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; transform: translate(-50%, -50%); opacity: 0; }
 .hitmarker.show { opacity: 1; }
 .hitmarker i { position: absolute; width: 9px; height: 2px; background: #fff; left: 50%; top: 50%; box-shadow: 0 0 2px rgba(0,0,0,0.8); }
@@ -391,7 +458,7 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
 #killfeed {
   position: absolute;
   right: max(18px, env(safe-area-inset-right, 0px));
-  top: calc(16px + env(safe-area-inset-top, 0px));
+  top: calc(76px + env(safe-area-inset-top, 0px));
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -457,6 +524,9 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
 .hp-track i { display: block; height: 100%; }
 .hp-health { background: #f0ece0; }
 .hp-shield { background: var(--teal); }
+.hp-sight { display: block; width: 64px; height: 3px; background: rgba(11,17,24,0.7); }
+.hp-sight i { display: block; height: 100%; width: 0; background: var(--hazard); }
+.feed-item .feed-pts { color: var(--teal); font-weight: 700; margin-left: 6px; }
 .free-banner {
   position: absolute;
   left: 50%;
@@ -480,11 +550,17 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
 <canvas id="view" aria-label="3D aim range"></canvas>
 
 <div id="hud" hidden>
-  <canvas id="crosshair" width="160" height="160"></canvas>
+  <div id="scope" class="scope" hidden>
+    <div class="scope-mask"></div><div class="scope-ring"></div>
+    <i class="r-h"></i><i class="r-v"></i><i class="r-l"></i><i class="r-r"></i><i class="r-b"></i>
+    <div id="scopeDot"></div>
+  </div>
+  <canvas id="crosshair" width="320" height="320"></canvas>
   <div id="hitmarker" class="hitmarker"><i></i><i></i><i></i><i></i></div>
   <div class="topbar">
-    <div class="t-time"><b id="hudTime">1:00</b><span>Time</span></div>
+    <div class="t-time"><b id="hudTime">1:00</b><span id="hudTimeLabel">Time</span></div>
     <div><b id="hudKills">0</b><span>Kills</span></div>
+    <div class="t-score"><b id="hudScore">0</b><span>Score</span></div>
     <div><b id="hudAcc">0%</b><span>Accuracy</span></div>
     <div><b id="hudHs">0%</b><span>Headshot</span></div>
   </div>
@@ -502,6 +578,7 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
   <div id="centerMsg" hidden></div>
   <div id="freeBanner" class="free-banner" hidden>Pointer lock is blocked in this frame, so the cursor can hit the screen edge. Open the page in its own browser tab for full mouse look. Press Esc to pause.</div>
 </div>
+<div id="danger"></div>
 <div id="flashOverlay"></div>
 
 <!-- MENU -->
@@ -510,13 +587,13 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
     <section class="brand">
       <div class="eyebrow">Aim range · 9–60 m · 150 HP agents</div>
       <h1 class="title">Head<span>line</span></h1>
-      <p class="lede">Agents walk out from cover at every distance with the same <b>100 health + shields</b> and the same hitbox. Keep your crosshair at head height, tap the rifle or the revolver, and turn away from flashes before they pop.</p>
+      <p class="lede">Agents walk out from cover at every distance with the same <b>100 health + shields</b> and the same hitbox. Keep your crosshair at head height, kill with as few bullets as you can, and turn away from flashes before they pop.</p>
       <button id="startBtn" class="btn btn-primary" type="button">Start session <small>locks mouse</small></button>
       <p id="startSummary" class="summary"></p>
       <p id="touchNote" class="note" hidden>This range needs a mouse and keyboard. Open it on a computer to play.</p>
       <dl class="keys">
         <dt><kbd>LMB</kbd></dt><dd>Fire (hold for full auto)</dd>
-        <dt><kbd>RMB</kbd></dt><dd>Zoom 1.25× (rifle)</dd>
+        <dt><kbd>RMB</kbd></dt><dd>Rifle: hold to zoom 1.25× · Sniper: 2.5× → 5× → off</dd>
         <dt><kbd>R</kbd></dt><dd>Reload</dd>
         <dt><kbd>1</kbd><kbd>2</kbd></dt><dd>Rifle / revolver</dd>
         <dt><kbd>Esc</kbd></dt><dd>Pause</dd>
@@ -526,9 +603,37 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
 
     <section class="settings" aria-label="Session settings">
       <fieldset class="card wide">
+        <legend>Mode</legend>
+        <div class="modes">
+          <label class="wcard">
+            <input type="radio" name="mode" value="training">
+            <div class="wcard-body">
+              <div class="wcard-head"><strong>Training</strong><span>your settings</span></div>
+              <p>Pick the weapon, distances, movement and flashes. 60 s, 120 s or untimed.</p>
+            </div>
+          </label>
+          <label class="wcard">
+            <input type="radio" name="mode" value="endless">
+            <div class="wcard-body">
+              <div class="wcard-head"><strong>Endless</strong><span>survive</span></div>
+              <p>Everything on and speeding up. An agent that keeps line of sight on you for <b>2 s</b> kills you.</p>
+            </div>
+          </label>
+          <label class="wcard">
+            <input type="radio" name="mode" value="operator">
+            <div class="wcard-body">
+              <div class="wcard-head"><strong>Operator</strong><span>30 m+</span></div>
+              <p>Bolt-action sniper with 2.5× and 5× zoom. Agents only spawn far away.</p>
+            </div>
+          </label>
+        </div>
+        <p class="formula">Score per kill = <b>1000</b> × fewest bullets that could have killed it ÷ bullets you fired since your last kill</p>
+      </fieldset>
+
+      <fieldset class="card wide">
         <legend>Weapon</legend>
         <div class="weapons">
-          <label class="wcard">
+          <label class="wcard" data-for="training endless">
             <input type="radio" name="weapon" value="rifle">
             <div class="wcard-body">
               <div class="wcard-head"><strong>Rifle</strong><span>full auto · 7.62</span></div>
@@ -543,7 +648,7 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
               <div class="wcard-foot"><b>9.75</b> rds/s · <b>25</b> mag · <b>2.5 s</b> reload · first shot <b>0.25°</b> spread</div>
             </div>
           </label>
-          <label class="wcard">
+          <label class="wcard" data-for="training endless">
             <input type="radio" name="weapon" value="revolver">
             <div class="wcard-body">
               <div class="wcard-head"><strong>Revolver</strong><span>semi auto · .44</span></div>
@@ -558,26 +663,43 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
               <div class="wcard-foot"><b>4</b> rds/s · <b>6</b> rounds · <b>2.25 s</b> reload · spamming blooms fast</div>
             </div>
           </label>
+          <div class="wcard fixed" data-for="operator">
+            <div class="wcard-body">
+              <div class="wcard-head"><strong>Sniper</strong><span>bolt action · .338</span></div>
+              <table class="dmg-table">
+                <thead><tr><th>Zone</th><th>All ranges</th><th>Shots to kill</th></tr></thead>
+                <tbody>
+                  <tr class="head"><td>Head</td><td>255</td><td data-stk="operator-head">1</td></tr>
+                  <tr><td>Body</td><td>150</td><td data-stk="operator-body">1</td></tr>
+                  <tr><td>Legs</td><td>127</td><td data-stk="operator-leg">2</td></tr>
+                </tbody>
+              </table>
+              <div class="wcard-foot"><b>0.6</b> rds/s · <b>5</b> rounds · <b>3.7 s</b> reload · <b>2.5×</b> / <b>5×</b> zoom · <b>5°</b> unscoped spread, perfect when scoped</div>
+            </div>
+          </div>
         </div>
       </fieldset>
 
-      <fieldset class="card">
+      <fieldset class="card" id="targetsCard">
         <legend>Targets</legend>
-        <div class="row"><span class="label">Distance</span>
+        <p class="lock-note" data-lock="endless">Endless turns everything on.</p>
+        <div class="row" id="distanceRow"><span class="label">Distance</span>
           <div class="seg">
             <label><input type="radio" name="distance" value="close"><span>Close<small>9–16 m</small></span></label>
             <label><input type="radio" name="distance" value="mid"><span>Mid<small>16–31 m</small></span></label>
             <label><input type="radio" name="distance" value="long"><span>Long<small>31 m+</small></span></label>
             <label><input type="radio" name="distance" value="mixed"><span>Mixed<small>all</small></span></label>
           </div>
+          <p class="lock-note" data-lock="operator">Operator mode spawns agents 30 m and farther.</p>
         </div>
         <div class="row"><span class="label">Movement</span>
           <div class="seg">
-            <label><input type="radio" name="movement" value="peek"><span>Peek<small>step out, hold</small></span></label>
+            <label><input type="radio" name="movement" value="peek"><span>Peek<small>step out, stop</small></span></label>
             <label><input type="radio" name="movement" value="strafe"><span>Strafe<small>A-D jiggle</small></span></label>
             <label><input type="radio" name="movement" value="cross"><span>Cross<small>gap to gap</small></span></label>
             <label><input type="radio" name="movement" value="mix"><span>Mix</span></label>
           </div>
+          <p class="help">Peekers walk a random distance out from the wall, most often just past the edge, then stand still until you kill them.</p>
         </div>
         <div class="row"><span class="label">Speed</span>
           <div class="seg">
@@ -602,8 +724,9 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
         </div>
       </fieldset>
 
-      <fieldset class="card">
+      <fieldset class="card" id="flashesCard">
         <legend>Flashes</legend>
+        <p class="lock-note" data-lock="endless">Endless throws both flashes, with a swing after each pop.</p>
         <div class="row"><span class="label">Thrown at you</span>
           <div class="seg">
             <label><input type="radio" name="flashes" value="off"><span>Off</span></label>
@@ -625,12 +748,12 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
       </fieldset>
 
       <fieldset class="card">
-        <legend>Session</legend>
-        <div class="row"><span class="label">Length</span>
+        <legend>Session &amp; mouse</legend>
+        <div class="row" id="lengthRow"><span class="label">Length</span>
           <div class="seg">
             <label><input type="radio" name="duration" value="60"><span>60 s</span></label>
             <label><input type="radio" name="duration" value="120"><span>120 s</span></label>
-            <label><input type="radio" name="duration" value="0"><span>Endless</span></label>
+            <label><input type="radio" name="duration" value="0"><span>Untimed</span></label>
           </div>
         </div>
         <div class="inputs">
@@ -639,24 +762,45 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
           <label class="field"><span>Zoom sens ×</span><input id="scopedMult" type="number" min="0.1" max="3" step="0.01" data-setting="scopedMult"></label>
           <div class="field"><span>cm / 360°</span><div id="cm360" class="readout">40.8</div></div>
         </div>
-        <p class="help">Sensitivity uses the same scale as Valorant (0.07° per count), so your in-game number carries over.</p>
+        <p class="help">Sensitivity uses the same scale as Valorant (0.07° per count), so your in-game number carries over. Zoomed, it scales down with the zoom, then by the zoom multiplier.</p>
       </fieldset>
 
       <fieldset class="card">
         <legend>HUD &amp; sound</legend>
-        <div class="row"><span class="label">Crosshair</span>
-          <div class="seg">
-            <label><input type="radio" name="crossStyle" value="cross"><span>Cross</span></label>
-            <label><input type="radio" name="crossStyle" value="crossdot"><span>Cross + dot</span></label>
-            <label><input type="radio" name="crossStyle" value="dot"><span>Dot</span></label>
-          </div>
-        </div>
         <div class="inputs">
-          <label class="field"><span>Color</span><input id="crossColor" type="color" data-setting="crossColor"></label>
           <label class="field"><span>Volume</span><input id="volume" type="range" min="0" max="1" step="0.05" data-setting="volume"></label>
         </div>
-        <label class="toggle"><input type="checkbox" data-setting="firingError"><span></span>Crosshair shows firing error</label>
         <label class="toggle"><input type="checkbox" data-setting="healthBars"><span></span>Health and shield bars over agents</label>
+      </fieldset>
+
+      <fieldset class="card wide" id="crosshairCard">
+        <legend>Crosshair</legend>
+        <div class="xh-grid">
+          <div class="xh-previews">
+            <div class="xh-preview"><canvas id="xhActual" width="120" height="120"></canvas><span>Actual size</span></div>
+            <div class="xh-preview"><canvas id="xhZoom" width="120" height="120"></canvas><span>4× zoom</span></div>
+          </div>
+          <div class="row">
+            <span class="label">Valorant crosshair code</span>
+            <div class="code-row">
+              <input id="xhCode" type="text" spellcheck="false" autocomplete="off" aria-label="Crosshair code" placeholder="0;P;c;5;h;0;0l;4;0o;2;0a;1;0f;0;1b;0">
+              <button id="xhImport" class="btn btn-small" type="button">Import</button>
+              <button id="xhCopy" class="btn btn-small" type="button">Copy code</button>
+            </div>
+            <p id="xhStatus" class="xh-status" role="status"></p>
+            <span class="label">Color</span>
+            <div class="swatches" id="xhSwatches"></div>
+            <div class="toggles">
+              <label class="toggle"><input type="checkbox" id="xhOutlines"><span></span>Outlines</label>
+              <label class="toggle"><input type="checkbox" id="xhDot"><span></span>Center dot</label>
+              <label class="toggle"><input type="checkbox" id="xhInner"><span></span>Inner lines</label>
+              <label class="toggle"><input type="checkbox" id="xhOuter"><span></span>Outer lines</label>
+            </div>
+            <span class="label">Examples</span>
+            <div class="presets" id="xhPresets"></div>
+            <p class="help">In Valorant: Settings → Crosshair → Export Profile Code, then paste it here. Sizes are drawn in real screen pixels, so it matches the game at your native resolution. Lines with firing error follow each gun's spread, a separate ADS crosshair applies while zoomed, and the sniper center dot shows in the scope.</p>
+          </div>
+        </div>
       </fieldset>
     </section>
   </div>

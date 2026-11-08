@@ -76,6 +76,29 @@ export const WEAPONS = {
     },
     viewKick: { back: 0.05, rot: 0.2 },
   },
+  operator: {
+    id: 'operator',
+    name: 'Sniper',
+    slot: 3,
+    auto: false,
+    semi: true,              // one shot per click; bolt cycles between shots
+    fireRate: 0.6,
+    magSize: 5,
+    reloadTime: 3.7,
+    equipTime: 1.5,
+    zoomLevels: [2.5, 5],    // right click cycles 2.5x -> 5x -> unscoped
+    scopeTime: 0.22,
+    falloff: [{ upTo: Infinity, head: 255, body: 150, leg: 127 }],
+    spread: { hip: 5, scoped: 0 },
+    recoil: {
+      kick: [2.2, 0.25],
+      jitter: 0.15,
+      recoveryDelay: 0.1,
+      heatDecay: 3,
+      viewRecover: 7,
+    },
+    viewKick: { back: 0.07, rot: 0.24 },
+  },
 };
 
 export function damageFor(weapon, zone, distance) {
@@ -131,7 +154,46 @@ export const DISTANCES = {
   mid: [16, 31],
   long: [31, 80],
   mixed: [0, 80],
+  far: [30, 80],      // operator mode
 };
+
+// --- Scoring ---------------------------------------------------------------
+// Every kill is worth up to 1000 points:
+//   points = 1000 x (fewest bullets that could have killed it) / (bullets you fired for it)
+// "Bullets you fired for it" counts every shot since your previous kill, misses
+// included. "Fewest bullets" is the headshot count needed at that range against
+// that agent's health, so a one-tap is always worth the full 1000.
+export const PERFECT_KILL = 1000;
+export function scoreForKill(minBullets, bulletsUsed) {
+  const used = Math.max(1, bulletsUsed);
+  return Math.round(PERFECT_KILL * Math.min(1, minBullets / used));
+}
+
+// --- Endless mode ----------------------------------------------------------
+export const ENDLESS = {
+  sightLimit: 2.0,                 // seconds an agent may have line of sight on you
+  targetsAt: [[0, 1], [25, 2], [70, 3]],   // [seconds survived, agents at once]
+  rampTime: 150,                   // seconds until spawn and flash pacing hit max
+  spawnDelay: [[0.8, 1.6], [0.25, 0.6]],
+  flashGap: [[7, 10], [3, 4.5]],
+};
+
+/** Effective session settings for a mode (endless and operator override some choices). */
+export function sessionConfig(s) {
+  const out = { ...s };
+  if (s.mode === 'endless') {
+    Object.assign(out, {
+      movement: 'mix', speed: 'mix', distance: 'mixed', shields: 'heavy',
+      flashes: 'both', flashPeek: true, flashOnly: false, duration: 0, maxTargets: 1,
+      weapon: s.weapon === 'operator' ? 'rifle' : s.weapon,
+    });
+  } else if (s.mode === 'operator') {
+    Object.assign(out, { weapon: 'operator', distance: 'far' });
+  } else if (s.weapon === 'operator') {
+    out.weapon = 'rifle';
+  }
+  return out;
+}
 
 // Original range agents. Every agent shares one hitbox and one health pool;
 // only the looks differ.
@@ -147,6 +209,7 @@ export const ROSTER = [
 ];
 
 export const DEFAULT_SETTINGS = {
+  mode: 'training',
   weapon: 'rifle',
   distance: 'mixed',
   movement: 'mix',
@@ -161,9 +224,7 @@ export const DEFAULT_SETTINGS = {
   sens: 0.4,
   dpi: 800,
   scopedMult: 1.0,
-  crossColor: '#43f0c8',
-  crossStyle: 'cross',
-  firingError: false,
+  crosshairCode: '0;P;c;5;h;0;0l;4;0o;2;0a;1;0f;0;1b;0',
   healthBars: true,
   volume: 0.7,
 };

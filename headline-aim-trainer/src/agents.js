@@ -394,12 +394,21 @@ export class Agent {
   }
 }
 
+/** How far past the cover edge a peeker stops, in meters. Skewed toward the edge. */
+export const PEEK_MIN = 0.35;
+export const PEEK_MAX = 5;
+export const PEEK_SKEW = 2.2;   // distance = min + range * u^2.2, so ~48% stop in the first fifth
+export function peekDistance(runLen, u = Math.random()) {
+  const max = Math.max(PEEK_MIN + 0.3, Math.min(PEEK_MAX, runLen - 0.3));
+  return PEEK_MIN + (max - PEEK_MIN) * Math.pow(u, PEEK_SKEW);
+}
+
 /** Build a movement plan for a peek spot. */
 export function planFor(kind, spot, speed, rand = Math.random) {
   const r = (a, b) => a + (b - a) * rand();
   const runLen = Math.abs(spot.visEnd - spot.visStart);
-  const clampOut = (x) => {
-    const lo = spot.visStart + spot.dir * 0.5;
+  const clampOut = (x, minOut = 0.5) => {
+    const lo = spot.visStart + spot.dir * minOut;
     const hi = spot.visEnd - spot.dir * 0.3;
     return spot.dir > 0 ? Math.min(hi, Math.max(lo, x)) : Math.max(hi, Math.min(lo, x));
   };
@@ -419,7 +428,7 @@ export function planFor(kind, spot, speed, rand = Math.random) {
     return plan;
   }
   if (kind === 'swing') {
-    // Fast wide swing after a flash: run out and hold the angle.
+    // Fast wide swing after a flash: run out and hold the angle, then fall back.
     const out = clampOut(spot.visStart + spot.dir * r(1.6, Math.min(4.5, runLen - 0.3)));
     return [
       { type: 'move', x: out, speed },
@@ -427,10 +436,10 @@ export function planFor(kind, spot, speed, rand = Math.random) {
       { type: 'move', x: spot.hiddenX, speed },
     ];
   }
-  const out = clampOut(spot.visStart + spot.dir * r(1.0, Math.min(4.5, runLen - 0.3)));
+  // Peek: step out a random distance (usually close to the wall) and stop there for good.
+  const out = clampOut(spot.visStart + spot.dir * peekDistance(runLen, rand()), PEEK_MIN);
   return [
     { type: 'move', x: out, speed },
-    { type: 'hold', t: r(0.75, 1.6) },
-    { type: 'move', x: spot.hiddenX, speed },
+    { type: 'hold', t: Infinity },
   ];
 }

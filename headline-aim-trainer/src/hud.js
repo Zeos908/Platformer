@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { defaultProfile, drawSection, sectionFor, sniperColor } from './crosshair.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -9,6 +10,11 @@ export class HUD {
     this.crossCtx = this.cross.getContext('2d');
     this.hitmarker = $('hitmarker');
     this.time = $('hudTime');
+    this.timeLabel = $('hudTimeLabel');
+    this.score = $('hudScore');
+    this.scope = $('scope');
+    this.scopeDot = $('scopeDot');
+    this.danger = $('danger');
     this.kills = $('hudKills');
     this.acc = $('hudAcc');
     this.hs = $('hudHs');
@@ -27,7 +33,7 @@ export class HUD {
     this.items = [];
     this.barEls = new Map();
     this.crossKey = '';
-    this.crossSettings = { color: '#43f0c8', style: 'cross' };
+    this.profile = defaultProfile();
     this.hitT = 0;
     this.toastT = 0;
     this._v = new THREE.Vector3();
@@ -36,45 +42,51 @@ export class HUD {
 
   show(on) { this.root.hidden = !on; }
 
-  setCrosshairSettings(color, style) {
-    this.crossSettings = { color, style };
+  /** Use a parsed Valorant crosshair profile (see crosshair.js). */
+  setCrosshairProfile(profile) {
+    this.profile = profile;
     this.crossKey = '';
+    const sn = profile.sniper;
+    const dpr = window.devicePixelRatio || 1;
+    const size = Math.max(2, Math.round(4 * sn.s)) / dpr;
+    this.scopeDot.hidden = !sn.d;
+    this.scopeDot.style.width = this.scopeDot.style.height = `${size}px`;
+    this.scopeDot.style.background = sniperColor(sn);
+    this.scopeDot.style.opacity = String(Math.min(1, sn.o));
   }
 
-  drawCrosshair(errorPx = 0) {
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
-    const e = Math.round(errorPx * 2) / 2;
-    const key = `${this.crossSettings.color}|${this.crossSettings.style}|${e}|${dpr}`;
+  /**
+   * Draw the crosshair 1:1 in device pixels, like the game does at native resolution.
+   * Lines with firing error enabled move out by the weapon's current spread.
+   */
+  drawCrosshair({ errorPx = 0, basePx = 0, zoomed = false, hidden = false } = {}) {
+    const dpr = window.devicePixelRatio || 1;
+    const sec = sectionFor(this.profile, zoomed);
+    const key = `${hidden}|${sec === this.profile.primary}|${Math.round(errorPx)}|${Math.round(basePx)}|${dpr}|${window.innerWidth}x${window.innerHeight}`;
     if (key === this.crossKey) return;
     this.crossKey = key;
-    const size = 160;
-    if (this.cross.width !== size * dpr) {
-      this.cross.width = this.cross.height = size * dpr;
-      this.cross.style.width = this.cross.style.height = `${size}px`;
-    }
-    const g = this.crossCtx;
-    g.setTransform(dpr, 0, 0, dpr, 0, 0);
-    g.clearRect(0, 0, size, size);
-    const c = size / 2;
-    const { color, style } = this.crossSettings;
-    const rect = (x, y, w, h) => {
-      g.fillStyle = 'rgba(0,0,0,0.55)';
-      g.fillRect(x - 1, y - 1, w + 2, h + 2);
-      g.fillStyle = color;
-      g.fillRect(x, y, w, h);
-    };
-    if (style !== 'dot') {
-      const gap = 3 + Math.min(60, e);
-      const len = 6;
-      const th = 2;
-      rect(c - th / 2, c - gap - len, th, len);
-      rect(c - th / 2, c + gap, th, len);
-      rect(c - gap - len, c - th / 2, len, th);
-      rect(c + gap, c - th / 2, len, th);
-    }
-    if (style !== 'cross') {
-      const s = style === 'dot' ? 4 : 2;
-      rect(c - s / 2, c - s / 2, s, s);
+    this.cross.hidden = hidden;
+    if (hidden) return;
+    const size = 320;
+    if (this.cross.width !== size) this.cross.width = this.cross.height = size;
+    const css = size / dpr;
+    this.cross.style.width = this.cross.style.height = `${css}px`;
+    // Snap the canvas to whole device pixels around the screen center.
+    this.cross.style.left = `${(Math.floor((window.innerWidth * dpr) / 2) - size / 2) / dpr}px`;
+    this.cross.style.top = `${(Math.floor((window.innerHeight * dpr) / 2) - size / 2) / dpr}px`;
+    drawSection(this.crossCtx, sec, { size, errorPx: Math.min(140, errorPx), basePx: Math.min(140, basePx) });
+  }
+
+  setScope(on) {
+    if (this.scope.hidden === !on) return;
+    this.scope.hidden = !on;
+  }
+
+  setDanger(level) {
+    const v = level <= 0 ? '0' : (Math.pow(level, 1.6) * 0.9).toFixed(2);
+    if (this._danger !== v) {
+      this._danger = v;
+      this.danger.style.opacity = v;
     }
   }
 
@@ -92,9 +104,11 @@ export class HUD {
     }
   }
 
-  setStats({ time, kills, acc, hs }) {
+  setStats({ time, timeLabel, kills, score, acc, hs }) {
     this.text(this.time, formatClock(Math.max(0, time)));
+    this.text(this.timeLabel, timeLabel);
     this.text(this.kills, kills);
+    this.text(this.score, score);
     this.text(this.acc, `${acc}%`);
     this.text(this.hs, `${hs}%`);
   }
@@ -160,6 +174,8 @@ export class HUD {
     this.barEls.clear();
     this.feed.innerHTML = '';
     this.setFlash(0);
+    this.setDanger(0);
+    this.setScope(false);
     this.centerText('');
   }
 
@@ -169,7 +185,7 @@ export class HUD {
     return [(v.x * 0.5 + 0.5) * w, (-v.y * 0.5 + 0.5) * h];
   }
 
-  update(dt, camera, agents, showBars) {
+  update(dt, camera, agents, showBars, sightLimit = 0) {
     const w = window.innerWidth;
     const h = window.innerHeight;
     if (this.hitT > 0) {
@@ -203,7 +219,7 @@ export class HUD {
         if (!el) {
           el = document.createElement('div');
           el.className = 'hpbar';
-          el.innerHTML = '<span class="hp-name"></span><span class="hp-track"><i class="hp-health"></i><i class="hp-shield"></i></span>';
+          el.innerHTML = '<span class="hp-name"></span><span class="hp-track"><i class="hp-health"></i><i class="hp-shield"></i></span><span class="hp-sight"><i></i></span>';
           el.querySelector('.hp-name').textContent = a.def.name;
           this.bars.appendChild(el);
           this.barEls.set(a, el);
@@ -218,6 +234,9 @@ export class HUD {
         el.querySelector('.hp-health').style.width = `${(a.health / max) * 100}%`;
         const sh = el.querySelector('.hp-shield');
         sh.style.width = `${(a.shield / max) * 100}%`;
+        const sight = el.querySelector('.hp-sight');
+        sight.hidden = !sightLimit;
+        if (sightLimit) sight.firstChild.style.width = `${Math.min(1, a.sight / sightLimit) * 100}%`;
       }
     }
     for (const [a, el] of this.barEls) {

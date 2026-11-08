@@ -113,7 +113,12 @@ export class AudioEngine {
   // --- weapons ---
   shot(id) {
     if (!this.ctx) return;
-    if (id === 'rifle') {
+    if (id === 'operator') {
+      this.noise(0.6, { freq: 2400, freqEnd: 260, gain: 0.85 });
+      this.noise(0.07, { type: 'highpass', freq: 2600, gain: 0.5 });
+      this.tone(80, 0.4, { freqEnd: 28, gain: 0.95 });
+      this.noise(1.1, { type: 'bandpass', freq: 500, freqEnd: 160, q: 0.6, gain: 0.22, attack: 0.05, at: 0.04 });
+    } else if (id === 'rifle') {
       this.noise(0.16, { freq: 3400, freqEnd: 700, gain: 0.55 });
       this.noise(0.035, { type: 'highpass', freq: 3800, gain: 0.32 });
       this.tone(130, 0.12, { freqEnd: 45, gain: 0.55 });
@@ -122,6 +127,25 @@ export class AudioEngine {
       this.noise(0.05, { type: 'highpass', freq: 3000, gain: 0.4 });
       this.tone(95, 0.24, { freqEnd: 32, gain: 0.8 });
     }
+  }
+
+  bolt(interval) {
+    if (!this.ctx) return;
+    for (const [at, f, g] of [[0.22, 1500, 0.2], [0.34, 1100, 0.22], [0.55, 1300, 0.2], [0.66, 1900, 0.24]]) {
+      this.noise(0.05, { type: 'bandpass', freq: f, q: 3, gain: g, at: at * interval });
+    }
+  }
+
+  warn(level) {
+    if (!this.ctx) return;
+    this.tone(520 + level * 380, 0.08, { type: 'square', gain: 0.05 + level * 0.05 });
+  }
+
+  death() {
+    if (!this.ctx) return;
+    this.noise(0.5, { freq: 1800, freqEnd: 200, gain: 0.7 });
+    this.tone(160, 0.9, { type: 'sawtooth', freqEnd: 40, gain: 0.25 });
+    this.tone(90, 0.5, { freqEnd: 30, gain: 0.6 });
   }
 
   dry() {
