@@ -198,14 +198,14 @@ export function sessionConfig(s) {
 // Original range agents. Every agent shares one hitbox and one health pool;
 // only the looks differ.
 export const ROSTER = [
-  { name: 'Kestrel', primary: 0xc4622d, secondary: 0x2a2c33, pants: 0x3a3c45, skin: 0xc28a5e, hair: 0x1b1716, accent: 0xff9440, head: 'spikes', extras: ['collar'] },
-  { name: 'Halcyon', primary: 0x2e8a86, secondary: 0xe6dfcc, pants: 0x2a3a40, skin: 0xf1caa5, hair: 0xeeeeee, accent: 0x7af4ff, head: 'bun', extras: ['coat'] },
-  { name: 'Brakk', primary: 0x5d6650, secondary: 0x2f332b, pants: 0x3c4036, skin: 0x8d5a3b, hair: 0x222222, accent: 0xffc23d, head: 'helmet', extras: ['pads', 'backpack'] },
-  { name: 'Nyx', primary: 0x4a2f70, secondary: 0x1d1a26, pants: 0x221f2c, skin: 0xd9b8a0, hair: 0x120f18, accent: 0xc77dff, head: 'hood', extras: [] },
-  { name: 'Saffron', primary: 0xd6a51f, secondary: 0x2f5e3a, pants: 0x3f3a30, skin: 0xa86f4a, hair: 0x3b2216, accent: 0xb8ff5c, head: 'ponytail', extras: ['scarf'] },
-  { name: 'Tarn', primary: 0x8a2c2c, secondary: 0x3b2f28, pants: 0x2e2a28, skin: 0xe0b08a, hair: 0x6b4a2e, accent: 0xff6a4a, head: 'beanie', extras: ['coat', 'beard'] },
-  { name: 'Juno', primary: 0xe6a3c2, secondary: 0xf4f1ea, pants: 0x3d3550, skin: 0xf5d2b8, hair: 0x2b1d3a, accent: 0xff7ad6, head: 'bob', extras: ['headphones'] },
-  { name: 'Ozark', primary: 0x24344f, secondary: 0xc9b38a, pants: 0x2a2f38, skin: 0x6e4a33, hair: 0x101010, accent: 0x4fd6ff, head: 'cap', extras: ['goggles', 'backpack'] },
+  { name: 'Kestrel', primary: 0xd2642a, secondary: 0x2a2c33, pants: 0x34363f, skin: 0xc28a5e, hair: 0x1b1716, accent: 0xff9a3d, head: 'spikes', extras: ['collar', 'holster'], bulk: 1 },
+  { name: 'Halcyon', primary: 0x2e8f8a, secondary: 0xe9e3d2, pants: 0x263a40, skin: 0xf1caa5, hair: 0xf2f0ea, accent: 0x7af4ff, head: 'bun', extras: ['longcoat'], bulk: 0.95 },
+  { name: 'Brakk', primary: 0x5d6650, secondary: 0x3a4034, pants: 0x3c4036, skin: 0x8d5a3b, hair: 0x222222, accent: 0xffc23d, head: 'helmet', extras: ['pauldrons', 'chestplate', 'backpack'], bulk: 1.12 },
+  { name: 'Nyx', primary: 0x4d2f78, secondary: 0x1f1b2a, pants: 0x221f2c, skin: 0xd9b8a0, hair: 0x120f18, accent: 0xc77dff, head: 'hood', extras: ['cape'], bulk: 0.93 },
+  { name: 'Saffron', primary: 0xdcaa1f, secondary: 0x2f6a3e, pants: 0x3f3a30, skin: 0xa86f4a, hair: 0x3b2216, accent: 0xb8ff5c, head: 'ponytail', extras: ['scarfLong', 'holster'], bulk: 0.96 },
+  { name: 'Tarn', primary: 0x8e2d2b, secondary: 0x3b2f28, pants: 0x2e2a28, skin: 0xe0b08a, hair: 0x6b4a2e, accent: 0xff6a4a, head: 'beanie', extras: ['longcoat', 'beard', 'gauntlets'], bulk: 1.06 },
+  { name: 'Juno', primary: 0xe8a6c4, secondary: 0xf4f1ea, pants: 0x3d3550, skin: 0xf5d2b8, hair: 0x2b1d3a, accent: 0xff7ad6, head: 'bob', extras: ['headphones', 'hoodDown'], bulk: 0.95 },
+  { name: 'Ozark', primary: 0x26385a, secondary: 0xc9b38a, pants: 0x2a2f38, skin: 0x6e4a33, hair: 0x101010, accent: 0x4fd6ff, head: 'cap', extras: ['goggles', 'backpack', 'antenna', 'holster'], bulk: 1.02 },
 ];
 
 export const DEFAULT_SETTINGS = {
@@ -226,5 +226,6 @@ export const DEFAULT_SETTINGS = {
   scopedMult: 1.0,
   crosshairCode: '0;P;c;5;h;0;0l;4;0o;2;0a;1;0f;0;1b;0',
   healthBars: true,
+  highlight: 'red',
   volume: 0.7,
 };

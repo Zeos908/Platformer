@@ -57,6 +57,18 @@ points = 1000 × (fewest bullets that could have killed it) ÷ (bullets you fire
 
 Every agent has **100 health** plus the shield you pick: none (100), light (125) or heavy (150, the default). Shields absorb damage first.
 
+### Art style
+
+The agents use a stylized look in the spirit of hero tactical shooters, built from original designs:
+
+- **Shading:** soft banded ("painted") light with a lifted shadow side, a top-to-bottom tone gradient, a little brush-like color variation, and a warm rim light.
+- **Enemy highlight:** a thin edge in red, yellow or purple (or off) under HUD & sound. It widens with distance so it stays visible at long range.
+- **Silhouettes:** each agent reads differently from far away: Halcyon's open long coat, Nyx's hood and two-piece cape, Brakk's pauldrons and chest plate, Saffron's flowing scarf and ponytail, Tarn's duster and big gloves, Juno's headphones and lowered hood, Ozark's goggles, pack and antenna, Kestrel's spiked hair and high collar. Coats, capes, scarves and ponytails swing with the legs and flutter when running.
+- **Accents:** glowing trim on arms, chest emblem, belt, knees, boots and gun, with a slow pulse. It dims when an agent dies.
+- **Detail:** eyes, brows and mouth on every face, and gloves with fingers and a thumb wrapped on the gun.
+- **Visual bulk:** some agents look heavier or slimmer, but the hitboxes never change.
+- **Performance:** static parts are merged per bone (about 40 meshes per agent instead of about 110). All agents share one compiled shader, warmed up at load, so spawning never stalls.
+
 ### Body shape and hitboxes
 
 All eight agents share one skeleton, one set of proportions and one set of hitboxes, the way every agent in Valorant shares a hitbox and an in-game height (Riot has said this publicly; it does not publish the exact dimensions). Only clothes, hair and colors change.

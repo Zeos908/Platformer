@@ -4,6 +4,7 @@ import {
   PRESET_COLORS, PRESET_NAMES, CROSSHAIR_PRESETS, DEFAULT_CODE,
 } from './crosshair.js';
 import { AudioEngine } from './audio.js';
+import { setEnemyHighlight, HIGHLIGHT_COLORS } from './agents.js';
 import { HUD } from './hud.js';
 import { Input } from './input.js';
 import { Game } from './game.js';
@@ -211,6 +212,7 @@ function updateModeUI() {
 function onSettingsChanged() {
   save(STORE_KEY, settings);
   audio.setVolume(settings.volume);
+  setEnemyHighlight(settings.highlight in HIGHLIGHT_COLORS ? HIGHLIGHT_COLORS[settings.highlight] : HIGHLIGHT_COLORS.red);
   updateModeUI();
   const eff = sessionConfig(settings);
   game.settings = eff;

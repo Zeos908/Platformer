@@ -146,7 +146,9 @@ export class Game {
     this.renderer.compile(this.scene, this.camera);
     this.renderer.compile(this.vmScene, this.vmCamera);
     this.render();
-    for (const a of tmp) this.removeAgent(a);
+    // Keep these materials alive (off-scene) so the compiled shaders stay cached.
+    for (const a of tmp) this.scene.remove(a.root);
+    this.warmAgents = tmp;
     this.weapon.reset('rifle');
   }
 
@@ -337,7 +339,7 @@ export class Game {
 
   removeAgent(a, keepList = false) {
     this.scene.remove(a.root);
-    for (const m of a.mats) m.dispose();
+    a.dispose();
     if (!keepList) {
       const i = this.agents.indexOf(a);
       if (i >= 0) this.agents.splice(i, 1);
