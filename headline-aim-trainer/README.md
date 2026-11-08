@@ -55,7 +55,16 @@ points = 1000 × (fewest bullets that could have killed it) ÷ (bullets you fire
 
 ### Health
 
-Every agent has **100 health** plus the shield you pick: none (100), light (125) or heavy (150, the default). Shields absorb damage first. All eight agents share one hitbox (head, body including arms, and legs). They differ only in looks.
+Every agent has **100 health** plus the shield you pick: none (100), light (125) or heavy (150, the default). Shields absorb damage first.
+
+### Body shape and hitboxes
+
+All eight agents share one skeleton, one set of proportions and one set of hitboxes, the way every agent in Valorant shares a hitbox and an in-game height (Riot has said this publicly; it does not publish the exact dimensions). Only clothes, hair and colors change.
+
+- **Height:** about 1.78 m standing. The head center sits at 1.62 m, level with your eyes (1.6 m), so head-level crosshair placement lines up on flat ground. The head is about 1/7.5 of body height. Crouching drops the head to about 1.26 m.
+- **Skeleton:** pelvis, spine, chest, neck, head, two-joint legs with knees and ankles, and arms posed with two-bone IK onto a shouldered rifle. Limbs are tapered, not boxes.
+- **Hitboxes follow the bones:** head; neck, chest, stomach, pelvis, upper arms and forearms count as body; thighs, shins and feet count as legs. There are real gaps between the legs and beside the head, and the head box is a little generous, so shots at the top of the neck count as headshots.
+- **Animation:** the walk and run cycles bend the knees and keep the feet planted. While strafing, the hips turn toward the direction of travel and the chest stays on you. Peekers crouch 30% of the time once they stop, and strafers sometimes crouch during a short pause. Crouching moves the hitboxes with the body.
 
 ### Weapons
 
@@ -76,7 +85,7 @@ Against 150 HP, the rifle kills with 1 headshot, 4 body shots or 5 leg shots. Th
 
 Agents spawn behind cover and do one of four things:
 
-- **Peek:** walk a random distance out from the wall and stand still until you kill them. The distance is skewed toward the wall: `0.35 m + range × u^2.2` (u uniform from 0 to 1, range up to 5 m). About half stop within the first fifth of the range, just past the edge, and the chance falls off further out.
+- **Peek:** walk a random distance out from the wall and stand still until you kill them (30% crouch once they stop). The distance is skewed toward the wall: `0.35 m + range × u^2.2` (u uniform from 0 to 1, range up to 5 m). About half stop within the first fifth of the range, just past the edge, and the chance falls off further out.
 - **Strafe:** step out and jiggle left and right.
 - **Cross:** walk or run from one piece of cover to the next.
 - **Swing:** run out wide right after a flash pops.
