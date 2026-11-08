@@ -246,6 +246,7 @@ export class WeaponSystem {
     this.flashLight = new THREE.PointLight(0xffb060, 0, 1.5, 2);
     vmScene.add(this.flashLight);
     this.ammo = {};
+    this.infinite = false;   // infinite ammo: the magazine never empties
     this._v = new THREE.Vector3();
     this.sway = { x: 0, y: 0 };
     this.kick = { z: 0, r: 0 };
@@ -383,7 +384,7 @@ export class WeaponSystem {
         while (t >= this.nextFire && this.ammo[w.id] > 0 && guard++ < 3) {
           shots.push({ spread: this.spreadDeg(), pitchOff: this.recoilP, yawOff: this.recoilY, weapon: w });
           this.applyKick();
-          this.ammo[w.id]--;
+          if (!this.infinite) this.ammo[w.id]--;
           this.nextFire = t - this.nextFire < interval ? this.nextFire + interval : t + interval;
           this.lastShot = t;
           this.kick.z += w.viewKick.back;

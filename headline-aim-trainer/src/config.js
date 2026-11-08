@@ -149,12 +149,11 @@ export const FLASH_RATES = {
   high: [3.2, 5],
 };
 
+// The hallway has doors at about 13 m and 34 m (see HALL in world.js).
 export const DISTANCES = {
-  close: [0, 16],
-  mid: [16, 31],
-  long: [31, 80],
+  near: [0, 24],
+  far: [24, 80],      // also used by operator mode
   mixed: [0, 80],
-  far: [30, 80],      // operator mode
 };
 
 // --- Scoring ---------------------------------------------------------------
@@ -181,6 +180,7 @@ export const ENDLESS = {
 /** Effective session settings for a mode (endless and operator override some choices). */
 export function sessionConfig(s) {
   const out = { ...s };
+  if (!DISTANCES[out.distance]) out.distance = 'mixed';
   if (s.mode === 'endless') {
     Object.assign(out, {
       movement: 'mix', speed: 'mix', distance: 'mixed', shields: 'heavy',
@@ -227,5 +227,7 @@ export const DEFAULT_SETTINGS = {
   crosshairCode: '0;P;c;5;h;0;0l;4;0o;2;0a;1;0f;0;1b;0',
   healthBars: true,
   highlight: 'red',
+  headHighlight: true,
+  infiniteAmmo: true,
   volume: 0.7,
 };

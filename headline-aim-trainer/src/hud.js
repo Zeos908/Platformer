@@ -113,11 +113,12 @@ export class HUD {
     this.text(this.hs, `${hs}%`);
   }
 
-  setAmmo(ammo, mag, name, reloading, reloadP) {
-    this.text(this.ammo, ammo);
+  setAmmo(ammo, mag, name, reloading, reloadP, infinite = false) {
+    if (this.mag.parentElement.hidden !== infinite) this.mag.parentElement.hidden = infinite;
+    this.text(this.ammo, infinite ? '∞' : ammo);
     this.text(this.mag, mag);
     this.text(this.weapon, name);
-    const low = ammo <= Math.ceil(mag * 0.2);
+    const low = !infinite && ammo <= Math.ceil(mag * 0.2);
     if (this.ammo._low !== low) { this.ammo._low = low; this.ammo.classList.toggle('low', low); }
     if (this.reload.hidden === reloading) this.reload.hidden = !reloading;
     if (reloading) this.reload.style.setProperty('--p', reloadP.toFixed(2));
@@ -219,8 +220,7 @@ export class HUD {
         if (!el) {
           el = document.createElement('div');
           el.className = 'hpbar';
-          el.innerHTML = '<span class="hp-name"></span><span class="hp-track"><i class="hp-health"></i><i class="hp-shield"></i></span><span class="hp-sight"><i></i></span>';
-          el.querySelector('.hp-name').textContent = a.def.name;
+          el.innerHTML = '<span class="hp-track"><i class="hp-health"></i><i class="hp-shield"></i></span><span class="hp-sight"><i></i></span>';
           this.bars.appendChild(el);
           this.barEls.set(a, el);
         }

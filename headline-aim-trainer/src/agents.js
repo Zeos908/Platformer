@@ -68,6 +68,40 @@ export function setEnemyHighlight(hex) {
   }
 }
 
+// Red glow around the head, sized to the head hitbox, so you can see where
+// headshots count. Walls still hide it.
+const HEAD_GLOW = new THREE.ShaderMaterial({
+  uniforms: { uColor: { value: new THREE.Color(0xff2a2a) }, uStrength: { value: 1 } },
+  vertexShader: /* glsl */ `
+    varying vec3 vN;
+    varying vec3 vV;
+    void main() {
+      vec4 mv = modelViewMatrix * vec4(position, 1.0);
+      vN = normalize(normalMatrix * normal);
+      vV = normalize(-mv.xyz);
+      gl_Position = projectionMatrix * mv;
+    }`,
+  fragmentShader: /* glsl */ `
+    uniform vec3 uColor;
+    uniform float uStrength;
+    varying vec3 vN;
+    varying vec3 vV;
+    void main() {
+      float f = pow(1.0 - abs(dot(normalize(vN), normalize(vV))), 2.0);
+      gl_FragColor = vec4(uColor * (0.2 + f * 1.25) * uStrength, 1.0);
+    }`,
+  transparent: true,
+  blending: THREE.AdditiveBlending,
+  depthWrite: false,
+  toneMapped: false,
+});
+
+/** Turn the red head highlight on or off for every agent. */
+export function setHeadHighlight(on) {
+  HEAD_GLOW.uniforms.uStrength.value = on ? 1 : 0;
+  HEAD_GLOW.visible = !!on;
+}
+
 let ramp = null;
 function toonRamp() {
   if (ramp) return ramp;
@@ -419,6 +453,13 @@ export class Agent {
     this.hitbox(this.neck, 0.12, 0.1, 0.12, 0, 0.04, 0, 'body');
     this.buildFace(m);
     this.hitbox(this.head, 0.24, 0.26, 0.26, 0, 0.005, 0.01, 'head');
+    const glow = new THREE.Mesh(sphere(0.155, 20, 14), HEAD_GLOW);
+    glow.position.set(0, 0.012, 0.008);
+    glow.scale.set(0.9, 1.0, 0.95);
+    glow.renderOrder = 4;
+    glow.userData.noMerge = true;
+    this.head.add(glow);
+    this.headGlow = glow;
     // Hair and headgear were modeled for a slightly bigger head: fit them with one scale.
     const gear = new THREE.Group();
     gear.position.set(0, 0.008, -0.002);
@@ -722,6 +763,7 @@ export class Agent {
     this.dead = true;
     this.deathT = 0;
     this.accentMat.emissiveIntensity = 0.25;
+    this.headGlow.visible = false;
   }
 
   /**

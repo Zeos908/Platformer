@@ -1,6 +1,6 @@
 # Headline Aim Range
 
-A browser aim trainer for tactical shooters. Agents walk out from behind cover at 9 to 60 m. Every agent has the same health pool and hitbox, and you shoot them with a rifle, revolver or sniper tuned to Valorant's Vandal, Sheriff and Operator stat sheets. Optional flash drills throw two kinds of flashes at you so you can practise turning away and swinging back. Your Valorant crosshair code imports directly.
+A browser aim trainer for tactical shooters, set in one painted hallway with four doorways: two on each side, at 13 m and 34 m. Every agent has the same health pool and hitbox, and you shoot them with a rifle, revolver or sniper tuned to Valorant's Vandal, Sheriff and Operator stat sheets. Optional flash drills throw two kinds of flashes at you so you can practise turning away and swinging back. Your Valorant crosshair code imports directly.
 
 ![Gameplay: a one-tap headshot at 16 m](docs/screenshot.jpg)
 
@@ -36,15 +36,26 @@ To host it, any static host works. For GitHub Pages: Settings → Pages → depl
 | 1 / 2 | Rifle / revolver (Training and Endless) |
 | Esc | Pause |
 
-Sensitivity uses Valorant's scale (0.07° per mouse count) and the field of view is 103° horizontal, so your in-game sensitivity carries over. The settings panel also shows your cm/360 for a given DPI. Zoomed, sensitivity is divided by the zoom (2.8° per 500 counts at 5× instead of 14°), then multiplied by the zoom multiplier. Raw mouse input (`unadjustedMovement`) is requested when the browser supports it.
+Sensitivity has its own card in the menu (number box, slider, DPI, zoom multiplier, cm/360 and eDPI), and you can also change it from the pause menu mid-session. It uses Valorant's scale (0.07° per mouse count) and the field of view is 103° horizontal, so your in-game sensitivity carries over. The settings panel also shows your cm/360 for a given DPI. Zoomed, sensitivity is divided by the zoom (2.8° per 500 counts at 5× instead of 14°), then multiplied by the zoom multiplier. Raw mouse input (`unadjustedMovement`) is requested when the browser supports it.
+
+## The hallway
+
+You stand at one end of an open-air hallway, 8.4 m wide and 53 m long, looking down it. Each side wall has two doorways, at 13 m (A1 left, B1 right) and 34 m (A2 left, B2 right). Each doorway has a blade sign with its callout and depth. Every doorway opens into a small side room where agents wait out of sight. From there they peek out, strafe in the doorway, or cross the hallway into the room opposite. Flashes arc out of the doorways too. The kill feed and the endless death screen name the door an agent came from instead of the agent.
+
+The scenery is painted to match the agents:
+
+- **Surfaces:** cream plaster walls with a teal panelled lower band, sandstone door frames and trims, warm stone floor tiles and a carpet runner down the middle.
+- **Details:** wooden beams that throw shadow stripes, planters, wall lamps, banners, a mural on the end wall, rooftops beyond the walls and painted clouds.
+- **Shading:** every surface uses the same soft banded shading, with big brush-like tone variation, sunlit tops on walls and darker floor edges along the walls.
+- **Performance:** the static scenery is merged into one mesh per material, so the empty hallway costs about 70 draw calls.
 
 ## Modes
 
 | Mode | What it does |
 | --- | --- |
-| **Training** | Every setting is yours: weapon, distance, movement, speed, agents at once, shields and flashes. Sessions are 60 s, 120 s or untimed. |
+| **Training** | Every setting is yours: weapon, which doors (near, far or all), movement, speed, agents at once, shields and flashes. Sessions are 60 s, 120 s or untimed. |
 | **Endless** | Everything is on: all distances, all movement types, walk and run, heavy shields, both flashes with a swing after each pop. It speeds up as you survive: 1 agent at a time, 2 after 25 s, 3 after 70 s, with spawns and flashes getting more frequent until 150 s. **Any agent that keeps line of sight on you for 2 s kills you.** Each agent has a red meter under its health bar that fills while it can see you and drains while it can't. The screen edges turn red as the most dangerous agent gets close to 2 s. Looking away does not help, because the meter tracks what the agent can see, not what is on your screen. |
-| **Operator** | You get the bolt-action sniper and agents only spawn 30 m or farther away. Movement, speed, shields, flashes and length are still yours to set. |
+| **Operator** | You get the bolt-action sniper and agents only come from the far doors (34 m). Movement, speed, shields, flashes and length are still yours to set. |
 
 ## Score
 
@@ -71,6 +82,7 @@ The agents use a stylized look in the spirit of hero tactical shooters, built fr
 
 - **Shading:** soft banded ("painted") light with a lifted shadow side, a top-to-bottom tone gradient, a little brush-like color variation, and a warm rim light.
 - **Enemy highlight:** a thin edge in red, yellow or purple (or off) under HUD & sound. It widens with distance so it stays visible at long range.
+- **Red head highlight:** a soft red glow sized to the head hitbox, so you can see exactly where headshots count. Walls still hide it. Toggle it under HUD & sound.
 - **Silhouettes:** each agent reads differently from far away: Halcyon's open long coat, Nyx's hood and two-piece cape, Brakk's pauldrons and chest plate, Saffron's flowing scarf and ponytail, Tarn's duster and big gloves, Juno's headphones and lowered hood, Ozark's goggles, pack and antenna, Kestrel's spiked hair and high collar. Coats, capes, scarves and ponytails swing with the legs and flutter when running.
 - **Accents:** glowing trim on arms, chest emblem, belt, knees, boots and gun, with a slow pulse. It dims when an agent dies.
 - **Detail:** eyes, brows and mouth on every face, and gloves with fingers and a thumb wrapped on the gun.
@@ -97,28 +109,30 @@ All eight agents share one skeleton, one set of proportions and one set of hitbo
 | Spread | 0.25° first shot (0.16° zoomed) | 0.25° first shot | 5° unscoped, 0° scoped |
 | Zoom | 1.25× (hold) | none | 2.5× and 5× (click to cycle) |
 
+**Infinite ammo** is on by default (Session card): the magazine never empties and you never reload. Turn it off to practise reloads. Score still counts every bullet you fire.
+
 Against 150 HP, the rifle kills with 1 headshot, 4 body shots or 5 leg shots. The revolver one-taps the head inside 30 m but needs two headshots beyond that. The sniper kills with one head or body shot. The settings panel recalculates shots-to-kill when you change shields. The sniper stays scoped after a shot and cycles its bolt before the next one. Its viewmodel is replaced by a scope overlay with a duplex reticle and your crosshair profile's sniper center dot.
 
 **Recoil.** The rifle spray climbs gently for the first three bullets, kicks up hard for bullets 4–9, then sways left and right along the top. Spread stays tight for the first few rounds and then opens up. It recovers if you pause briefly, so 2–3 round bursts stay accurate. Each revolver shot kicks about 2.4°, and spamming it blooms fast. Recoil and recovery are hand-tuned to feel like the reference guns. They are not extracted data.
 
 ### Agents
 
-Agents spawn behind cover and do one of four things:
+Agents wait in the side rooms and do one of four things:
 
 - **Peek:** walk a random distance out from the wall and stand still until you kill them (30% crouch once they stop). The distance is skewed toward the wall: `0.35 m + range × u^2.2` (u uniform from 0 to 1, range up to 5 m). About half stop within the first fifth of the range, just past the edge, and the chance falls off further out.
 - **Strafe:** step out and jiggle left and right.
-- **Cross:** walk or run from one piece of cover to the next.
+- **Cross:** walk or run across the hallway from one doorway into the room opposite.
 - **Swing:** run out wide right after a flash pops.
 
 Running agents move at 6.75 m/s and you can hear their footsteps. Walking agents are silent.
 
-Peek spots are computed from the cover layout at load time. The game sweeps a line behind each row of cover and finds where an agent goes from fully hidden to fully visible. Health bars only appear while you have line of sight.
+Peek spots are computed from the map at load time. The game sweeps a line through each pair of doors and finds where an agent goes from fully hidden (inside a room) to fully visible (in the doorway). Health bars only appear while you have line of sight, and agents have no name tags.
 
 ### Flashes
 
 | | Curve flare (modelled on Phoenix's Curveball) | Hawk flash (modelled on Skye's Guiding Light) |
 | --- | --- | --- |
-| Path | Arcs out around a corner | Glides out from cover toward you |
+| Path | Arcs out of a doorway around the frame | Glides out of a doorway toward you |
 | Cue | Whoosh on throw | Screech on launch, then a rising screech 0.55 s before the pop |
 | Time to pop | 0.65 s | 0.75–1.25 s of flight + 0.55 s windup |
 | Full blind if you look at it | 1.1 s, then a 0.55 s fade | 1.75 s, then a 0.75 s fade |
@@ -134,7 +148,7 @@ The end-of-session report shows:
 - **Score:** session score, bullets per kill and bullet efficiency. Endless runs also show time survived and who killed you.
 - **Shooting:** kills, accuracy and headshot rate.
 - **Speed:** time from an agent becoming visible to your first hit and to the kill.
-- **Breakdown:** where your hits landed, one-tap kills, agents that got back to cover, best streak and average kill distance.
+- **Breakdown:** where your hits landed, one-tap kills, agents that got back inside, best streak and average kill distance.
 - **Flashes:** dodged, partial and full flashes, plus total time blind.
 
 Personal bests (by score) are saved per mode and settings combination in `localStorage`.
@@ -162,7 +176,7 @@ The crosshair is drawn 1:1 in device pixels around the screen center, so sizes m
 index.html        menu, HUD and result screens (all CSS inline)
 src/config.js     weapon stats, health, flash timings, score formula, modes, defaults
 src/crosshair.js  Valorant crosshair code parser, encoder and pixel renderer
-src/world.js      range geometry, cover, ray tests, peek-spot generation
+src/world.js      painted hallway, doorways and side rooms, ray tests, peek-spot generation
 src/agents.js     agent models, shared hitboxes, movement plans, peek distances, animation
 src/weapon.js     viewmodels, fire rate, recoil pattern, spread, zoom, bolt, reload
 src/flashes.js    curve flare and hawk flash paths and visuals

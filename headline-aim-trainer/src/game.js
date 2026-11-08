@@ -184,6 +184,7 @@ export class Game {
     this.maxSight = 0;
     this.clearField();
     this.weapon.reset(settings.weapon);
+    this.weapon.infinite = !!settings.infiniteAmmo;
     this.yaw = 0;
     this.pitch = 0;
     this.stats = freshStats();
@@ -501,7 +502,7 @@ export class Game {
     st.bulletsPerKill.push(used);
     st.efficiency.push(Math.min(1, minBullets / used));
     this.hud.feedItem(
-      `<b>${weapon.name}</b> <span class="feed-x">✕</span> ${agent.def.name}${head ? ' <em>Headshot</em>' : ''} <span class="feed-dim">${Math.round(dist)} m · ${used} ${used === 1 ? 'bullet' : 'bullets'}</span> <span class="feed-pts">+${points}</span>`,
+      `<b>${weapon.name}</b> <span class="feed-x">✕</span> ${agent.spot?.door || 'agent'}${head ? ' <em>Headshot</em>' : ''} <span class="feed-dim">${Math.round(dist)} m · ${used} ${used === 1 ? 'bullet' : 'bullets'}</span> <span class="feed-pts">+${points}</span>`,
       head ? 'head' : '',
     );
     this.hud.toast(points === 1000 ? '+1000 · one tap' : `+${points} · ${used} bullets`, points === 1000 ? 'good' : points >= 500 ? 'warn' : '');
@@ -642,7 +643,7 @@ export class Game {
         if (a.alive && a.exposedAt !== null && this.mode === 'playing' && !a.demo) {
           this.stats.escaped++;
           this.stats.streak = 0;
-          this.hud.feedItem(`${a.def.name} <span class="feed-dim">got back to cover</span>`, 'miss');
+          this.hud.feedItem(`${a.spot?.door || 'Agent'} <span class="feed-dim">got back inside</span>`, 'miss');
         }
         this.removeAgent(a);
       }
@@ -661,7 +662,7 @@ export class Game {
       if (step > this.warnStep) this.audio.warn(level);
       this.warnStep = step;
       if (threat && maxSight >= ENDLESS.sightLimit) {
-        this.killedBy = threat.def.name;
+        this.killedBy = threat.spot?.door || 'an agent';
         this.audio.death();
         this.hud.setDanger(1);
         this.endSession();
@@ -706,7 +707,7 @@ export class Game {
       hs: st.hits ? Math.round((st.head / st.hits) * 100) : 0,
     });
     const w = this.weapon.def;
-    hud.setAmmo(this.weapon.ammo[w.id], w.magSize, w.name, this.weapon.reloading, this.weapon.reloadT / w.reloadTime);
+    hud.setAmmo(this.weapon.ammo[w.id], w.magSize, w.name, this.weapon.reloading, this.weapon.reloadT / w.reloadTime, this.weapon.infinite);
     if (s.flashes !== 'off') {
       hud.setFlashStats(`<span>Flashes</span> <b class="good">${st.dodged}</b> dodged · <b class="warn">${st.partial}</b> partial · <b class="bad">${st.flashed}</b> flashed`);
     } else {

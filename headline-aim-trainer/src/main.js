@@ -4,7 +4,7 @@ import {
   PRESET_COLORS, PRESET_NAMES, CROSSHAIR_PRESETS, DEFAULT_CODE,
 } from './crosshair.js';
 import { AudioEngine } from './audio.js';
-import { setEnemyHighlight, HIGHLIGHT_COLORS } from './agents.js';
+import { setEnemyHighlight, setHeadHighlight, HIGHLIGHT_COLORS } from './agents.js';
 import { HUD } from './hud.js';
 import { Input } from './input.js';
 import { Game } from './game.js';
@@ -27,8 +27,11 @@ function save(key, value) {
 }
 
 const settings = { ...DEFAULT_SETTINGS, ...load(STORE_KEY, {}) };
+// Older saves used close / mid / long ranges from the open range map.
+if (!['near', 'far', 'mixed'].includes(settings.distance)) settings.distance = 'mixed';
 const NUMERIC = new Set(['maxTargets', 'duration', 'sens', 'dpi', 'scopedMult', 'volume']);
 const MODE_NAMES = { training: 'Training', endless: 'Endless', operator: 'Operator' };
+const DOOR_NAMES = { near: 'near doors', far: 'far doors', mixed: 'all doors' };
 
 const audio = new AudioEngine();
 audio.setVolume(settings.volume);
@@ -192,6 +195,9 @@ function bindSettings() {
         if (!Number.isFinite(v) || v <= 0) return;
         settings[key] = v;
       } else settings[key] = el.value;
+      for (const other of document.querySelectorAll(`[data-setting="${key}"]`)) {
+        if (other !== el && other.type !== 'checkbox') other.value = settings[key];
+      }
       onSettingsChanged();
     });
   }
@@ -213,12 +219,19 @@ function onSettingsChanged() {
   save(STORE_KEY, settings);
   audio.setVolume(settings.volume);
   setEnemyHighlight(settings.highlight in HIGHLIGHT_COLORS ? HIGHLIGHT_COLORS[settings.highlight] : HIGHLIGHT_COLORS.red);
+  setHeadHighlight(settings.headHighlight);
   updateModeUI();
   const eff = sessionConfig(settings);
-  game.settings = eff;
-  game.previewWeapon(eff.weapon);
+  if (game.mode === 'demo' || !game.settings) {
+    game.settings = eff;
+    game.previewWeapon(eff.weapon);
+  } else {
+    // Mid-session (pause menu): only take the live-adjustable settings.
+    for (const k of ['sens', 'scopedMult', 'dpi', 'healthBars', 'headHighlight', 'highlight', 'volume']) game.settings[k] = settings[k];
+  }
   const cm = 360 / (YAW_PER_COUNT * settings.sens) / settings.dpi * 2.54;
-  $('cm360').textContent = Number.isFinite(cm) ? cm.toFixed(1) : '–';
+  for (const el of document.querySelectorAll('[data-readout="cm360"]')) el.textContent = Number.isFinite(cm) ? cm.toFixed(1) : '–';
+  for (const el of document.querySelectorAll('[data-readout="edpi"]')) el.textContent = Math.round(settings.sens * settings.dpi);
   const total = HEALTH + SHIELDS[eff.shields];
   for (const w of Object.values(WEAPONS)) {
     const near = shotsToKill(w, total, 10);
@@ -234,7 +247,7 @@ function onSettingsChanged() {
   } else {
     const flashText = { off: 'no flashes', flare: 'curve flares', hawk: 'hawk flashes', both: 'both flashes' }[eff.flashes];
     const len = eff.duration ? `${eff.duration} s` : 'untimed';
-    const dist = eff.mode === 'operator' ? '30 m+' : `${eff.distance} range`;
+    const dist = DOOR_NAMES[eff.distance];
     summary = `${MODE_NAMES[eff.mode]} · ${WEAPONS[eff.weapon].name} · ${dist} · ${eff.movement} · ${total} HP · ${flashText} · ${len}`;
   }
   $('startSummary').textContent = summary;
@@ -335,10 +348,10 @@ function renderResults(r, isBest, prev) {
   const total = HEALTH + SHIELDS[s.shields];
   const endless = r.mode === 'endless';
   const title = $('results').querySelector('h2');
-  title.firstChild.textContent = endless ? (r.killedBy ? `Killed by ${r.killedBy}` : 'Run over') : 'Session report';
+  title.firstChild.textContent = endless ? (r.killedBy ? `Killed from ${r.killedBy}` : 'Run over') : 'Session report';
   $('resultsSub').textContent = endless
-    ? `Endless · ${WEAPONS[s.weapon].name} · survived ${formatTime(r.elapsed)}${r.killedBy ? ` · ${r.killedBy} had line of sight for ${ENDLESS.sightLimit} s` : ''}`
-    : `${MODE_NAMES[r.mode]} · ${WEAPONS[s.weapon].name} · ${s.mode === 'operator' ? '30 m+' : `${s.distance} range`} · ${s.movement} · ${total} HP agents · ${Math.round(r.elapsed)} s`;
+    ? `Endless · ${WEAPONS[s.weapon].name} · survived ${formatTime(r.elapsed)}${r.killedBy ? ` · the agent at ${r.killedBy} had line of sight for ${ENDLESS.sightLimit} s` : ''}`
+    : `${MODE_NAMES[r.mode]} · ${WEAPONS[s.weapon].name} · ${DOOR_NAMES[s.distance]} · ${s.movement} · ${total} HP agents · ${Math.round(r.elapsed)} s`;
   const z = r.zones;
   const zt = Math.max(1, z.head + z.body + z.leg);
   const perMin = r.elapsed > 0 ? (r.kills / r.elapsed) * 60 : 0;
@@ -365,7 +378,7 @@ function renderResults(r, isBest, prev) {
       <div><dt>ms to first hit</dt><dd>${ms(r.avgReaction)}</dd></div>
       <div><dt>ms to kill</dt><dd>${ms(r.avgTtk)}</dd></div>
       <div><dt>Kills per minute</dt><dd>${perMin.toFixed(1)}</dd></div>
-      <div><dt>Got back to cover</dt><dd>${r.escaped}</dd></div>
+      <div><dt>Got back inside</dt><dd>${r.escaped}</dd></div>
       <div><dt>Best streak</dt><dd>${r.bestStreak}</dd></div>
       <div><dt>Avg kill distance</dt><dd>${r.avgDist === null ? '–' : `${Math.round(r.avgDist)} m`}</dd></div>
     </dl>`;

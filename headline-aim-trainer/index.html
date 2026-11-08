@@ -328,6 +328,12 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
 .field input[type="color"] { width: 100%; height: 38px; padding: 2px; background: var(--ink-2); border: 1px solid var(--line); border-radius: var(--radius); }
 .field input[type="range"] { width: 100%; accent-color: var(--sodium); }
 .readout { font: 700 15px/1 var(--f-data); color: var(--sodium); padding: 11px 0; font-variant-numeric: tabular-nums; }
+.sens-row { display: grid; grid-template-columns: minmax(96px, 130px) minmax(0, 1fr); gap: 14px; align-items: end; }
+.sens-main input[type="number"] { font-size: 20px; font-weight: 700; color: var(--sodium); }
+.sens-slider { width: 100%; accent-color: var(--sodium); margin: 0 0 12px; }
+.sens-slider:focus-visible { outline: 2px solid var(--sodium); outline-offset: 2px; }
+#mouseCard .inputs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pause-sens { display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--raise); }
 
 /* pause + results */
 .center-screen { display: grid; place-items: center; background: rgba(11,17,24,0.78); backdrop-filter: blur(4px); }
@@ -585,9 +591,9 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
 <div id="menu" class="screen">
   <div class="menu-grid">
     <section class="brand">
-      <div class="eyebrow">Aim range · 9–60 m · 150 HP agents</div>
+      <div class="eyebrow">Hallway · 4 doors · 13 m and 34 m</div>
       <h1 class="title">Head<span>line</span></h1>
-      <p class="lede">Agents walk out from cover at every distance with the same <b>100 health + shields</b> and the same hitbox. Keep your crosshair at head height, kill with as few bullets as you can, and turn away from flashes before they pop.</p>
+      <p class="lede">Agents step out of four doorways, two on each side of the hallway, with the same <b>100 health + shields</b> and the same hitbox. Hold the doors at head height, kill with as few bullets as you can, and turn away from flashes before they pop.</p>
       <button id="startBtn" class="btn btn-primary" type="button">Start session <small>locks mouse</small></button>
       <p id="startSummary" class="summary"></p>
       <p id="touchNote" class="note" hidden>This range needs a mouse and keyboard. Open it on a computer to play.</p>
@@ -623,7 +629,7 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
             <input type="radio" name="mode" value="operator">
             <div class="wcard-body">
               <div class="wcard-head"><strong>Operator</strong><span>30 m+</span></div>
-              <p>Bolt-action sniper with 2.5× and 5× zoom. Agents only spawn far away.</p>
+              <p>Bolt-action sniper with 2.5× and 5× zoom. Agents only come from the far doors.</p>
             </div>
           </label>
         </div>
@@ -683,14 +689,13 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
       <fieldset class="card" id="targetsCard">
         <legend>Targets</legend>
         <p class="lock-note" data-lock="endless">Endless turns everything on.</p>
-        <div class="row" id="distanceRow"><span class="label">Distance</span>
+        <div class="row" id="distanceRow"><span class="label">Doors</span>
           <div class="seg">
-            <label><input type="radio" name="distance" value="close"><span>Close<small>9–16 m</small></span></label>
-            <label><input type="radio" name="distance" value="mid"><span>Mid<small>16–31 m</small></span></label>
-            <label><input type="radio" name="distance" value="long"><span>Long<small>31 m+</small></span></label>
-            <label><input type="radio" name="distance" value="mixed"><span>Mixed<small>all</small></span></label>
+            <label><input type="radio" name="distance" value="near"><span>Near doors<small>A1 · B1 · 13 m</small></span></label>
+            <label><input type="radio" name="distance" value="far"><span>Far doors<small>A2 · B2 · 34 m</small></span></label>
+            <label><input type="radio" name="distance" value="mixed"><span>All doors</span></label>
           </div>
-          <p class="lock-note" data-lock="operator">Operator mode spawns agents 30 m and farther.</p>
+          <p class="lock-note" data-lock="operator">Operator mode uses the far doors (34 m).</p>
         </div>
         <div class="row"><span class="label">Movement</span>
           <div class="seg">
@@ -699,7 +704,7 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
             <label><input type="radio" name="movement" value="cross"><span>Cross<small>gap to gap</small></span></label>
             <label><input type="radio" name="movement" value="mix"><span>Mix</span></label>
           </div>
-          <p class="help">Peekers walk a random distance out from the wall, most often just past the edge, then stand still until you kill them.</p>
+          <p class="help">Peekers walk a random distance out of the doorway, most often just past the frame, then stand still until you kill them.</p>
         </div>
         <div class="row"><span class="label">Speed</span>
           <div class="seg">
@@ -748,7 +753,7 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
       </fieldset>
 
       <fieldset class="card">
-        <legend>Session &amp; mouse</legend>
+        <legend>Session</legend>
         <div class="row" id="lengthRow"><span class="label">Length</span>
           <div class="seg">
             <label><input type="radio" name="duration" value="60"><span>60 s</span></label>
@@ -756,13 +761,22 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
             <label><input type="radio" name="duration" value="0"><span>Untimed</span></label>
           </div>
         </div>
+        <label class="toggle"><input type="checkbox" data-setting="infiniteAmmo"><span></span>Infinite ammo (no reloads)</label>
+      </fieldset>
+
+      <fieldset class="card" id="mouseCard">
+        <legend>Mouse sensitivity</legend>
+        <div class="sens-row">
+          <label class="field sens-main"><span>Sensitivity</span><input id="sens" type="number" min="0.01" max="10" step="0.001" data-setting="sens"></label>
+          <input class="sens-slider" type="range" min="0.05" max="2" step="0.005" data-setting="sens" aria-label="Sensitivity slider">
+        </div>
         <div class="inputs">
-          <label class="field"><span>Sensitivity</span><input id="sens" type="number" min="0.01" max="10" step="0.001" data-setting="sens"></label>
           <label class="field"><span>Mouse DPI</span><input id="dpi" type="number" min="100" max="32000" step="50" data-setting="dpi"></label>
           <label class="field"><span>Zoom sens ×</span><input id="scopedMult" type="number" min="0.1" max="3" step="0.01" data-setting="scopedMult"></label>
-          <div class="field"><span>cm / 360°</span><div id="cm360" class="readout">40.8</div></div>
+          <div class="field"><span>cm / 360°</span><div class="readout" data-readout="cm360">40.8</div></div>
+          <div class="field"><span>eDPI</span><div class="readout" data-readout="edpi">320</div></div>
         </div>
-        <p class="help">Sensitivity uses the same scale as Valorant (0.07° per count), so your in-game number carries over. Zoomed, it scales down with the zoom, then by the zoom multiplier.</p>
+        <p class="help">Same scale as Valorant (0.07° per count), so type in your in-game sensitivity. Zoomed, it scales down with the zoom, then by the zoom multiplier. You can also change it from the pause menu mid-session.</p>
       </fieldset>
 
       <fieldset class="card">
@@ -778,6 +792,7 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
         <div class="inputs">
           <label class="field"><span>Volume</span><input id="volume" type="range" min="0" max="1" step="0.05" data-setting="volume"></label>
         </div>
+        <label class="toggle"><input type="checkbox" data-setting="headHighlight"><span></span>Red highlight on heads</label>
         <label class="toggle"><input type="checkbox" data-setting="healthBars"><span></span>Health and shield bars over agents</label>
       </fieldset>
 
@@ -818,6 +833,17 @@ table.dmg-table { width: 100%; border-collapse: collapse; font: 500 13px/1.2 var
 <div id="pauseScreen" class="screen center-screen" hidden>
   <div class="panel">
     <h2>Paused<small id="pauseHint">Click resume to lock the mouse again.</small></h2>
+    <div class="pause-sens">
+      <div class="sens-row">
+        <label class="field sens-main"><span>Sensitivity</span><input id="pSens" type="number" min="0.01" max="10" step="0.001" data-setting="sens"></label>
+        <input class="sens-slider" type="range" min="0.05" max="2" step="0.005" data-setting="sens" aria-label="Sensitivity slider">
+      </div>
+      <div class="inputs">
+        <label class="field"><span>Zoom sens ×</span><input id="pScoped" type="number" min="0.1" max="3" step="0.01" data-setting="scopedMult"></label>
+        <label class="field"><span>Mouse DPI</span><input id="pDpi" type="number" min="100" max="32000" step="50" data-setting="dpi"></label>
+        <div class="field"><span>cm / 360°</span><div class="readout" data-readout="cm360">40.8</div></div>
+      </div>
+    </div>
     <div class="actions">
       <button id="resumeBtn" class="btn btn-primary" type="button">Resume</button>
       <button id="endBtn" class="btn" type="button">End session</button>
