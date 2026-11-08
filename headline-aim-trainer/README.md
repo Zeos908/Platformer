@@ -4,7 +4,15 @@ A browser aim trainer for tactical shooters. Agents walk out from behind cover a
 
 ![Gameplay: a one-tap headshot at 16 m](docs/screenshot.jpg)
 
-## Run it
+## Download and play
+
+The easiest way: download **`dist/headline.html`** and double-click it. It is one self-contained file (about 630 KB, with three.js and all the game code inside), so it runs straight from your disk with no install and no server, and works offline. Fonts fall back to your system fonts when you are offline.
+
+On GitHub, open `headline-aim-trainer/dist/headline.html` on the branch and use the **Download raw file** button (the download icon above the code). Then open the downloaded file in Chrome, Edge or Firefox.
+
+To rebuild that file after changing the code: `npm install`, then `npm run build`.
+
+## Run it from source
 
 It is a static site with no build step. Serve the folder over HTTP: ES modules do not load from `file://`.
 

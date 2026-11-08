@@ -2,9 +2,14 @@
   "name": "headline-aim-trainer",
   "version": "1.0.0",
   "private": true,
-  "description": "Browser aim trainer: agents peek from cover at 9-60 m, rifle and revolver damage models, flash-dodging drills.",
+  "description": "Browser aim trainer: agents peek from cover at 9-60 m, rifle, revolver and sniper damage models, flash-dodging drills, Valorant crosshair codes.",
   "type": "module",
   "scripts": {
-    "start": "npx --yes serve@14.2.4 -l 5173 ."
+    "start": "npx --yes serve@14.2.4 -l 5173 .",
+    "build": "node tools/build-standalone.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.20.2",
+    "three": "0.160.0"
   }
 }
